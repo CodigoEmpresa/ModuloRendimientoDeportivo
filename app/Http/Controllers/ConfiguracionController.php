@@ -476,10 +476,16 @@ class ConfiguracionController extends Controller
 	{
 		$TipoEvaluacion = TipoEvaluacion::all();
 		$Division = Division::with('tipoEvaluacion')->get();
+		$ClasificacionDeportista = ClasificacionDeportista::all();
+		$Rama = Rama::all();
+		$Categoria = Categoria::all();
 		//dd($Division);
 		return view('TECNICO/division')
 			   ->with(compact('TipoEvaluacion'))
 			   ->with(compact('Division'))
+			   ->with(compact('ClasificacionDeportista'))
+			   ->with(compact('Rama'))
+			   ->with(compact('Categoria'))			   
 			   ;
 	}
 
@@ -518,7 +524,16 @@ class ConfiguracionController extends Controller
 	public function crear_division(Request $request)
 	{
 		$validator = Validator::make($request->all(),
-		    ['Nom_Division' => 'required', 'Tipo_Evaluacion' => 'required',]
+		    [
+		    'Clasificacion_Id' => 'required',
+		    'Agrupacion_Id' => 'required',
+		    'Deporte_Id' => 'required',
+		    'Modalidad_Id' => 'required',
+		    'Evaluacion_Id' => 'required',
+		    'Rama_Id' => 'required',
+		    'Categoria_Id' => 'required',
+		    'Nom_Division' => 'required', 	
+		    ]	    
         );
 
         if ($validator->fails()){
@@ -526,7 +541,13 @@ class ConfiguracionController extends Controller
         }else{
         	$Division = new Division;
 			$Division['Nombre_Division'] = $request['Nom_Division'];	
-			$Division['Tipo_Evaluacion_Id'] = $request['Tipo_Evaluacion'];	
+			$Division['Clasificacion_Deportista_Id'] = $request['Clasificacion_Id'];	
+			$Division['Agrupacion_Id'] = $request['Agrupacion_Id'];	
+			$Division['Deporte_Id'] = $request['Deporte_Id'];	
+			$Division['Modalidad_Id'] = $request['Modalidad_Id'];	
+			$Division['Rama_Id'] = $request['Rama_Id'];	
+			$Division['Categoria_Id'] = $request['Categoria_Id'];	
+			$Division['Tipo_Evaluacion_Id'] = $request['Evaluacion_Id'];	
 			$Division->save();
 			return $Division;
 		}

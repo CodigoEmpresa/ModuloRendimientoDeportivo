@@ -124,6 +124,12 @@
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Configuración</a>
                       </li>
+                     <!-- <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”>
+                        <a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a>
+                      </li>
+                      <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”>
+                        <a href="{{ URL::to( 'certamen') }}">Gestor de certámenes</a>
+                      </li>-->
                       <!--<li class="divider"></li>
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Agrupación</a>

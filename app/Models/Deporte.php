@@ -17,4 +17,8 @@ class Deporte extends Model
     public function modalidad(){
         return $this->hasMany('App\Models\Modalidad', 'Deporte_Id');
     }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Deporte_Id');  
+    }
 }

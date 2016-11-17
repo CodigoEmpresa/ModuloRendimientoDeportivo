@@ -135,6 +135,19 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('configuracion/modificar_div','ConfiguracionController@modificar_division');
 	Route::get('configuracion/eliminarDivision/{id}','ConfiguracionController@eliminarDivision');
 	Route::post('configuracion/crear_division','ConfiguracionController@crear_division');
+
+
+	Route::get('eventos','EventoController@index');
+	Route::get('getEvento/{id}','EventoController@GetEvento');	
+	Route::post('AddEvento','EventoController@AgregarEvento');	
+	Route::post('EditEvento','EventoController@ModificarEvento');	
+	Route::post('DeleteEvento','EventoController@EliminarEvento');	
+
+	Route::get('certamen','CertamenController@index');
+	Route::get('getPaises','CertamenController@GetPaises');	
+	Route::get('getCiudades','CertamenController@GetCiudades');	
+	Route::post('AddCertamen','CertamenController@AgregarCertamen');	
+	Route::get('getCertamen/{id}','CertamenController@GetCertamen');	
 	
 	/*************************************************/
 });

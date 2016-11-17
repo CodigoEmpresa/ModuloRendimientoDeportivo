@@ -13,4 +13,8 @@ class Modalidad extends Model
     public function deporte(){
         return $this->belongsTo('App\Models\Deporte', 'Deporte_Id');
     }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Modalidad_Id');  
+    }
 }

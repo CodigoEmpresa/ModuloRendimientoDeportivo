@@ -10,7 +10,7 @@ class TipoEvaluacion extends Model
     protected $primaryKey = 'Id';
     protected $fillable = ['Nombre_Tipo_Evaluacion'];
 
-    public function division(){
-        return $this->hasMany('App\Models\Division', 'Tipo_Evaluacion_Id');
+    public function division(){   
+    	return $this->hasMany('App\Models\Division', 'Tipo_Evaluacion_Id');  
     }
 }

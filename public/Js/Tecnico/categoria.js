@@ -54,7 +54,8 @@ $(function()
 		                if(data)
 		                {
 		                   $('#id_cate').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una categoria se eliminara por defecto todos los datos relacionados ha esta categoria. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una categoria se eliminara por defecto todos los datos relacionados ha esta categoria. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins>, por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'

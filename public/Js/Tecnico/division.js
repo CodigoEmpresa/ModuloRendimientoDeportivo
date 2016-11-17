@@ -179,4 +179,51 @@ $(function()
         }
     });
 
+    $("#Clasificacion_Id").on('change', function(){
+    	$("#Agrupacion_Id").empty();
+    	$("#Deporte_Id").empty();
+		$("#Modalidad_Id").empty();
+
+    	$("#Agrupacion_Id").append("<option value=''>Seleccionar</option>");
+    	$("#Deporte_Id").append("<option value=''>Seleccionar</option>");
+		$("#Modalidad_Id").append("<option value=''>Seleccionar</option>");
+
+    	$.get("getAgrupacion/" + $(this).val(), function (agrupacion) {
+    		$.each(agrupacion.agrupacion, function(i, e){
+				$("#Agrupacion_Id").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
+			});				
+    	});
+    });
+
+    $("#Agrupacion_Id").on('change',function (e){
+		$("#Deporte_Id").empty();
+		$("#Modalidad_Id").empty();
+
+		$("#Deporte_Id").append("<option value=''>Seleccionar</option>");
+		$("#Modalidad_Id").append("<option value=''>Seleccionar</option>");
+
+		var id = $("#Agrupacion_Id").val();
+		if(id != ''){
+			$.get("getDeporte/" + id, function (deporte) {
+				$.each(deporte.deporte, function(i, e){
+					$("#Deporte_Id").append("<option value='" +e.Id + "'>" + e.Nombre_Deporte + "</option>");
+				});				
+			});
+		}		
+	});
+
+	$("#Deporte_Id").on('change',function (e){
+		$("#Modalidad_Id").empty();
+		$("#Modalidad_Id").append("<option value=''>Seleccionar</option>");
+
+		var id = $("#Deporte_Id").val();
+		if(id != ''){
+			$.get("getModalidad/" + id, function (modalidad) {
+				$.each(modalidad.modalidad, function(i, e){
+					$("#Modalidad_Id").append("<option value='" +e.Id + "'>" + e.Nombre_Modalidad + "</option>");
+				});				
+			});
+		}		
+	});
+
 });

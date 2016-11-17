@@ -49,7 +49,8 @@ $(function(){
 		            function(data){
 		                if(data){
 		                   $('#id_deport').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar el deporte <ins>"+data.Nombre_Deporte+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina un deporte se eliminara por defecto todos los datos relacionados ha este deporte. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar el deporte <ins>"+data.Nombre_Deporte+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina un deporte se eliminara por defecto todos los datos relacionados ha este deporte. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar el deporte <ins>"+data.Nombre_Deporte+"</ins>, por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'

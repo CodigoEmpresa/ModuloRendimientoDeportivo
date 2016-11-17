@@ -104,8 +104,91 @@
                             <div class="page-header">
                                 <h3>Crear División</h3>
                             </div>
-                        </div>                         
-                        <div class="col-xs-4">
+                        </div>           
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Clasificacion">Clasificación:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Clasificacion_Id" id="Clasificacion_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($ClasificacionDeportista as $ClasificacionDeportista)
+                                    <option value="{{ $ClasificacionDeportista['Id'] }}">{{ $ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</option>
+                                @endforeach
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Agrupacion">Agrupación:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Agrupacion_Id" id="Agrupacion_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Deporte">Deporte:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Deporte_Id" id="Deporte_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Modalidad">Modalidad:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Modalidad_Id" id="Modalidad_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Rama">Rama:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Rama_Id" id="Rama_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($Rama as $Rama)
+                                    <option value="{{ $Rama['Id'] }}">{{ $Rama['Nombre_Rama'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Categoria">Categoría:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Categoria_Id" id="Categoria_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                                 @foreach($Categoria as $Categoria)
+                                    <option value="{{ $Categoria['Id'] }}">{{ $Categoria['Nombre_Categoria'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Evaluacion">Tipo de Evaluación:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Evaluacion_Id" id="Evaluacion_Id" class="form-control">
+                                <option value="">Seleccionar</option>
+                                 @foreach($TipoEvaluacion as $Tipo_Evaluaciones)
+                                    <option value="{{ $Tipo_Evaluaciones['Id'] }}">{{ $Tipo_Evaluaciones['Nombre_Tipo_Evaluacion'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
+                        </div>
+                        <div class="form-group col-md-4">                    
+                            <input type="text" class="form-control"  placeholder="División" name="Nom_Division">
+                        </div>
+
+                      <!--  <div class="col-xs-4">
                             <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
                             <input type="text" class="form-control"  placeholder="División" name="Nom_Division">
                         </div> 
@@ -119,7 +202,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-xs-4">
                             <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>
                             <button type="button" class="btn btn-success" id="btn_crear_ct">Crear</button>

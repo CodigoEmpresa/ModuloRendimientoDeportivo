@@ -54,7 +54,8 @@ $(function()
 		                if(data)
 		                {
 		                   $('#id_rama').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar la rama <ins>"+data.Nombre_Rama+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una rama se eliminara por defecto todos los datos relacionados ha esta rama. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar la rama <ins>"+data.Nombre_Rama+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una rama se eliminara por defecto todos los datos relacionados ha esta rama. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar la rama <ins>"+data.Nombre_Rama+"</ins>, por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'

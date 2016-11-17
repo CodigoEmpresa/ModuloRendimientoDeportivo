@@ -516,7 +516,7 @@
                                                 </span>
                                                 <br>                                    
                                                 <input type="file" id ="GenogramaDep" name="GenogramaDep">
-                                                <p class="help-block">Imagen en formato jpeg,jpg,png,bmp,pdf.</p> 
+                                                <p class="help-block">Imagen en formato jpeg,jpg,png,bmp.</p> 
                                             </div>
                                             <div class="form-group col-md-4 "></div>
                                         </div>

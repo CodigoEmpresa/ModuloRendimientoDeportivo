@@ -55,7 +55,8 @@ $(function()
 		                if(data)
 		                {
 		                   $('#id_agrup').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar la agrupación de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una agrupación se eliminara por defecto todos los datos relacionados ha esta agrupación. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar la agrupación de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una agrupación se eliminara por defecto todos los datos relacionados ha esta agrupación. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar esta agrupación por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'

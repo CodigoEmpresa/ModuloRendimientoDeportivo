@@ -13,9 +13,9 @@
               <button type="button" class="btn btn-info" onclick="window.location.href='configuracion'">Agrupaciones</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='deporte'">Deportes</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='modalidad'">Modalidades</button>
-              <button type="button" class="btn btn-success" onclick="window.location.href='rama'">Ramas</button>
+              <!--<button type="button" class="btn btn-success" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorias</button>
-              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Divisiones</button>
+              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Divisiones</button>-->
             </div>
         </div>
         <br><br>
@@ -77,14 +77,14 @@
                         </div>
                     </div> 
                     <div class="col-xs-6 col-sm-8">
-                        <label class="control-label" for="label_eliminar">Confirmación:</label>
+                        <label class="control-label" for="label_eliminar">Advertencia:</label>
                         <br><label class="control-label" id="label_eliminar"></label>
                         <input type="hidden" id="id_rama"></input>
                     </div>             
-                    <div class="col-xs-6 col-sm-4">
+                    <!--<div class="col-xs-6 col-sm-4">
                         <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>
                         <button type="button" class="btn btn-danger" id="btn_eliminar_rm">Eliminar</button>
-                    </div>                     
+                    </div> -->                    
                 </div>
                 <!-- Crear Nuevo -->
                 <div class="row" id="div_nuevo" style="display: none">
