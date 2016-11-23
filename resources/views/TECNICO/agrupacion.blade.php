@@ -14,9 +14,9 @@
               <button type="button" class="btn btn-success" onclick="window.location.href='configuracion'">Agrupaciones</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='deporte'">Deportes</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='modalidad'">Modalidades</button>
-              <!--<button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
+              <button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorías</button>
-              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Divisiones</button>-->
+              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Pruebas/Divisiones</button>
             </div>
         </div>
         <br><br>

@@ -92,6 +92,43 @@ class CertamenController extends Controller
 		}
 	}
 
+	public function ModificarCertamen(Request $request){
+	//	dd($request->all());
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+    			'Id_CertamenE' => 'required',
+    			'Evento' => 'required',
+    			'Sede' => 'required',
+    			'FechaInicioM' => 'required|date',
+    			'FechaFinM' => 'required|date',
+
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	//$Certamen = new Certamen;
+	        	$Certamen = Certamen::find($request['Id_CertamenE']);
+	        	$Certamen->Evento_Id = $request->Evento;
+	        	$Certamen->Sede_Id = $request->Sede;
+	        	$Certamen->Fecha_Inicio = $request->FechaInicioM;
+	        	$Certamen->Fecha_Fin = $request->FechaFinM;
+
+	        	$FIni= explode('-', $request->FechaInicioM);
+	        	$Nombre = $request->Nombre_CertamenE.' '.$FIni[1].'/'.$FIni[0][2].$FIni[0][3];
+
+	        	$Certamen->Nombre_Certamen = $Nombre;
+	        	if($Certamen->save()){
+	        		return response()->json(["Mensaje" => "Certamen modificado con éxito!"]);				        		
+	        	}else{
+	        		return response()->json(["Mensaje" => "El certamen no ha sido modificado!"]);			
+	        	}	
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
 	public function GetCertamen(Request $request, $id){
 		$Certamen = Certamen::find($id);
 		return $Certamen;

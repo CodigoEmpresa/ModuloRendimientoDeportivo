@@ -9,40 +9,126 @@ $(function(){
         "responsive": true,
         "ordering": true,
         "info": true,
-        "pageLength": 3,
+        "pageLength": 8,
         "language": {
             url: 'public/DataTables/Spanish.json',
             searchPlaceholder: "Buscar"
         }
     });
 
+    $('#deportesTabla').DataTable({
+        retrieve: true,
+        select: true,
+        "responsive": true,
+        "ordering": true,
+        "info": true,
+        "pageLength": 5,
+        "language": {
+            url: 'public/DataTables/Spanish.json',
+            searchPlaceholder: "Buscar"
+        }
+    });
+    
+
     $("#Crear_Nuevo").on('click', function(e){
-    	$("#Titulo").empty();
-    	$("#Titulo").append('<h3>Crear nuevo evento</h3>');
     	$("#creaEventoF").show('slow');
-    	$("#Agregar").show('slow');
-    	$("#Modificar").hide('slow');
-    	$("#eliminaEventoF").hide('slow');
-    	var new_position = jQuery('#Agregar').offset();
- 		window.scrollTo(new_position.left,new_position.top);
+    	$("#creaEventoD").modal('show');
     	Reset_campos();
     });
 
     $(".VerModificar").on('click', function(e){
-    	$("#Titulo").empty();
-    	$("#Titulo").append('<h3>Modificar evento</h3>');
-    	$("#creaEventoF").show('slow');
-    	$("#Agregar").hide('slow');
-    	$("#Modificar").show('slow');
-    	$("#eliminaEventoF").hide('slow');
+    	$("#verEventoF").show('slow');
+    	$("#deporteEventoF").hide('slow');
+    	$("#verEventoD").modal('show'); 
+    	$("#Id_EventoDatos").val($(this).val());
+    	$("#InicioEventoLi").addClass('active');
+    	$("#DeportesEventoLi").removeClass('active');
+
     	$.get("getEvento/"+$(this).val(), function (evento) {
-    		$("#Clasificacion_Id").val(evento.clasificacion_deportiva['Id']).change();
-    		$("#Tipo_Nivel_Id").val(evento.tipo_nivel['Id']).change();
-    		$("#Nombre_Evento").val(evento['Nombre_Evento']);
-    		$("#Id_Evento").val(evento['Id']);
+    		$("#TituloE").empty();
+    		$("#TituloE").append('<strong>Evento:</strong> '+evento['Nombre_Evento']);
+    		$("#Clasificacion_IdDatos").val(evento.clasificacion_deportiva['Id']).change();
+    		$("#Tipo_Nivel_IdDatos").val(evento.tipo_nivel['Id']).change();
+    		$("#Nombre_EventoDatos").val(evento['Nombre_Evento']);
+    		$("#Id_EventoDatos").val(evento['Id']);
+            $("#Id_Evento").val(evento['Id']);
+            $("#Id_EventoDep").val(evento['Id']);            
     	});
-    	var new_position = jQuery('#Modificar').offset();
- 		window.scrollTo(new_position.left,new_position.top);
+
+    	$.get("getDeportesNoEvento/"+$("#Id_EventoDatos").val(), function (Deportes) {
+    		$("#Deporte_Id").empty();
+    		var html = '<option value="">Seleccionar</option>';
+    		$.each(Deportes, function(i, e){
+    			html += '<option value="'+e.Id+'"">'+e['Nombre_Deporte']+'</option>';
+    		});
+    		$("#Deporte_Id").html(html).selectpicker('refresh');
+    	});
+
+    	$.get("getDeportesEvento/"+$("#Id_EventoDatos").val(), function (Deportes) {
+    		var t = $('#deportesTabla').DataTable();
+    		if(Deportes['deporte'].length != 0){                
+                t.row.add( ['1','1', '1'] ).clear().draw( false );
+	    		$.each(Deportes['deporte'], function(i, e){
+	    			t.row.add( [
+			            e['Nombre_Deporte'],
+			            e.agrupacion.clasificacion_deportista['Nombre_Clasificacion_Deportista'],
+			            '<button type="button" class="btn btn-danger" onclick="EliminarDeporte('+e['Id']+')">Eliminar</button>',
+			        ] ).draw( false );
+	    		});
+	    	}
+    	});
+    });
+
+    /*$(".EliminarDeporte").on('click', function(e){
+        alert('dksjdsk');
+    });*/
+
+    
+
+
+    $("#AgregarDeporte").on('click', function(){
+        var token = $("#token").val();
+        var formData = new FormData($("#")[0]);       
+        var formData = new FormData($("#deporteEventoF")[0]);       
+      
+        $.ajax({
+          url: 'AddDeporteEvento',  
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (xhr) {
+            if(xhr.status == 'error'){
+              validador_errores(xhr.errors);
+            }
+            else 
+            {
+              $('#alert_evento3').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+              $('#mensaje_evento3').show(60);
+              $('#mensaje_evento3').delay(1500).hide(600);                      
+              setTimeout(function(){ $("#verEventoD").modal('hide');  }, 1500);
+              Reset_campos();
+            }
+          },
+          error: function (xhr){
+            validador_errores(xhr.responseJSON);
+          }
+        });
+    });
+
+    $("#InicioEvento").on('click', function(e){
+    	$("#verEventoF").show('slow');
+    	$("#deporteEventoF").hide('slow');
+    	$("#InicioEventoLi").addClass('active');
+    	$("#DeportesEventoLi").removeClass('active');
+    });
+
+    $("#DeportesEvento").on('click', function(e){
+    	$("#verEventoF").hide('slow');
+    	$("#deporteEventoF").show('slow');
+    	$("#InicioEventoLi").removeClass('active');
+    	$("#DeportesEventoLi").addClass('active');
     });
 
     $("#Agregar").on('click', function(e){
@@ -63,10 +149,13 @@ $(function(){
 	        }
 	        else 
 	        {
-	          $('#alert_evento').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
-	          $('#mensaje_evento').show(60);
-	          $('#mensaje_evento').delay(2000).hide(600);        
+	          $('#alert_evento1').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+	          $('#mensaje_evento1').show(60);
+	          $('#mensaje_evento1').delay(2000).hide(600);        
 	          Reset_campos();
+	          setTimeout(function(){ 
+    			$("#creaEventoD").modal('hide');
+    		}, 2600);
 	        }
 	      },
 	      error: function (xhr){
@@ -94,7 +183,7 @@ $(function(){
     $("#Modificar").on('click', function(e){
 		var token = $("#token").val();
 	  	var formData = new FormData($("#")[0]);       
-	  	var formData = new FormData($("#creaEventoF")[0]);       
+	  	var formData = new FormData($("#verEventoF")[0]);       
 	  
 	  	$.ajax({
 	      url: 'EditEvento',  
@@ -104,15 +193,14 @@ $(function(){
 	      processData: false,
 	      dataType: "json",
 	      success: function (xhr) {
-	      	console.log(xhr);
 	        if(xhr.status == 'error'){
 	          validador_errores(xhr.errors);
 	        }
 	        else 
 	        {
-	          $('#alert_evento').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
-	          $('#mensaje_evento').show(60);
-	          $('#mensaje_evento').delay(2000).hide(600);        
+	          $('#alert_evento2').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+	          $('#mensaje_evento2').show(60);
+	          $('#mensaje_evento2').delay(2000).hide(600);        
 	          Reset_campos();
 	        }
 	      },
@@ -158,7 +246,37 @@ $(function(){
 	        validador_errores(xhr.responseJSON);
 	      }
       	});
-
     });
 
 });
+
+    function EliminarDeporte(id_dep){
+        var token = $("#token").val();   
+        $.ajax({
+          url: 'DeleteDeporteEvento/'+id_dep+'/'+$("#Id_Evento").val(),  
+          type: 'POST',
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (xhr) {
+            console.log(xhr);
+            if(xhr.status == 'error'){
+              //validador_errores(xhr.errors);
+              $('#alert_evento3').html('<div class="alert alert-dismissible alert-danger" ><strong>Error!</strong>'+xhr.Mensaje+'</div>');
+              $('#mensaje_evento3').show(60);
+              $('#mensaje_evento3').delay(1500).hide(600);        
+            }
+            else 
+            {
+              $('#alert_evento3').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+              $('#mensaje_evento3').show(60);
+              $('#mensaje_evento3').delay(1500).hide(600);        
+              setTimeout(function(){ $("#verEventoD").modal('hide');  }, 1500);
+              Reset_campos();
+            }
+          },
+          error: function (xhr){
+            validador_errores(xhr.responseJSON);
+          }
+        });
+    }

@@ -16,7 +16,7 @@ $(function(){
         "responsive": true,
         "ordering": true,
         "info": true,
-        "pageLength": 5,
+        "pageLength": 8,
         "language": {
             url: 'public/DataTables/Spanish.json',
             searchPlaceholder: "Buscar"
@@ -24,13 +24,9 @@ $(function(){
     });  
 
     $("#Crear_Nuevo").on('click', function(e){
-    	$("#creaCertamenF").show('slow');
-    	$("#Agregar").show('slow');
-    	$("#Modificar").hide('slow');
-    	$("#verCertamenF").hide('slow');
-    	//$("#eliminaEventoF").hide('slow');
-    	var new_position = jQuery('#Agregar').offset();
- 		window.scrollTo(new_position.left,new_position.top);
+    	$("#creaCertamenD").modal('show');
+    	$("#TituloE").empty();
+    	$("#TituloE").append('Crear nuevo certamen');
     	Reset_campos();
     }); 
 
@@ -81,7 +77,9 @@ $(function(){
 	        {
 	          $('#alert_certamen').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
 	          $('#mensaje_certamen').show(60);
-	          $('#mensaje_certamen').delay(2000).hide(600);        
+	          $('#mensaje_certamen').delay(1500).hide(600);       
+              setTimeout(function(){ $("#creaCertamenD").modal('hide');  }, 1500);
+
 	          Reset_campos();
 	        }
 	      },
@@ -107,26 +105,31 @@ $(function(){
     }
 
     $(".VerCertamen").on('click', function(e){
-    	$("#creaCertamenF").hide('slow');    	
+    	//$("#creaCertamenF").hide('slow');    	
     	$("#loading").show('slow');
     	$.get("getCertamen/"+$(this).val(), function (certamen){
-    		//console.log(certamen);
+    		console.log(certamen);
     		$("#TituloCertamen").empty();
     		$("#TituloCertamen").append(certamen['Nombre_Certamen']);
     		$("#Evento").val(certamen['Evento_Id']).change();
     		$("#FechaInicioM").val(certamen['Fecha_Inicio']).change();
     		$("#FechaFinM").val(certamen['Fecha_Fin']).change();
+    		$("#Id_Certamen").val(certamen['Id']);
+    		$("#Nombre_Certamen").val(certamen['Nombre_Certamen']);    		
+    		$("#Evento").val(certamen['Evento_Id']).change();    		
+    		$("#Sede").val(certamen['Sede_Id']);  
+    		$("#Id_CertamenE").val(certamen['Id']);
     		setTimeout(function(){ 
     			$("#Sede").val(certamen['Sede_Id']).change(); 
     			$("#loading").hide('slow');
-    			$("#verCertamenF").show('slow');
-    		}, 3000);    		
+    			$("#verCertamenD").modal('show');
+    		}, 4000);     		
     	});
     });
 
     $("#Evento").on('change', function(){
     	if($(this).val() != ''){
-    		$("#Nombre_Certamen").val($("#Evento_Id option:selected").text());
+    		$("#Nombre_CertamenE").val($("#Evento option:selected").text());
 	    	$.get("getEvento/"+$(this).val(), function (evento) {
 	    		if(evento['Tipo_Nivel_Id'] == 1){
 	    			$.get("getCiudades", function (ciudades) {
@@ -148,6 +151,38 @@ $(function(){
 	    		}
 	    	});
 	    }
+    });
+
+    $("#Modificar").on('click', function(){
+    	var token = $("#token").val();
+	  	var formData = new FormData($("#")[0]);       
+	  	var formData = new FormData($("#EditCertamenF")[0]);       	  
+	  	$.ajax({
+	      url: 'EditCertamen',  
+	      type: 'POST',
+	      data: formData,
+	      contentType: false,
+	      processData: false,
+	      dataType: "json",
+	      success: function (xhr) {
+	      	console.log(xhr);
+	        if(xhr.status == 'error'){
+	          validador_errores(xhr.errors);
+	        }
+	        else 
+	        {
+	          $('#alert_certamenE').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+	          $('#mensaje_certamenE').show(60);
+	          $('#mensaje_certamenE').delay(1500).hide(600);       
+              setTimeout(function(){ $("#creaCertamenD").modal('hide');  }, 1500);
+
+	          Reset_campos();
+	        }
+	      },
+	      error: function (xhr){
+	        validador_errores(xhr.responseJSON);
+	      }
+      	});
     });
 
     

@@ -498,15 +498,30 @@ class ConfiguracionController extends Controller
 	public function modificar_division(request $request)
 	{
 		$validator = Validator::make($request->all(),
-		    ['nom_division' => 'required', 'Tipo_Evaluacion_E' => 'required',]
+		    [
+		    'Clasificacion_IdE' => 'required',
+		    'Agrupacion_IdE' => 'required',
+		    'Deporte_IdE' => 'required',
+		    'Modalidad_IdE' => 'required',
+		    'Tipo_Evaluacion_E' => 'required',
+		    'Rama_IdE' => 'required',
+		    'Categoria_IdE' => 'required',
+		    'nom_division' => 'required',
+		    ]
         );
 
         if ($validator->fails()){
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
         	$Division = Division::find($request['Id_division']);
-			$Division->Nombre_Division = $request['nom_division'];
-			$Division->Tipo_Evaluacion_Id = $request['Tipo_Evaluacion_E'];		
+			$Division['Nombre_Division'] = $request['nom_division'];	
+			$Division['Clasificacion_Deportista_Id'] = $request['Clasificacion_IdE'];	
+			$Division['Agrupacion_Id'] = $request['Agrupacion_IdE'];	
+			$Division['Deporte_Id'] = $request['Deporte_IdE'];	
+			$Division['Modalidad_Id'] = $request['Modalidad_IdE'];	
+			$Division['Rama_Id'] = $request['Rama_IdE'];	
+			$Division['Categoria_Id'] = $request['Categoria_IdE'];	
+			$Division['Tipo_Evaluacion_Id'] = $request['Tipo_Evaluacion_E'];	
 			$Division->save();
 			return $Division;
 		}

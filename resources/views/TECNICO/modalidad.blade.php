@@ -13,9 +13,9 @@
               <button type="button" class="btn btn-info" onclick="window.location.href='configuracion'">Agrupaciones</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='deporte'">Deportes</button>
               <button type="button" class="btn btn-success" onclick="window.location.href='modalidad'">Modalidades</button>
-              <!--<button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
+              <button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorías</button>
-              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Divisiones</button>-->
+              <button type="button" class="btn btn-info" onclick="window.location.href='division'">Pruebas/Divisiones</button>
             </div>
         </div>
         <br><br>
@@ -111,8 +111,8 @@
                     <!--<div class="col-xs-6 col-sm-4">
                         <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>
                         <button type="button" class="btn btn-danger" id="btn_eliminar_mdl">Eliminar</button>
-                    </div>                     
-                </div>-->
+                    </div>                     -->
+                </div>
                 <!-- Crear Neuvo -->
                 <div class="row" id="div_nuevo" style="display: none">
                     <form id="form_nuevo">

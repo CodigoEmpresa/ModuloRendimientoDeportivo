@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-1019017104
   <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -124,12 +123,12 @@
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Configuración</a>
                       </li>
-                     <!-- <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”>
+                      <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a>
                       </li>
                       <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'certamen') }}">Gestor de certámenes</a>
-                      </li>-->
+                      </li>
                       <!--<li class="divider"></li>
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Agrupación</a>
@@ -185,7 +184,7 @@
             <div class="row">
               <div class="col-lg-8 col-md-7 col-sm-6">
                 <h1>MÓDULO RENDIMIENTO DEPORTIVO</h1>
-                <p class="lead"><h1>Área de deportes</h1></p>
+                <p class="lead"><h1>Área de Deportes</h1></p>
               </div>
               <div class="col-lg-4 col-md-5 col-sm-6">
                  <div align="right"> 

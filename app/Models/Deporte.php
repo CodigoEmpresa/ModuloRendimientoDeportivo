@@ -21,4 +21,9 @@ class Deporte extends Model
     public function division(){   
         return $this->hasMany('App\Models\Division', 'Deporte_Id');  
     }
+
+    public function evento()
+    {
+        return $this->belongsToMany('App\Models\Evento','evento_deporte','Deporte_Id','Evento_Id');
+    }
 }

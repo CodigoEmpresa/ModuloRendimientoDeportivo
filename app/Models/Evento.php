@@ -21,4 +21,9 @@ class Evento extends Model
     public function certamen(){
         return $this->hasMany('App\Models\certamen', 'Evento_Id');
     }
+
+    public function deporte()
+    {
+        return $this->belongsToMany('App\Models\Deporte','evento_deporte','Evento_Id','Deporte_Id');
+    }
 }

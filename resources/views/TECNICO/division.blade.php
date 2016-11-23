@@ -15,7 +15,7 @@
               <button type="button" class="btn btn-info" onclick="window.location.href='modalidad'">Modalidades</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorías</button>
-              <button type="button" class="btn btn-success" onclick="window.location.href='division'">Divisiones</button>
+              <button type="button" class="btn btn-success" onclick="window.location.href='division'">Pruebas/Divisiones</button>
             </div>
         </div>
         <br><br>
@@ -50,17 +50,21 @@
                 </div>
                 <div class="alert alert-danger" role="alert" style="display: none"id="div_mensaje">Debe elejir una división.</div>
                 <!-- Editar -->
+                <div class="container" id="loadingE" style="display:none;">
+                    <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+                </div>      
                 <div class="row" id="div_editar" style="display: none">
                     <form id="form_edit">
                         <div class="col-xs-12">
                             <div class="page-header">
                                 <h3>Editar</h3>
                             </div>
-                        </div>                         
-                        <div class="col-xs-4">
+                        </div>                                           
+                        <input type="hidden" id="Id_division" name="Id_division">
+                        <!--<div class="col-xs-4">
                             <label class="control-label" for="Id_TipoDocumento">División:</label>
                             <input type="text" class="form-control"  placeholder="División" id="nom_division" name="nom_division">
-                            <input type="hidden" id="Id_division" name="Id_division">
+                            
                         </div> 
                         <div class="col-xs-4">
                             <div class="form-group">
@@ -72,7 +76,90 @@
                                     @endforeach
                                 </select>
                             </div>
+                        </div>-->
+                        <!------------------- ------------------------------- -->
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Clasificacion">Clasificación:</label>
                         </div>
+                        <div class="form-group col-md-4">
+                            <select name="Clasificacion_IdE" id="Clasificacion_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($ClasificacionDeportista as $ClasificacionDeportista)
+                                    <option value="{{ $ClasificacionDeportista['Id'] }}">{{ $ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</option>
+                                @endforeach
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Agrupacion">Agrupación:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Agrupacion_IdE" id="Agrupacion_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Deporte">Deporte:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Deporte_IdE" id="Deporte_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Modalidad">Modalidad:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Modalidad_IdE" id="Modalidad_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                            </select>
+                        </div> 
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Rama">Rama:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Rama_IdE" id="Rama_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($Rama as $Rama)
+                                    <option value="{{ $Rama['Id'] }}">{{ $Rama['Nombre_Rama'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Categoria">Categoría:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Categoria_IdE" id="Categoria_IdE" class="form-control">
+                                <option value="">Seleccionar</option>
+                                 @foreach($Categoria as $Categoria)
+                                    <option value="{{ $Categoria['Id'] }}">{{ $Categoria['Nombre_Categoria'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Evaluacion">Tipo de Evaluación:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <select name="Tipo_Evaluacion_E" id="Tipo_Evaluacion_E" class="form-control">
+                                <option value="">Seleccionar</option>
+                                 @foreach($TipoEvaluacion as $Tipo_Evaluaciones)
+                                    <option value="{{ $Tipo_Evaluaciones['Id'] }}">{{ $Tipo_Evaluaciones['Nombre_Tipo_Evaluacion'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-2">                    
+                            <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
+                        </div>
+                        <div class="form-group col-md-4">                    
+                            <input type="text" class="form-control"  placeholder="División" id ="nom_division" name="nom_division">
+                        </div>
+                        <!------------------- ------------------------------- -->
                         <div class="col-xs-4">
                             <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>
                             <button type="button" class="btn btn-primary" id="btn_editar">Modificar</button>
@@ -92,10 +179,10 @@
                         <input type="hidden" id="id_division_e"></input>
                     </div> 
             
-                    <div class="col-xs-6 col-sm-4">
+                    <!--<div class="col-xs-6 col-sm-4">
                         <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>
                         <button type="button" class="btn btn-danger" id="btn_eliminar_rm">Eliminar</button>
-                    </div>                     
+                    </div>      -->               
                 </div>
                 <!-- Crear Nuevo -->
                 <div class="row" id="div_nuevo" style="display: none">
