@@ -42,6 +42,7 @@ use App\Models\Club;
 use App\Models\Etapa;
 use App\Models\TipoEtapa;
 use App\Models\DeportistaEtapa;
+use App\Models\PersonaTipo;
 
 class DeportistaController extends Controller
 {
@@ -197,6 +198,12 @@ class DeportistaController extends Controller
 
 			 	if($deportista->save()){
 
+			 		$PersonaTipo = new PersonaTipo;
+			 		//$PersonaTipo->Id_Tipo = 49;  // Pruebas
+			 		$PersonaTipo->Id_Tipo = 47;
+			 		$PersonaTipo->Id_Persona = $request->persona;
+			 		$PersonaTipo->save();
+
 			 		$deportistaDeporte = new DeportistaDeporte;
 				 	$deportistaDeporte->Deportista_Id = $deportista->Id;
 				 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
@@ -238,7 +245,7 @@ class DeportistaController extends Controller
 
 	    	if($dep['Agrupacion_Id'] != $request->Agrupacion || $dep['Deporte_Id'] != $request->Deporte || $dep['Modalidad_Id'] != $request->Modalidad || $dep['Club_Id'] != $request->Club){	    		
 	    		$deportistaDeporte = new DeportistaDeporte;
-			 	$deportistaDeporte->Deportista_Id = $request->Deportista;
+			 	$deportistaDeporte->Deportista_Id = $request->deportista;
 			 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
 			 	$deportistaDeporte->Deporte_Id = $request->Deporte;
 			 	$deportistaDeporte->Modalidad_Id = $request->Modalidad;

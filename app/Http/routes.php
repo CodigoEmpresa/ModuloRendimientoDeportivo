@@ -31,6 +31,16 @@ session_start();
 //rutas con filtro de autenticación
 Route::group(['middleware' => ['web']], function () {
 
+
+	/********************ADMINISTRACION***************************/
+
+	/********************Asignación de personas***************************/
+	Route::get('persona_tipo','AdministracionController@index');
+	Route::get('persona_tipoEspe/{id}','AdministracionController@PersonaTipo');
+	Route::get('persona_tipoEspe2/{id}','AdministracionController@PersonaTipo2');
+	Route::post('AddPersonaTipo', 'AdministracionController@AgregarPersonaTipo');
+	Route::post('DeletePersonaTipo/{id_persona}/{id_tipo}', 'AdministracionController@EliminarPersonaTipo');
+
 	/********************SIAB***************************/
 	
 	Route::get('rud','DeportistaController@index');
@@ -153,7 +163,18 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddCertamen','CertamenController@AgregarCertamen');	
 	Route::post('EditCertamen','CertamenController@ModificarCertamen');		
 	Route::get('getCertamen/{id}','CertamenController@GetCertamen');	
-
+	Route::get('getDivision/{id}/{id_division}','CertamenController@GetDivision');	
+	Route::post('AddPruebaCertamen','CertamenController@AgregarPruebaCertamen');	
+	Route::get('getDivisionCertamen/{id}','CertamenController@GetDivisionCertamen');	
+	Route::post('DeletePruebaCertamen/{id_prueba}/{id_certamen}','CertamenController@EliminarPruebaCertamen');		
+	Route::get('getDivisionCertamen/{id}','CertamenController@GetDivisionCertamen');		
+	Route::get('getDivisionDeportista/{id}','CertamenController@GetDivisionDeportista');		
+	Route::get('getDeportistaDivision/{id}','CertamenController@GetDeportistaDivision');	
+	Route::post('AddPruebaCertamenDeportista','CertamenController@AgregarPruebaCertamenDeportista');			
+	Route::get('getDeportistaCertamenDivision/{id}','CertamenController@GetDeportistaCertamenDivision');	
+	Route::get('getDivisionUnica/{id}','CertamenController@GetDivisionUnica');	
+	Route::post('DeletePruebaCertamenDeportista/{id_deportista}/{id_division}/{id_certamen}','CertamenController@EliminarPruebaCertamenDeportista');			
+	Route::get('getDepartamento','CertamenController@GetDepartamento');	
 	
 	/*************************************************/
 });

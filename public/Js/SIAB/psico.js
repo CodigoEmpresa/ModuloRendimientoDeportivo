@@ -70,6 +70,7 @@ $(function(e){
 
         if(i == 'op4'){ $("#p4o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op26'){ $("#p26o1").closest('.form-group').addClass('has-error'); }
+        if(i == 'op34'){ $("#p34o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op7'){ $("#p7o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op41'){ $("#p41o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op472'){ $("#p472o1").closest('.form-group').addClass('has-error'); }
@@ -121,6 +122,7 @@ $(function(e){
 
 	$( "#p4o10" ).on( "click",function(){Checkeds('p4o10', 'porqueOP4');});
   $( "#p26o8" ).on( "click",function(){Checkeds('p26o8', 'porqueOP26');});
+  $( "#p34o7" ).on( "click",function(){Checkeds('p34o7', 'porqueOP34');});
 	//$('input[name="op26"]').change(function(){  Checkeds('p26o8','porqueOP26' ); });
 	$( "#p41o11" ).on( "click",function(){Checkeds('p41o11', 'porqueOP41');});
 	$( "#p472o5" ).on( "click",function(){Checkeds('p472o5', 'porqueOP472');});
@@ -313,7 +315,12 @@ $(function(e){
 
  $("#LibretaPreg").on('change', function(){
     if($("#LibretaPreg").val() == 2){
-      $("#LibretaPorqueD").show();
+      if($("#Genero").val() == 2){
+        $("#LibretaPorqueD").hide();
+      }else{
+        $("#LibretaPorqueD").show();  
+      }
+      
     }else{
       $("#LibretaPorqueD").hide();
     }
@@ -408,6 +415,7 @@ function Reset_campos(e){
 	$("#LibretaPreg").val('');
   $("#lp").val('');
   $("#Club").val('');
+  $('#Club').selectpicker('refresh');
   $("#Deporte").val('');
   $("#Modalidad").val('');
 
@@ -459,6 +467,7 @@ function Reset_campos(e){
     /*$('input[name="op26"]').prop('checked', false);
     $('input[name="otro26"]').val('');*/
     $('#psico').find(':checkbox[name^="op26"]').prop("checked", false).change();
+    $('#psico').find(':checkbox[name^="op34"]').prop("checked", false).change();
     $('input[name="op27"]').prop('checked', false);
 
     $('input[name="op281"]').prop('checked', false);
@@ -536,6 +545,7 @@ function Reset_campos(e){
 
     $("#porqueOP4").hide(); 
     $("#porqueOP26").hide(); 
+    $("#porqueOP34").hide(); 
     $("#porqueOP41").hide(); 
     $("#porqueOP472").hide(); 
     $("#porqueOP522").hide(); 
@@ -580,7 +590,7 @@ function Deportista (Deportista, Persona){
   $("#fechaNac").attr("disabled", "disabled");
   $("#Etnia").attr("disabled", "disabled");
   $("#MunicipioNac").attr("disabled", "disabled");
-  $("#Genero").attr("disabled", "disabled");
+  //$("#Genero").attr("disabled", "disabled");
   $("#GrupoSanguineo").val(Deportista['Grupo_Sanguineo_Id']);
 
   if(Deportista['Medicina_Prepago'] == 1){
@@ -615,21 +625,23 @@ function Deportista (Deportista, Persona){
   $("#Correo").attr("disabled", "disabled");
   $("#Pasaporte").attr("disabled", "disabled");
   $("#FechaVigenciaPasaporte").attr("disabled", "disabled");
-  $("#LibretaPreg").attr("disabled", "disabled");
+ // $("#LibretaPreg").attr("disabled", "disabled");
   $("#Deporte").attr("disabled", "disabled");
   $("#Modalidad").attr("disabled", "disabled");
-  $("#Club").attr("disabled", "disabled");
+  //$("#Club").attr("disabled", "disabled");
 
   $.get("getDeportistaDeporte/" + Deportista['Id'] + "", function (DeportistaDeporte) {  
     $("#Deporte").val(DeportistaDeporte['Deporte_Id']);
     $("#Modalidad").val(DeportistaDeporte['Modalidad_Id']);
     $("#Club").val(DeportistaDeporte['Club_Id']);
+    $('#Club').selectpicker('refresh');
   });
 }
 
 function Valoracion(Valoracion){  
   var initOP4 = new Array;
   var initOP26 = new Array;
+  var initOP34 = new Array;
   var initOP7 = new Array;
   var initOP26 = new Array;
   var initOP41 = new Array;
@@ -708,6 +720,15 @@ function Valoracion(Valoracion){
         $("#porqueOP26").show('slow'); 
       }
     }
+
+    if(e['PreguntaA_Id'] == 'P34'){
+      initOP34.push(e['Respuesta']);
+      if(e['Respuesta'] == 'Otros'){
+        $('textarea[name="otro34"]').val(e['Descripcion']); 
+        $("#porqueOP34").show('slow'); 
+      }
+    }
+
     if(e['PreguntaA_Id'] == 'P7'){
       initOP7.push(e['Respuesta']);                          
     }
@@ -790,6 +811,11 @@ function Valoracion(Valoracion){
   $.each(initOP26, function (i, val) {
     $('#psico').find(':checkbox[name^="op26"][value="' + val + '"]').prop("checked", true).change();
   });
+
+  $.each(initOP34, function (i, val) {
+    $('#psico').find(':checkbox[name^="op34"][value="' + val + '"]').prop("checked", true).change();
+  });
+
   $.each(initOP41, function (i, val) {
     $('#psico').find(':checkbox[name^="op41"][value="' + val + '"]').prop("checked", true).change();
   });

@@ -31,7 +31,7 @@
                             <select class="form-control selectpicker" name="Id_Division" id="Id_Division" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($Division as $Divisiones)
-                                    <option value="{{ $Divisiones['Id'] }}">{{ $Divisiones['Id']." ".$Divisiones['Nombre_Division'] }}</option>
+                                    <option value="{{ $Divisiones['Id'] }}">{{ $Divisiones->deporte['Nombre_Deporte']." - ".$Divisiones->rama['Nombre_Rama']." - ".$Divisiones->categoria['Nombre_Categoria']." - ".$Divisiones['Nombre_Division']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +63,7 @@
                         <input type="hidden" id="Id_division" name="Id_division">
                         <!--<div class="col-xs-4">
                             <label class="control-label" for="Id_TipoDocumento">División:</label>
-                            <input type="text" class="form-control"  placeholder="División" id="nom_division" name="nom_division">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="División" id="nom_division" name="nom_division">
                             
                         </div> 
                         <div class="col-xs-4">
@@ -84,8 +84,8 @@
                         <div class="form-group col-md-4">
                             <select name="Clasificacion_IdE" id="Clasificacion_IdE" class="form-control">
                                 <option value="">Seleccionar</option>
-                                @foreach($ClasificacionDeportista as $ClasificacionDeportista)
-                                    <option value="{{ $ClasificacionDeportista['Id'] }}">{{ $ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</option>
+                                @foreach($ClasificacionDeportista as $ClasificacionDeportistas)
+                                    <option value="{{ $ClasificacionDeportistas['Id'] }}">{{ $ClasificacionDeportistas['Nombre_Clasificacion_Deportista'] }}</option>
                                 @endforeach
                             </select>
                         </div> 
@@ -123,8 +123,8 @@
                         <div class="form-group col-md-4">
                             <select name="Rama_IdE" id="Rama_IdE" class="form-control">
                                 <option value="">Seleccionar</option>
-                                @foreach($Rama as $Rama)
-                                    <option value="{{ $Rama['Id'] }}">{{ $Rama['Nombre_Rama'] }}</option>
+                                @foreach($Rama as $Ramas)
+                                    <option value="{{ $Ramas['Id'] }}">{{ $Ramas['Nombre_Rama'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -135,8 +135,8 @@
                         <div class="form-group col-md-4">
                             <select name="Categoria_IdE" id="Categoria_IdE" class="form-control">
                                 <option value="">Seleccionar</option>
-                                 @foreach($Categoria as $Categoria)
-                                    <option value="{{ $Categoria['Id'] }}">{{ $Categoria['Nombre_Categoria'] }}</option>
+                                 @foreach($Categoria as $Categorias)
+                                    <option value="{{ $Categorias['Id'] }}">{{ $Categorias['Nombre_Categoria'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -157,7 +157,7 @@
                             <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
                         </div>
                         <div class="form-group col-md-4">                    
-                            <input type="text" class="form-control"  placeholder="División" id ="nom_division" name="nom_division">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="División" id ="nom_division" name="nom_division">
                         </div>
                         <!------------------- ------------------------------- -->
                         <div class="col-xs-4">
@@ -272,12 +272,12 @@
                             <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
                         </div>
                         <div class="form-group col-md-4">                    
-                            <input type="text" class="form-control"  placeholder="División" name="Nom_Division">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="División" name="Nom_Division">
                         </div>
 
                       <!--  <div class="col-xs-4">
                             <label class="control-label" for="Nom_Deporte">Nombre de la división:</label>
-                            <input type="text" class="form-control"  placeholder="División" name="Nom_Division">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="División" name="Nom_Division">
                         </div> 
                         <div class="col-xs-4">
                             <div class="form-group">

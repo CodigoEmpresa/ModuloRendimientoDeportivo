@@ -98,4 +98,14 @@ class Deportista extends Model
         return $this->belongsToMany('App\Models\Alimentacion', 'deportista_alimentacion', 'Deportista_Id', 'Alimentacion_Id')
                 ->withTimestamps()->withPivot('Cantidad')->withPivot('Valor')->withPivot('Fecha');
     }
+
+    public function deporte()
+    {
+        return $this->belongsToMany('App\Models\Deporte','deportista_deporte','Deportista_Id','Deporte_Id');
+    }
+
+    public function certamenDivision()
+    {
+        return $this->belongsToMany('App\Models\CertamenDivision','certamen_division_deportista','Deportista_Id','CertamenDivision_Id');
+    }
 }

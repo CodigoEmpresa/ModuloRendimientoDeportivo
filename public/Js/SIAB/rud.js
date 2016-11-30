@@ -146,6 +146,15 @@ $(function(e){
 		}
 	});
 
+	$("#Regimen").on('change',function (e){
+		var id = $("#Regimen").val();
+		if(id==2){			
+			$("#NivelRegimenD").show("slow");
+		}else{
+			$("#NivelRegimenD").hide("slow");
+		}
+	});
+
 	$("#Medicamento").on('change',function (e){
 		var id = $("#Medicamento").val();
 		if(id==1){			
@@ -314,7 +323,8 @@ function Buscar(e){
               				agrupacionT = DeportistaDeporte['Agrupacion_Id'];
               				deporteT = DeportistaDeporte['Deporte_Id'];
               				modalidadT =DeportistaDeporte['Modalidad_Id'];
-              				$("#Club").val(DeportistaDeporte['Club_Id']);              				
+              				$("#Club").val(DeportistaDeporte['Club_Id']);   
+              				$('#Club').selectpicker('refresh');           				
               			}).done(function(){
               				$("#ClasificacionDeportista").val(responseDep.deportista['Clasificacion_Deportista_Id']).change();              				
               			});
@@ -372,7 +382,7 @@ function Buscar(e){
 						$("#FijoLoc").val(responseDep.deportista['Fijo_Localiza']);
 						$("#CelularLoc").val(responseDep.deportista['Celular_Localiza']);
 						$("#Correo").val(responseDep.deportista['Correo_Electronico']);
-						$("#Regimen").val(responseDep.deportista['Regimen_Salud_Id']);
+						$("#Regimen").val(responseDep.deportista['Regimen_Salud_Id']).change();
 						$("#FechaAfiliacion").val(responseDep.deportista['Fecha_Afiliacion']);
 						$("#TipoAfiliacion").val(responseDep.deportista['Tipo_Afiliacion_Id']);
 						$("#MedicinaPrepago").val(responseDep.deportista['Medicina_Prepago']).change();
@@ -479,6 +489,7 @@ function Reset_campos(e){
 	$("#EtapaInternacional").val('');
 	$("#Smmlv").val('');
 	$("#Club").val('');
+	$('#Club').selectpicker('refresh');
 	$("#ClasificacionDeportista").val('').change();
 	$("#LugarExpedicion").val('');
 	$("#FechaExpedicion").val('');
@@ -506,7 +517,7 @@ function Reset_campos(e){
 	$("#FijoLoc").val('');
 	$("#CelularLoc").val('');
 	$("#Correo").val('');
-	$("#Regimen").val('');
+	$("#Regimen").val('').change();
 	$("#FechaAfiliacion").val('');
 	$("#TipoAfiliacion").val('');
 	$("#MedicinaPrepago").val('').change();

@@ -27,7 +27,7 @@ class CrearTablaDeportista extends Migration
             $table->integer('Estrato_Id')->unsigned();            
             $table->integer('Regimen_Salud_Id')->unsigned();
             $table->integer('Tipo_Afiliacion_Id')->unsigned();
-            $table->integer('Nivel_Regimen_Sub_Id')->unsigned();
+            $table->integer('Nivel_Regimen_Sub_Id')->unsigned()->nullable();
             $table->integer('Eps_Id')->unsigned()->nullable();
             $table->integer('Sudadera_Talla_Id')->unsigned();
             $table->integer('Camiseta_Talla_Id')->unsigned();
@@ -58,7 +58,7 @@ class CrearTablaDeportista extends Migration
             $table->string('Correo_Electronico');
             $table->integer('Numero_Hijos');
             $table->string('Numero_Cuenta');       
-            $table->date('Fecha_Afiliacion');            
+            $table->date('Fecha_Afiliacion')->nullable();            
             $table->integer('Medicina_Prepago');            
             $table->string('Nombre_MedicinaPrepago');            
             $table->integer('Riesgo_Laboral');                       

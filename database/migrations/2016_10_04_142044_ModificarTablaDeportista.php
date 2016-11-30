@@ -19,7 +19,7 @@ class ModificarTablaDeportista extends Migration
             $table->foreign('Estrato_Id')->references('Id')->on('estrato');
             $table->foreign('Regimen_Salud_Id')->references('Id')->on('regimen_salud');
             $table->foreign('Tipo_Afiliacion_Id')->references('Id')->on('tipo_afiliacion');
-            $table->foreign('Nivel_Regimen_Sub_Id')->references('Id')->on('nivel_regimen_sub');
+            //$table->foreign('Nivel_Regimen_Sub_Id')->references('Id')->on('nivel_regimen_sub');
             $table->foreign('Sudadera_Talla_Id')->references('Id')->on('talla');
             $table->foreign('Camiseta_Talla_Id')->references('Id')->on('talla');
             $table->foreign('Pantaloneta_Talla_Id')->references('Id')->on('talla');
@@ -46,7 +46,7 @@ class ModificarTablaDeportista extends Migration
             $table->dropForeign('Estrato_Id');
             $table->dropForeign('Regimen_Salud_Id');
             $table->dropForeign('Tipo_Afiliacion_Id');
-            $table->dropForeign('Nivel_Regimen_Sub_Id');
+            //$table->dropForeign('Nivel_Regimen_Sub_Id');
             $table->dropForeign('Sudadera_Talla_Id');
             $table->dropForeign('Camiseta_Talla_Id');
             $table->dropForeign('Pantaloneta_Talla_Id');

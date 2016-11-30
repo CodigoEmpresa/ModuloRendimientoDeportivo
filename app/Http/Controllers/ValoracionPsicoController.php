@@ -62,6 +62,7 @@ class ValoracionPsicoController extends Controller
 	}
 
 	public function RegistrarValoracion(RegistroValoracionPsico $request){
+		//dd($request->all());
 		if ($request->ajax()) { 
 			$ValoracionPsico  = new ValoracionPsico; 
 			$ValoracionPsico->Deportista_Id = $request->deportista;
@@ -104,7 +105,7 @@ class ValoracionPsicoController extends Controller
 			$ValoracionPsico->P25 = $request->op25;
 			$ValoracionPsico->P27 = $request->op27;
 			$ValoracionPsico->P29 = $request->op29;
-			$ValoracionPsico->P34 = $request->op34;
+			//$ValoracionPsico->P34 = $request->op34;
 			$ValoracionPsico->P35 = $request->op35;
 			$ValoracionPsico->P40 = $request->op40;
 			$ValoracionPsico->P42 = $request->op42;
@@ -173,6 +174,24 @@ class ValoracionPsicoController extends Controller
 				$i++;
 			}
 			/****************************************************/
+
+			/*******************PREGUNTA 34***********************/
+			$contador34 = count($request->op34);
+			$i = 0;
+			while($i < $contador34){
+				$PreguntaA = new PreguntaA;
+				$PreguntaA->ValoracionA_Id = $ValoracionPsico->Id;
+				$PreguntaA->PreguntaA_Id = 'P34';
+				$PreguntaA->Respuesta = $request->op34[$i];
+				if($request->op34[$i] == 'Otros'){
+					$PreguntaA->Descripcion = $request->otro34;
+				}			
+				$PreguntaA->save();
+
+				$i++;
+			}
+			/****************************************************/
+
 
 			/*******************PREGUNTA 7***********************/
 			$contador7 = count($request->op7);
@@ -481,7 +500,7 @@ class ValoracionPsicoController extends Controller
 			$ValoracionPsico->P25 = $request->op25;
 			$ValoracionPsico->P27 = $request->op27;
 			$ValoracionPsico->P29 = $request->op29;
-			$ValoracionPsico->P34 = $request->op34;
+			//$ValoracionPsico->P34 = $request->op34;
 			$ValoracionPsico->P35 = $request->op35;
 			$ValoracionPsico->P40 = $request->op40;
 			$ValoracionPsico->P42 = $request->op42;
@@ -543,6 +562,23 @@ class ValoracionPsicoController extends Controller
 				$PreguntaA->Respuesta = $request->op26[$i];
 				if($request->op26[$i] == 'Otros'){
 					$PreguntaA->Descripcion = $request->otro26;
+				}			
+				$PreguntaA->save();
+
+				$i++;
+			}
+			/****************************************************/
+
+			/*******************PREGUNTA 34***********************/
+			$contador34 = count($request->op34);
+			$i = 0;
+			while($i < $contador34){
+				$PreguntaA = new PreguntaA;
+				$PreguntaA->ValoracionA_Id = $ValoracionPsico->Id;
+				$PreguntaA->PreguntaA_Id = 'P34';
+				$PreguntaA->Respuesta = $request->op34[$i];
+				if($request->op34[$i] == 'Otros'){
+					$PreguntaA->Descripcion = $request->otro34;
 				}			
 				$PreguntaA->save();
 

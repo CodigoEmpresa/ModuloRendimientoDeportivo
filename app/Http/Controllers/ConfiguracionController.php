@@ -48,7 +48,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$model_A['ClasificacionDeportista_Id'] = $input['Id_Clase'];
-			$model_A['Nombre_Agrupacion'] = $input['Nom_Agrupacion'];	
+			$model_A['Nombre_Agrupacion'] = strtoupper($input['Nom_Agrupacion']);	
 			$model_A->save();
 			return $model_A;
 		}
@@ -103,7 +103,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$modelo['ClasificacionDeportista_Id'] = $input['Id_cla'];
-			$modelo['Nombre_Agrupacion'] = $input['nom_agrup'];	
+			$modelo['Nombre_Agrupacion'] = strtoupper($input['nom_agrup']);	
 			$modelo->save();
 			return $modelo;
 		}
@@ -147,7 +147,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$model_A['Agrupacion_Id'] = $input['Id_Agrupacion'];
-			$model_A['Nombre_Deporte'] = $input['Nom_Deporte'];	
+			$model_A['Nombre_Deporte'] = strtoupper($input['Nom_Deporte']);	
 			$model_A->save();
 			return $model_A;
 		}
@@ -204,7 +204,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$modelo['Agrupacion_Id'] = $input['Id_Agrupa'];
-			$modelo['Nombre_Deporte'] = $input['nom_depot'];	
+			$modelo['Nombre_Deporte'] = strtoupper($input['nom_depot']);	
 			$modelo->save();
 			return $modelo;
 		}
@@ -249,7 +249,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$model_A['Deporte_Id'] = $input['Id_Deporte'];
-			$model_A['Nombre_Modalidad'] = $input['Nom_Modalidad'];	
+			$model_A['Nombre_Modalidad'] = strtoupper($input['Nom_Modalidad']);	
 			$model_A->save();
 			return $model_A;
 		}
@@ -297,7 +297,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
 			$modelo['Deporte_Id'] = $input['Id_Dept'];
-			$modelo['Nombre_Modalidad'] = $input['nom_modl'];	
+			$modelo['Nombre_Modalidad'] = strtoupper($input['nom_modl']);	
 			$modelo->save();
 			return $modelo;
 		}
@@ -331,7 +331,7 @@ class ConfiguracionController extends Controller
         if ($validator->fails()){
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
-			$model_A['Nombre_Rama'] = $input['Nom_Rama'];	
+			$model_A['Nombre_Rama'] = strtoupper($input['Nom_Rama']);	
 			$model_A->save();
 			return $model_A;
 		}
@@ -375,7 +375,7 @@ class ConfiguracionController extends Controller
         if ($validator->fails()){
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
-			$modelo['Nombre_Rama'] = $input['nom_ra'];	
+			$modelo['Nombre_Rama'] = strtoupper($input['nom_ra']);	
 			$modelo->save();
 			return $modelo;
 		}
@@ -415,7 +415,7 @@ class ConfiguracionController extends Controller
         if ($validator->fails()){
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
-			$model_A['Nombre_Categoria'] = $input['Nom_Categoria'];	
+			$model_A['Nombre_Categoria'] = strtoupper($input['Nom_Categoria']);	
 			$model_A->save();
 			return $model_A;
 		}
@@ -462,7 +462,7 @@ class ConfiguracionController extends Controller
         if ($validator->fails()){
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
-			$modelo['Nombre_Categoria'] = $input['nom_ct'];	
+			$modelo['Nombre_Categoria'] = strtoupper($input['nom_ct']);	
 			$modelo->save();
 			return $modelo;
 		}
@@ -491,7 +491,7 @@ class ConfiguracionController extends Controller
 
 	public function ver_division(Request $input , $id)
 	{
-		$Division = Division::with('tipoEvaluacion')->find($id);
+		$Division = Division::with('tipoEvaluacion', 'Rama', 'Categoria', 'Deporte')->find($id);
 		return $Division;
 	}
 
@@ -514,7 +514,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
         	$Division = Division::find($request['Id_division']);
-			$Division['Nombre_Division'] = $request['nom_division'];	
+			$Division['Nombre_Division'] = strtoupper($request['nom_division']);	
 			$Division['Clasificacion_Deportista_Id'] = $request['Clasificacion_IdE'];	
 			$Division['Agrupacion_Id'] = $request['Agrupacion_IdE'];	
 			$Division['Deporte_Id'] = $request['Deporte_IdE'];	
@@ -555,7 +555,7 @@ class ConfiguracionController extends Controller
             return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
         }else{
         	$Division = new Division;
-			$Division['Nombre_Division'] = $request['Nom_Division'];	
+			$Division['Nombre_Division'] = strtoupper($request['Nom_Division']);	
 			$Division['Clasificacion_Deportista_Id'] = $request['Clasificacion_Id'];	
 			$Division['Agrupacion_Id'] = $request['Agrupacion_Id'];	
 			$Division['Deporte_Id'] = $request['Deporte_Id'];	

@@ -80,7 +80,7 @@
                             <label class="control-label" for="Id_TipoDocumento">Deporte:</label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control"  placeholder="Deporte" id="nom_depot" name="nom_depot">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Deporte" id="nom_depot" name="nom_depot">
                             <input type="hidden" placeholder="Deporte" id="id_Dpt" name="id_Dpt">
                         </div>                    
                         <div class="form-group col-md-12">
@@ -138,7 +138,7 @@
                             <label class="control-label" for="Nom_Deporte">Nombre deporte:</label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control"  placeholder="Deporte" name="Nom_Deporte">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Deporte" name="Nom_Deporte">
                         </div> 
                         <div class="form-group col-md-12">
                             <center><button type="button" class="btn btn-success" id="btn_crear_dpt">Crear</button></center>

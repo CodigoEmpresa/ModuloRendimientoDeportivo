@@ -69,7 +69,7 @@
                         </div>                         
                         <div class="col-xs-6 col-sm-4">
                             <label class="control-label" for="Id_TipoDocumento">Agrupación:</label>
-                            <input type="text" class="form-control"  placeholder="Agrupación" id="nom_agrup" name="nom_agrup">
+                            <input type="text" class="form-control" style="text-transform: uppercase;"  placeholder="Agrupación" id="nom_agrup" name="nom_agrup">
                             <input type="hidden" placeholder="Agrupación" id="id_agrup" name="id_agrup">
                         </div> 
                         <div class="col-xs-6 col-sm-4">
@@ -115,7 +115,7 @@
                         </div>                         
                         <div class="col-xs-6 col-sm-4">
                             <label class="control-label" for="Nom_Agrupacion">Nombre:</label>
-                            <input type="text" class="form-control"  placeholder="Agrupación" name="Nom_Agrupacion">
+                            <input type="text" class="form-control" style="text-transform: uppercase;" placeholder="Agrupación" name="Nom_Agrupacion">
                         </div> 
                         <div class="col-xs-6 col-sm-4">
                             <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>

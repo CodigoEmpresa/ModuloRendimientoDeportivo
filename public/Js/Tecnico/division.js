@@ -18,7 +18,7 @@ $(function()
 	                {	                   
 	                   $("#Clasificacion_IdE").val(data['Clasificacion_Deportista_Id']).change();
 	                   setTimeout(function(){ $("#Agrupacion_IdE").val(data['Agrupacion_Id']).change();  }, 500);
-	                   setTimeout(function(){ $("#Deporte_IdE").val(data['Deporte_Id']).change();  }, 1000);
+	                   setTimeout(function(){ $("#Deporte_IdE").val(data['Deporte_Id']).change();   }, 1000);
 	                   setTimeout(function(){ $("#Modalidad_IdE").val(data['Modalidad_Id']).change();  }, 1500);
 	                   $("#Rama_IdE").val(data['Rama_Id']).change();
 	                   $("#Categoria_IdE").val(data['Categoria_Id']).change();

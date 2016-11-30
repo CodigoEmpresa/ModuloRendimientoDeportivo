@@ -17,4 +17,9 @@ class Division extends Model
     public function Rama(){  return $this->belongsTo('App\Models\Rama', 'Rama_Id'); }
     public function Categoria(){  return $this->belongsTo('App\Models\Categoria', 'Categoria_Id'); }
     public function tipoEvaluacion(){  return $this->belongsTo('App\Models\TipoEvaluacion', 'Tipo_Evaluacion_Id'); }
+
+    public function certamen_division()
+    {
+        return $this->belongsToMany('App\Models\Certamen','certamen_division','Division_Id','Certamen_Id');
+    }
 }

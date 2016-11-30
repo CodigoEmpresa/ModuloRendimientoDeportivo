@@ -87,7 +87,7 @@
                             <label class="control-label" for="Id_TipoDocumento">Modalidad:</label>
                         </div>
                         <div class="form-group col-md-2">
-                            <input type="text" class="form-control"  placeholder="Modalidad" id="nom_modl" name="nom_modl">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Modalidad" id="nom_modl" name="nom_modl">
                             <input type="hidden" placeholder="Deporte" id="id_Mdl" name="id_Mdl">
                         </div> 
                         <div class="form-group col-md-12">
@@ -152,7 +152,7 @@
                             <label class="control-label" for="Nom_Deporte">Nombre modalidad:</label>
                         </div>
                         <div class="form-group col-md-4">
-                            <input type="text" class="form-control"  placeholder="Modalidad" name="Nom_Modalidad">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Modalidad" name="Nom_Modalidad">
                         </div> 
                         <div class="form-group col-md-12">
                             <center><button type="button" class="btn btn-success" id="btn_crear_mdl">Crear</button></center>

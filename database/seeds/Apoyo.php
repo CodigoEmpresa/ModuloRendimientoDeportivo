@@ -16,7 +16,6 @@ class Apoyo extends Seeder
             ['Nombre_Apoyo' => 'Educación'],
             ['Nombre_Apoyo' => 'Estímulo por resultados'],
             ['Nombre_Apoyo' => 'Monitorias'],
-            ['Nombre_Apoyo' => 'Transporte'],
             ['Nombre_Apoyo' => 'Vivienda'],            
             ]);
     }

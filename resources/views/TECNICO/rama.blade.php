@@ -59,7 +59,7 @@
                         </div>                         
                         <div class="col-xs-6 col-sm-8">
                             <label class="control-label" for="Id_TipoDocumento">Rama:</label>
-                            <input type="text" class="form-control"  placeholder="Rama" id="nom_ra" name="nom_ra">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Rama" id="nom_ra" name="nom_ra">
                             <input type="hidden" placeholder="Deporte" id="id_Rm" name="id_Rm">
                         </div> 
                         <div class="col-xs-6 col-sm-4">
@@ -97,7 +97,7 @@
                         
                         <div class="col-xs-6 col-sm-8">
                             <label class="control-label" for="Nom_Deporte">Nombre rama:</label>
-                            <input type="text" class="form-control"  placeholder="Rama" name="Nom_Rama">
+                            <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Rama" name="Nom_Rama">
                         </div> 
                         <div class="col-xs-6 col-sm-4">
                             <label class="control-label" for="Id_TipoDocumento">Acción:</label><br>

@@ -2,13 +2,13 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/SIAB/rud.js') }}"></script>   
+    <script src="{{ asset('public/Js/ADMINISTRACION/persona_tipo.js') }}"></script>
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}      
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
-<center><h3>REGISTRO ÚNICO DE DEPORTISTAS (RUD)</h3></center>
+<center><h3>ASIGNACIÓN DE TIPO PERSONA</h3></center>
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1073155693" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -38,21 +38,65 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
-                        </div>
+                            <form id="registro" name="registro">
+                                <div class="col-xs-12"><br></div>
+                                    <div class="col-xs-12">
+                                        <ul id="personas"></ul>
+                                        <li class="list-group-item" id="AsignarPersonas" style="display:none;">
+                                            <div class="list-group-item">
+                                                <h5 class="list-group-item-heading" id="Nombres">
+                                                </h5>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <div class="row">
+                                                            <input type="hidden" id="Id_Persona" name="Id_Persona">
+                                                            <div class="col-xs-12 col-sm-6 col-md-3"><small id="Identificacion"></small></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-xs-12 col-md-4">
+                                                        <div class="row">
+                                                            <label class="control-label" for="Id_TipoDocumento">Tipo de persona</label>
+                                                            <select name="Tipo_Persona" id="Tipo_Persona" class="form-control">
+                                                                <option value="">Seleccionar</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-md-4">
+                                                        <div class="form-group text-center">
+                                                            <button type="button" class="btn btn-primary" id="AgregarTipo">Agregar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br> 
+                                            <div class="row">
+                                                <div class="form-group"  id="mensaje_evento1">
+                                                    <div id="alert_evento1"></div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table id="personaTipoTabla" name="personaTipoTabla" class="display nowrap" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><center>TIPO</center></th>
+                                                            <th><center>OPCIÓN</center></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>                                         
+                                                    </tbody> 
+                                                </table>
+                                            </div>   
+                                        </li>                                    
+                                    </div>
+                                    <div id="paginador" class="col-xs-12"></div>                            
+                                </div>                                
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 <!-- ------------------------------------------------------------------------------------ -->
-<form id="registro" name="registro">
-        <!--<a id="DescargaH" href="" target="blank">
-            DESCARGA
-        </a>-->
+<!--<form id="registro" name="registro">
     
     <input type="hidden" name="persona" id="persona" value=""/>
     <input type="hidden" name="deportista" id="deportista" value=""/>
@@ -63,10 +107,9 @@
      <div class="content" id="RUD" style="display: none;">
         <div class="content">
             <div style="text-align:center;">
-                <h3>Registro Único de Deportistas (RUD)</h3>
+                <h3>Asignar tipo persona</h3>
             </div>  
             <div class="panel">
-                <!-- Default panel contents -->
                 <div class="panel-heading">                
                     <div class="bs-callout bs-callout-info">                    
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -76,7 +119,7 @@
                     </div>
                 </div>                 
                 <ul class="list-group" id="seccion_uno" name="seccion_uno" style="display: none">
-                    <li class="list-group-item">
+                   <!-- <li class="list-group-item">
                         <div class="row" id="FotografiaRegistro">
                              <div class="form-group col-md-12">
                                 <div class="form-group col-md-4"></div>
@@ -93,8 +136,8 @@
                                 <div class="form-group col-md-4 "></div>
                             </div>
                         </div>
-                    </li>                    
-                    <li class="list-group-item">
+                    </li>     -->               
+                    <!--<li class="list-group-item">
                         <div class="panel-body">
                             <p>DATOS DEPORTIVOS</p>
                         </div>
@@ -119,10 +162,7 @@
                             </div>
                             <div class="form-group col-md-10">
                                 <select name="ClasificacionDeportista" id="ClasificacionDeportista" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($ClasificacionDeportista as $ClasificacionDeportista)
-                                            <option value="{{ $ClasificacionDeportista['Id'] }}">{{ $ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                       
                                 </select>
                             </div>
                         </div>
@@ -164,10 +204,7 @@
                             </div>
                             <div class="form-group col-md-10">
                                 <select name="Club" id="Club" class="selectpicker form-control" data-live-search="true">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Club as $Club)
-                                            <option value="{{ $Club['PK_I_ID_CLUB'] }}">{{ $Club['V_NOMBRE_CLUB'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                       
                                 </select>
                             </div>                           
                         </div>
@@ -246,10 +283,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="LugarExpedicion" id="LugarExpedicion" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Ciudad as $CiudadEx)
-                                            <option value="{{ $CiudadEx['Id_Ciudad'] }}">{{ $CiudadEx['Nombre_Ciudad'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                    
                                 </select>
                             </div>
                             <div class="form-group col-md-1">
@@ -294,10 +328,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="Genero" id="Genero" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Genero as $Genero)
-                                            <option value="{{ $Genero['Id_Genero'] }}">{{ $Genero['Nombre_Genero'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                   
                                 </select>                                
                             </div>                        
                             <div class="form-group col-md-2">
@@ -319,10 +350,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="PaisNac" id="PaisNac" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Pais as $PaisNac)
-                                            <option value="{{ $PaisNac['Id_Pais'] }}">{{ $PaisNac['Nombre_Pais'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                        
                                 </select>                                
                             </div>
                             <div class="form-group col-md-1">
@@ -330,10 +358,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="DepartamentoNac" id="DepartamentoNac" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Departamento as $DepartamentoNac)
-                                            <option value="{{ $DepartamentoNac['Id_Departamento'] }}">{{ $DepartamentoNac['Nombre_Departamento'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                  
                                 </select>
                             </div>
                             <div class="form-group col-md-1">
@@ -352,10 +377,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="EstadoCivil" id="EstadoCivil" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($EstadoCivil as $EstadoCivil)
-                                            <option value="{{ $EstadoCivil['Id'] }}">{{ $EstadoCivil['Nombre_Estado_Civil'] }}</option>
-                                    @endforeach                   
+                                    <option value="">Seleccionar</option>           
                                 </select>
                             </div>
                             <div class="form-group col-md-2">
@@ -363,10 +385,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="Estrato" id="Estrato" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Estrato as $Estrato)
-                                            <option value="{{ $Estrato['Id'] }}">{{ $Estrato['Nombre_Estrato'] }}</option>
-                                    @endforeach                   
+                                    <option value="">Seleccionar</option>                
                                 </select>
                             </div>
                         </div>
@@ -425,10 +444,7 @@
                             </div>
                             <div class="form-group col-md-10">
                                 <select name="Parentesco" id="Parentesco" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Parentesco as $Parentesco)
-                                            <option value="{{ $Parentesco['Id'] }}">{{ $Parentesco['Nombre_Parentesco'] }}</option>
-                                    @endforeach                   
+                                    <option value="">Seleccionar</option>                
                                 </select>
                             </div>
                         <br>
@@ -460,10 +476,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="TipoCuenta" id="TipoCuenta" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($TipoCuenta as $TipoCuenta)
-                                            <option value="{{ $TipoCuenta['Id'] }}">{{ $TipoCuenta['Nombre_Tipo_Cuenta'] }}</option>
-                                    @endforeach                   
+                                    <option value="">Seleccionar</option>                 
                                 </select>
                             </div>
                             <div class="form-group col-md-1">
@@ -471,10 +484,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Banco" id="Banco" class="form-control">
-                                    <option value="">Seleccionar</option>     
-                                     @foreach($Banco as $Banco)
-                                            <option value="{{ $Banco['Id'] }}">{{ $Banco['Nombre_Banco'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                           
                                 </select>
                             </div>
                             <div class="form-group col-md-1">
@@ -501,9 +511,7 @@
                     </li> 
                 </ul>
             </div>
-            <!-- ------------------------------------------SECCION DOS---------------------------------------- -->
             <div class="panel">
-                <!-- Default panel contents -->
                 <div class="panel-heading">
                     <div class="bs-callout bs-callout-info">
                         <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -523,10 +531,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="DepartamentoLoc" id="DepartamentoLoc" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Departamento as $DepartamentoLoc)
-                                            <option value="{{ $DepartamentoLoc['Id_Departamento'] }}">{{$DepartamentoLoc['Nombre_Departamento'] }}</option>
-                                    @endforeach                   
+                                    <option value="">Seleccionar</option>                 
                                 </select>
                             </div>
                             <div class="form-group col-md-2">
@@ -534,10 +539,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="MunicipioLoc" id="MunicipioLoc" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Ciudad as $MunicipioLoc)
-                                            <option value="{{ $MunicipioLoc['Id_Ciudad'] }}">{{ $MunicipioLoc['Nombre_Ciudad'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                          
                                 </select>
                             </div>
                         </div>
@@ -567,10 +569,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Localidad" id="Localidad" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Localidad as $Localidad)
-                                            <option value="{{ $Localidad['Id_Localidad'] }}">{{ $Localidad['Nombre_Localidad'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                         
                                 </select>
                             </div>
                             <div class="form-group col-md-1">
@@ -600,9 +599,7 @@
                     </li>  
                 </ul>
         </div>
-        <!-- ------------------------------------------SECCION TRES---------------------------------------- -->
         <div class="panel">
-            <!-- Default panel contents -->
             <div class="panel-heading">
                 <div class="bs-callout bs-callout-info">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -622,10 +619,7 @@
                         </div>
                         <div class="form-group col-md-10">
                             <select name="Regimen" id="Regimen" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($RegimenSalud as $RegimenSalud)
-                                        <option value="{{ $RegimenSalud['Id'] }}">{{ $RegimenSalud['Nombre_Regimen_Salud'] }}</option>
-                                @endforeach                           
+                                <option value="">Seleccionar</option>                         
                             </select>
                         </div>
                     <br>
@@ -646,10 +640,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <select name="TipoAfiliacion" id="TipoAfiliacion" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($TipoAfiliacion as $TipoAfiliacion)
-                                        <option value="{{ $TipoAfiliacion['Id'] }}">{{ $TipoAfiliacion['Nombre_Tipo_Afiliacion'] }}</option>
-                                @endforeach                           
+                                <option value="">Seleccionar</option>                   
                             </select>
                         </div>
                     </div>
@@ -681,10 +672,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="Eps" id="Eps" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Eps as $Eps)
-                                            <option value="{{ $Eps['Id_Eps'] }}">{{ $Eps['Nombre_Eps'] }}</option>
-                                    @endforeach                           
+                                    <option value="">Seleccionar</option>                        
                                 </select>
                             </div>
                         </div>
@@ -698,10 +686,7 @@
                         </div>
                         <div class="form-group col-md-10">
                             <select name="NivelRegimen" id="NivelRegimen" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($NivelRegimenSub as $NivelRegimenSub)
-                                        <option value="{{ $NivelRegimenSub['Id'] }}">{{ $NivelRegimenSub['Nombre_Regimen_Sub'] }}</option>
-                                @endforeach                                                           
+                                <option value="">Seleccionar</option>                                                 
                             </select>
                         </div>
                     <br>
@@ -724,10 +709,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Arl" id="Arl" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($Arl as $Arl)
-                                            <option value="{{ $Arl['Id'] }}">{{ $Arl['Nombre_Arl'] }}</option>
-                                    @endforeach                                                           
+                                    <option value="">Seleccionar</option>                                                       
                                 </select>
                             </div>
                         </div>
@@ -751,194 +733,13 @@
                         </div>
                         <div class="form-group col-md-10">
                             <select name="FondoPension" id="FondoPension" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($FondoPension as $FondoPension)
-                                        <option value="{{ $FondoPension['Id'] }}">{{ $FondoPension['Nombre_Fondo_Pension'] }}</option>
-                                @endforeach                                                           
+                                <option value="">Seleccionar</option>                                                        
                             </select>
                         </div>
                     <br>
-                </li>
-            </ul>
-        </div>
-        <!-- ------------------------------------------SECCION CUATRO---------------------------------------- -->
-        <div class="panel">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <div class="bs-callout bs-callout-info">
-                    <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>
-                    <label><h4>SECCIÓN CUATRO:</h4></label>
-                    <label><p>Información deportiva</p></label> 
-                    <span data-role="ver" id="seccion_cuatro_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
-                </div>
-            </div>                
-            <ul class="list-group" id="seccion_cuatro" name="seccion_cuatro" style="display: none">
-                <div class="panel-body">
-                    <p>TALLAS ATLETA</p>
-                </div> 
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="SudaderaL" >Sudadera:</label>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <select name="Sudadera" id="Sudadera" class="form-control">
-                                <option value="">Seleccionar</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="CamisetaL" >Camiseta:</label>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <select name="Camiseta" id="Camiseta" class="form-control">
-                                <option value="">Seleccionar</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="PantalonetaL" >Pantaloneta:</label>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <select name="Pantaloneta" id="Pantaloneta" class="form-control">
-                                <option value="">Seleccionar</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="TenisL" >Tenis:</label>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <select name="Tenis" id="Tenis" class="form-control">
-                                <option value="">Seleccionar</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-12" id="TallaTenis" style="display:none;">
-                            <div class="form-group col-md-9"></div>                                
-                            <div class="form-group col-md-3" style="border-radius:5px; border-style:solid;border-width:thin;">                                  
-                                <h5>Talla Reino Unido: <span class="label label-default" id="TUK"></span></h5>
-                                <h5>Talla Estados Unidos:  <span class="label label-default" id="TUSA"></span></h5>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </li>
-            </ul>
-        </div>
-        <!-- ------------------------------------------SECCION CINCO---------------------------------------- -->
-        <div class="panel">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <div class="bs-callout bs-callout-info">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    <label><h4>SECCIÓN CINCO:</h4></label>
-                    <label><p>Información médica</p></label> 
-                    <span data-role="ver" id="seccion_cinco_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
-                </div>
-            </div>                 
-            <ul class="list-group" id="seccion_cinco" name="seccion_cinco" style="display: none">
-
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="form-group col-md-2">
-                            <label for="inputEmail" class="control-label" id="GrupoSanguineoL" >Tipo de sangre:</label>
-                        </div>
-                        <div class="form-group col-md-10">
-                            <select name="GrupoSanguineo" id="GrupoSanguineo" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($GrupoSanguineo as $GrupoSanguineo)
-                                        <option value="{{ $GrupoSanguineo['Id_GrupoSanguineo'] }}">{{ $GrupoSanguineo['Nombre_GrupoSanguineo'] }}</option>
-                                @endforeach                                                           
-                            </select>
-                        </div>                        
-                    </div>
-                    <br>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="MedicamentoL" >Utiliza algún medicamento:</label>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select name="Medicamento" id="Medicamento" class="form-control">
-                                <option value="">Seleccionar</option>
-                                <option value="1">Si</option>
-                                <option value="2">No</option>
-                            </select>
-                        </div>
-                        <div id="MedicamentoD" style="display:none;">
-                            <div class="form-group col-md-1">
-                                <label for="inputEmail" class="control-label" id="CualMedicamentoL">Cual?:</label>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <input class="form-control" placeholder="Nombre del medicamento que utiliza" type="text" name="CualMedicamento" id="CualMedicamento">
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label for="inputEmail" class="control-label" id="TiempoMedicamentoL">Por cuanto tiempo?:</label>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <input class="form-control" placeholder="Por cuanto tiempo utiliza medicamento" type="text" name="TiempoMedicamento" id="TiempoMedicamento">
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="form-group col-md-2">
-                            <label for="inputEmail" class="control-label" id="OtroMedicoPregL" >Consulta otro servicio médico?:</label>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <select name="OtroMedicoPreg" id="OtroMedicoPreg" class="form-control">
-                                <option value="">Seleccionar</option>
-                                <option value="1">Si</option>
-                                <option value="2">No</option>
-                            </select>
-                        </div>
-                        <div id="OtroMedicoD" style="display:none;">
-                            <div class="form-group col-md-2">
-                                <label for="inputEmail" class="control-label" id="OtroMedicoL">Especifique:</label>
-                            </div>
-                            <div class="form-group col-md-4">
-                               <input class="form-control" placeholder="Especifique" type="text" name="OtroMedico" id="OtroMedico">
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                </li>
-            </ul>
-        </div>
-        <!-- ------------------------------------------SECCION ACUERDOS---------------------------------------- -->
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="bs-callout bs-callout-info">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    <label><h4>COMPROMISO ATLETA:</h4></label>
-                    <span data-role="ver" id="seccion_compromiso_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
-                </div>
-            </div>            
-            <ul class="list-group" id="seccion_compromiso" name="seccion_compromiso" style="display: none">
-                <div class="panel-body">
-                    <p>YO <label id="NombresCompromiso"></label> DEPORTISTA DE LA LIGA DE <label id="Liga"></label> Y COMO ATLETA DEL PROGRAMA DE RENDIMIENTO DEPORTIVO DE BOGOTÁ, ME COMPROMETO A CUMPLIR CON LA REGLAMENTACIÓN ESTABLECIDA POR EL IDRD Y EN CONSTANCIA RECIBO INFORMACIÓN DE:
-                   </p>
-                </div> 
-                <li class="list-group-item">
-                    <div class="row" style="margin-left:10px;" >
-                        <div class="form-group col-md-6">
-                            <input type="checkbox" name="Resolucion" id="Resolucion">
-                            <label for="inputEmail" class="control-label" id="ResolucionL" >RESOLUCIÓN VIGENTE</label>
-                            <a  href="public/Archivos/Resolucion.pdf" download="Resolucion">
-                                <span class="glyphicon glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <input type="checkbox" name="Deberes" id="Deberes">
-                            <label for="inputEmail" class="control-label" id="DeberesL">DEBERES Y OBLIGACIONES</label>
-                            <a  href="public/Archivos/Deberes.pdf" download="Deberes">
-                                <span class="glyphicon glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                            </a>
-                        </div>
-                    <br>
-                </li>
-            </ul>
-        </div>        
+                </li>-->
+            <!--</ul>
+        </div>      
         <div id="Botonera" >
             <center>
                 <button type="button" class="btn btn-primary" name="Enviar" id="Registrar">Registrar</button>
@@ -953,5 +754,5 @@
   <div class="form-group"  id="mensaje_actividad" style="display: none;">
     <div id="alert_actividad"></div>
   </div> 
-</form>       
+</form>-->
 @stop

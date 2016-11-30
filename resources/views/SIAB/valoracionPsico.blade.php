@@ -124,7 +124,7 @@
                                             <label for="inputEmail" class="control-label"  id="GeneroL" >Género:</label>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <select name="Genero" id="Genero" class="form-control">
+                                            <select name="Genero" id="Genero" class="form-control" readonly>
                                                 <option value="">Seleccionar</option>                                                
                                                 @foreach($Genero as $Genero)
                                                     <option value="{{ $Genero['Id_Genero'] }}">{{ $Genero['Nombre_Genero'] }}</option>
@@ -236,7 +236,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <input type="hidden" value="" name="lp" id="lp" >
-                                            <select name="LibretaPreg" id="LibretaPreg" class="form-control">
+                                            <select name="LibretaPreg" id="LibretaPreg" class="form-control" readonly>
                                                 <option value="">Seleccionar</option>                  
                                                 <option value="1">Si</option>                  
                                                 <option value="2">No</option>                  
@@ -315,10 +315,10 @@
                                         <label for="inputEmail" class="control-label"  id="ClubL" >Club deportivo:</label>
                                     </div>
                                     <div class="form-group col-md-10">
-                                        <select name="Club" id="Club" class="form-control">
+                                        <select name="Club" id="Club" class="selectpicker form-control" data-live-search="true">
                                             <option value="">Seleccionar</option> 
                                              @foreach($Club as $Club)
-                                                    <option value="{{ $Club['Id'] }}">{{ $Club['Nombre_Club'] }}</option>
+                                                <option value="{{ $Club['PK_I_ID_CLUB'] }}">{{ $Club['V_NOMBRE_CLUB'] }}</option>
                                             @endforeach                     
                                         </select>
                                     </div>                           
@@ -835,7 +835,7 @@
                                         <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o4" value="Pareja">Pareja</label></div>
                                         <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o5" value="Otros miembros de la familia">Otros miembros de la familia</label></div>
                                         <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o6" value="Patrocinios deportivos">Patrocinios deportivos</label></div>
-                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o7" value="Apoyos ecónomicos dPrograma de rendimiento IDRD">Apoyos ecónomicos dPrograma de rendimiento IDRD</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o7" value="Apoyos ecónomicos dPrograma de rendimiento IDRD">Apoyos ecónomicos Programa de rendimiento IDRD</label></div>
                                         <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o8" value="Otros">Otros</label></div>
 
 <!--                                        <div class="radio"><label><input type="radio" name="op26" id="p26o1" value="Atleta">Atleta</label></div>
@@ -1247,7 +1247,7 @@
                              <li class="list-group-item">
                                 <div class="row">                                    
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">32. ¿Sus responsabilidades actuales impiden conentrarse un 100% en su proceso de preparación deportiva?</label>
+                                        <label for="inputEmail" class="control-label">32. ¿Sus responsabilidades actuales impiden concentrarse un 100% en su proceso de preparación deportiva?</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio">
@@ -1260,7 +1260,7 @@
                                         </div>                                    
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">33. ¿Recibe alguna ayuda o beca económica por parte de la otra institución para llevar a cabo su práctica deportiva?</label>
+                                        <label for="inputEmail" class="control-label">33. ¿Recibe alguna ayuda o beca económica por parte de otra institución para llevar a cabo su práctica deportiva?</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio">
@@ -1290,17 +1290,17 @@
                                         <label for="inputEmail" class="control-label">34. Su medio habitual de transporte para desplazarse es:</label>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o1" value="Caminando">Caminando</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o2" value="Bicicleta">Bicicleta</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o3" value="Bus urbano">Bus urbano</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o4" value="SITP/Transmilenio">SITP/Transmilenio</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o5" value="Carro particular">Carro particular</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o6" value="Moto">Moto</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o7" value="Taxi">Taxi</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o1" value="Caminando">Caminando</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o2" value="Bicicleta">Bicicleta</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o3" value="Bus urbano">Bus urbano</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o4" value="SITP/Transmilenio">SITP/Transmilenio</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o5" value="Carro particular">Carro particular</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o6" value="Moto">Moto</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o7" value="Taxi">Taxi</label></div>
                                     </div>
 
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">35. El tiempo que utiliza para desplzarse entre su lugar de trabajo/estudio/hogar al sitio de entrenamiento es en promedio:</label>
+                                        <label for="inputEmail" class="control-label">35. El tiempo que utiliza para desplazarse entre su lugar de trabajo/estudio/hogar al sitio de entrenamiento es en promedio:</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio"><label><input type="radio" name="op35" id="p35o1" value="Menos de 15'">Menos de 15'</label></div>
@@ -1535,7 +1535,7 @@
                         <div class="panel-heading">                
                             <div class="bs-callout bs-callout-info">                    
                                 <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-                                <label><p>8. SITACIÓN JURÍDICA</p></label>                        
+                                <label><p>8. SITUACIÓN JURÍDICA</p></label>                        
                                 <span data-role="ver" id="seccion_once_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
                             </div>
                         </div>                 

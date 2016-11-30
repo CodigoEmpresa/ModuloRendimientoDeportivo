@@ -79,11 +79,6 @@ $(function(){
     	});
     });
 
-    /*$(".EliminarDeporte").on('click', function(e){
-        alert('dksjdsk');
-    });*/
-
-    
 
 
     $("#AgregarDeporte").on('click', function(){
@@ -200,7 +195,9 @@ $(function(){
 	        {
 	          $('#alert_evento2').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
 	          $('#mensaje_evento2').show(60);
-	          $('#mensaje_evento2').delay(2000).hide(600);        
+	          $('#mensaje_evento2').delay(1500).hide(600); 
+            setTimeout(function(){ $("#verEventoD").modal('hide');  }, 1500);     
+              
 	          Reset_campos();
 	        }
 	      },

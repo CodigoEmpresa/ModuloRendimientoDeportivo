@@ -99,13 +99,12 @@
                   <li><a href="#" style="color:#1995dc">Gestor de personas</a></li>
                   <li class="divider"></li>
                   <li class=”{{ Request::is( 'personas') ? 'active' : '' }}”><a href="{{ URL::to( 'personas') }}">Gestión de personas</a></li>                  
+                  <li class=”{{ Request::is( 'persona_tipo') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_tipo') }}">Asignación tipo persona</a></li>                  
                 </ul>
               </li>
               <li>
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">SIAB <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
-                  <li><a href="#" style="color:#1995dc">Gestor de SIAB</a></li>
-                  <li class="divider"></li>
                   <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas</a></li>
                   <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>
                   <li><a href="{{ URL::to( 'domicilio') }}">Visita domiciliaria</a></li>
@@ -118,17 +117,31 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">TÉCNICO <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" style="color:#1995dc">Gestor técnico</a></li>
+                      <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>                      
                       <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">REGISTRO LÍNEA DEPORTIVA</a></li>                      
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Configuración</a>
-                      </li>
+                      </li>                      
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">PLANES DE ENTRENAMIENTO</a></li>                                            
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a></li>                                            
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                      
                       <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a>
                       </li>
                       <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'certamen') }}">Gestor de certámenes</a>
+                        <a href="{{ URL::to( 'certamen') }}">Gestor de certámenes deportivos</a>
                       </li>
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">CONTROLES FÍSICOS</a></li>                                            
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">VISITAS TÉCNICAS</a></li>                                            
+                      <li class="divider"></li>
+                      <li><a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a></li>                                            
+                      <li class="divider"></li>
                       <!--<li class="divider"></li>
                       <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
                         <a href="{{ URL::to( 'configuracion') }}">Agrupación</a>

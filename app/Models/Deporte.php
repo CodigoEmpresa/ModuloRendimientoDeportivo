@@ -26,4 +26,9 @@ class Deporte extends Model
     {
         return $this->belongsToMany('App\Models\Evento','evento_deporte','Deporte_Id','Evento_Id');
     }
+
+    public function deportista()
+    {
+        return $this->belongsToMany('App\Models\Deportista','deportista_deporte','Deporte_Id','Deportista_Id');
+    }
 }

@@ -15,6 +15,8 @@ class TipoNivel extends Seeder
         DB::table('tipo_nivel')->insert([
             ['Nombre_Tipo_Nivel' => 'Nacional'],            
             ['Nombre_Tipo_Nivel' => 'Internacional'],
+            ['Nombre_Tipo_Nivel' => 'Distrital'],
+            ['Nombre_Tipo_Nivel' => 'Regional'],
         ]);   
     }
 }

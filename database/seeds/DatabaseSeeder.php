@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
          $this->call(Talla::class);
          $this->call(Arl::class);
          $this->call(FondoPension::class);
-         $this->call(Club::class);
          $this->call(TipoEtapa::class);
          $this->call(Etapa::class);
          $this->call(TipoActividad::class);

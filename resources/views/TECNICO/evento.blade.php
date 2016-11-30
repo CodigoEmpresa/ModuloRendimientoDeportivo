@@ -87,7 +87,7 @@
                                                         <label for="inputEmail" class="control-label">Nombre del evento</label>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <input class="form-control" type="text" name="Nombre_Evento" id="Nombre_Evento">
+                                                        <input class="form-control" type="text" style="text-transform: uppercase;" name="Nombre_Evento" id="Nombre_Evento">
                                                     </div>
 
                                                     <div class="form-group col-md-12">
@@ -125,7 +125,7 @@
 
                         <form id="verEventoF" name="verEventoF" style="display:none;">  
                         <input class="form-control" type="hidden" name="Id_EventoDatos" id="Id_EventoDatos">     
-                        <input class="form-control" type="text" name="Id_ClasificacionDatos" id="Id_ClasificacionDatos">     
+                        <input class="form-control" type="text" style="text-transform: uppercase;" name="Id_ClasificacionDatos" id="Id_ClasificacionDatos">     
                             <div class="modal-body">                                 
                                 <div><center><h3>Datos del evento</h3></center></div>
                                 <div class="panel">                                               
@@ -160,7 +160,7 @@
                                                     <label for="inputEmail" class="control-label">Nombre del evento</label>
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <input class="form-control" type="text" name="Nombre_EventoDatos" id="Nombre_EventoDatos">
+                                                    <input class="form-control" type="text" style="text-transform: uppercase;" name="Nombre_EventoDatos" id="Nombre_EventoDatos">
                                                 </div>
 
                                                 <div class="form-group col-md-12">
@@ -271,7 +271,7 @@
                                                     <label for="inputEmail" class="control-label">Nombre del evento</label>
                                                 </div>
                                                 <div class="form-group col-md-4">
-                                                    <input class="form-control" type="text" name="Nombre_EventoDatos" id="Nombre_EventoDatos">
+                                                    <input class="form-control" type="text" style="text-transform: uppercase;" name="Nombre_EventoDatos" id="Nombre_EventoDatos">
                                                 </div>
 
                                                 <div class="form-group col-md-12">
