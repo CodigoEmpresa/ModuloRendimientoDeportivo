@@ -3,13 +3,35 @@ var deporteT = '';
 var modalidadT = '';
 
 $(function(e){ 
+	$("#Diagnostico").on('change', function(){
+		if($(this).val() != ''){
+			if($(this).val() == 1){
+				 $("#OtroDiagnostico").show('slow');
+			}else{
+				$("#OtroDiagnostico").hide('slow')
+			}
+		}
+	});
 
-/*$("#Descarga").on('click', function(){
-		registro('Descarga');
+	$("#Silla").on('change', function(){
+		if($(this).val() != ''){
+				if($(this).val() == 1){
+					 $("#OtroSilla").show('slow');
+				}else{
+					$("#OtroSilla").hide('slow')
+				}
+			}
+	});
 
-		return false;
-
-	});   */ 	
+	$("#ClasificadoNivelInternacional").on('change', function(){
+		if($(this).val() != ''){
+			if($(this).val() == 1){
+				 $("#OtroClasificadoNivelInternacional").show('slow');
+			}else{
+				$("#OtroClasificadoNivelInternacional").hide('slow')
+			}
+		}
+	});
 
 	$("#Registrar").on('click', function(){				
 		registro('AddDeportista');
@@ -85,6 +107,7 @@ $(function(e){
 	$('#FechaVigenciaPasaporteDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
 	$('#fechaNacDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
 	$('#FechaAfiliacionDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
+	$('#FechaCI').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
 
 	var validador_errores = function(data){
 		$('#registro .form-group').removeClass('has-error');
@@ -231,7 +254,12 @@ $(function(e){
 				$("#EtapaNacional").val($("#EtapaNacionalT").val());
 				$("#EtapaInternacional").val($("#EtapaInternacionalT").val());
 			});
-		}		
+		}
+		if($(this).val() == 2){
+			$("#SeccionSeisD").show('slow');
+		}else{
+			$("#SeccionSeisD").hide('slow');
+		}
 	});
 
 	$("#Pertenece").on('change', function(){
@@ -316,7 +344,8 @@ function Buscar(e){
 
           	$.each(data, function(i, e){
 
-              	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) {              		
+              	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) {       
+
               		if(responseDep.deportista){  //Cuando Hay deportista    
 
               			$.get("getDeportistaDeporte/" + responseDep.deportista['Id'] + "", function (DeportistaDeporte) {     
@@ -400,6 +429,26 @@ function Buscar(e){
 						$("#TiempoMedicamento").val(responseDep.deportista['Tiempo_Medicamento']);		
 						$("#OtroMedicoPreg").val(responseDep.deportista['Otro_Medico_Preg']).change();
 						$("#OtroMedico").val(responseDep.deportista['Otro_Medico']);
+
+
+						if(responseDep.deportista.deportista_paralimpico[0] != null){
+							$("#SeccionSeisD").show('slow');
+							$("#Discapacidad").val(responseDep.deportista.deportista_paralimpico[0]['Discapacidad_Id']).change();
+							$("#Diagnostico").val(responseDep.deportista.deportista_paralimpico[0]['Diagnostico_Id']).change();
+							$("#CladificacionFuncional").val(responseDep.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id']).change();
+							$("#Silla").val(responseDep.deportista.deportista_paralimpico[0]['Silla_Id']).change();
+							$("#Cuidador").val(responseDep.deportista.deportista_paralimpico[0]['Uso_Silla_Id']).change();
+							$("#Auxiliar").val(responseDep.deportista.deportista_paralimpico[0]['Auxiliar_Id']).change();
+							$("#ClasificadoNivelInternacional").val(responseDep.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Internacional_Id']).change();
+							$("#DiagnosticoEdad").val(responseDep.deportista.deportista_paralimpico[0]['EdadAdquirido']);
+							$("#FechaCI").val(responseDep.deportista.deportista_paralimpico[0]['Fecha_Clasificacion']);
+							$("#EventoCI").val(responseDep.deportista.deportista_paralimpico[0]['Evento_Clasificacion']);
+							$("#EdadDeportiva").val(responseDep.deportista.deportista_paralimpico[0]['EdadDeportiva']).change();
+							$("#resultadoNacional").val(responseDep.deportista.deportista_paralimpico[0]['Resultado_Nacional']).change();
+							$("#resultadoInternacional").val(responseDep.deportista.deportista_paralimpico[0]['Resultado_Internacional']).change();
+						}else{
+							$("#SeccionSeisD").hide('slow');
+						}
 						
 						$("#seccion_uno").show("slow");
 						$("#seccion_dos").show("slow");
@@ -410,6 +459,7 @@ function Buscar(e){
 
 						$("#Modificar").show();
               			$("#Registrar").hide();
+
 
               		}else{              			
               			$("#Fotografia").hide();
@@ -554,6 +604,20 @@ function Reset_campos(e){
 	$("#Agrupacion").val('');
 	$("#Deporte").val('');
 	$("#Modalidad").val('');
+
+	$("#Discapacidad").val('').change();
+	$("#Diagnostico").val('').change();
+	$("#CladificacionFuncional").val('').change();
+	$("#Silla").val('').change();
+	$("#Cuidador").val('').change();
+	$("#Auxiliar").val('').change();
+	$("#ClasificadoNivelInternacional").val('').change();
+	$("#DiagnosticoEdad").val('');
+	$("#FechaCI").val('');
+	$("#EventoCI").val('');
+	$("#EdadDeportiva").val('').change();
+	$("#resultadoNacional").val('').change();
+	$("#resultadoInternacional").val('').change();
 
 	$("#Modificar").hide();
 	$("#Registrar").hide();

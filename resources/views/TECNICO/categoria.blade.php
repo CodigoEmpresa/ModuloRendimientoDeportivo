@@ -27,7 +27,7 @@
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
                         <div class="form-group">
-                            <label class="control-label" for="Id_TipoDocumento">Categoría</label>
+                            <label class="control-label" for="Id_TipoDocumento">Búsqueda de Categoría</label>
                             <select name="Id_ct" id="Id_ct" class="form-control">
                                 <option value="">Seleccionar</option>
                                 @foreach($categoria as $categorias)

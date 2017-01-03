@@ -63,7 +63,7 @@ class RegistroDeportista extends Request
              'CelularLoc' => 'required|numeric|digits:10',
              'Correo' => 'required|email|min:7|max:40',
              'Regimen' => 'required',
-             'FechaAfiliacion' => 'date',
+             //'FechaAfiliacion' => 'date',
              'TipoAfiliacion' => 'required',
              'MedicinaPrepago' => 'required',
              'NombreMedicinaPrepago' => array('required_if:MedicinaPrepago,1'),
@@ -83,8 +83,23 @@ class RegistroDeportista extends Request
              'TiempoMedicamento' => array('required_if:Medicamento,1'),
              'OtroMedicoPreg' => 'required',
              'OtroMedico' => array('required_if:OtroMedicoPreg,1'),
-
             ];
+
+            if($this->ClasificacionDeportista == 2){
+                $validaciones['Discapacidad'] = 'required';
+                $validaciones['Diagnostico'] = 'required';
+                $validaciones['DiagnosticoEdad'] = array('required_if:Diagnostico,1');
+                $validaciones['CladificacionFuncional'] = 'required';
+                $validaciones['Silla'] = 'required';
+                $validaciones['Cuidador'] = array('required_if:Silla,1');
+                $validaciones['Auxiliar'] = array('required_if:Silla,1');
+                $validaciones['ClasificadoNivelInternacional'] = 'required';
+                $validaciones['FechaCI'] = array('required_if:ClasificadoNivelInternacional,1|date');
+                $validaciones['EventoCI'] = array('required_if:ClasificadoNivelInternacional,1');
+                $validaciones['EdadDeportiva'] = 'required|numeric';
+                $validaciones['resultadoNacional'] = 'required';
+                $validaciones['resultadoInternacional'] = 'required';
+            }
        
         return $validaciones;
     }

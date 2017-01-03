@@ -89,7 +89,7 @@
        <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
-            <a href="/" class="navbar-brand">SIM</a>
+            <a href="/" class="navbar-brand">SIM{{$_SESSION['Usuario'][7]}}</a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -103,31 +103,45 @@
                 <ul class="dropdown-menu" aria-labelledby="themes">
                   <li><a href="#" style="color:#1995dc">Gestor de personas</a></li>
                   <li class="divider"></li>
-                  
+                  @if($_SESSION['Usuario'][1] == 1) 
                       <li class=”{{ Request::is( 'personas') ? 'active' : '' }}”><a href="{{ URL::to( 'personas') }}">Gestión de personas</a></li>                  
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][2] == 1) 
                       <li class=”{{ Request::is( 'persona_tipo') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_tipo') }}">Asignación tipo persona</a></li>                  
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][3] == 1) 
                       <li class=”{{ Request::is( 'persona_permiso') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_permiso') }}">Asignación de permisos</a></li>                  
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][4] == 1) 
                       <li class=”{{ Request::is( 'metodologo_agrupacion') ? 'active' : '' }}”><a href="{{ URL::to( 'metodologo_agrupacion') }}">Administración Metodólogos</a></li>                  
-                  
+                  @endif                  
                 </ul>
               </li>
               <li>
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">SIAB <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
-                  
+                  @if($_SESSION['Usuario'][5] == 1) 
                       <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas</a></li>
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][6] == 1) 
                       <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][7] == 1) 
                       <li><a href="{{ URL::to( 'domicilio') }}">Visita domiciliaria</a></li>
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][8] == 1) 
                       <li><a href="{{ URL::to( 'actividad') }}">Actividades de intervención</a></li>
-                  
+                  @endif
+
+                  @if($_SESSION['Usuario'][9] == 1) 
                       <li><a href="{{ URL::to( 'suministros') }}">Suministros, apoyos y servicios</a></li>
-                  
+                  @endif                  
                 </ul>
               </li>
               <li>
@@ -138,9 +152,9 @@
                       <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>                      
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">REGISTRO LÍNEA DEPORTIVA</a></li>                      
-                      
+                      @if($_SESSION['Usuario'][10] == 1) 
                         <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”><a href="{{ URL::to( 'configuracion') }}">Configuración</a></li>
-                      
+                      @endif    
                                             
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">PLANES DE ENTRENAMIENTO</a></li>                                            
@@ -148,25 +162,25 @@
                       <li><a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a></li>                                            
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                      
-                      
+                      @if($_SESSION['Usuario'][11] == 1) 
                         <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”><a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a></li>
-                      
+                      @endif
 
-                      
+                      @if($_SESSION['Usuario'][12] == 1) 
                         <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”><a href="{{ URL::to( 'certamen') }}">Gestor de certámenes deportivos</a></li>
-                      
+                      @endif
 
-                      
+                      @if($_SESSION['Usuario'][13] == 1) 
                         <li class=”{{ Request::is( 'asignacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'asignacion_pruebas') }}">Asignación de pruebas deportivas</a></li>
-                      
+                      @endif
 
-                      
+                      @if($_SESSION['Usuario'][14] == 1) 
                         <li class=”{{ Request::is( 'denegacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'denegacion_pruebas') }}">Denegación de pruebas deportivas</a></li>
-                      
+                      @endif
 
-                      
+                      @if($_SESSION['Usuario'][15] == 1) 
                         <li class=”{{ Request::is( 'mis_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_resultados') }}">Mis pruebas deportivas</a></li>
-                      
+                      @endif
                       
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">CONTROLES FÍSICOS</a></li>                                            

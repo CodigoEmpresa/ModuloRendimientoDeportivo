@@ -43,6 +43,11 @@ use App\Models\Etapa;
 use App\Models\TipoEtapa;
 use App\Models\DeportistaEtapa;
 use App\Models\PersonaTipo;
+use App\Models\Diagnostico;
+use App\Models\ClasificacionFuncional;
+use App\Models\UsoSilla;
+use App\Models\DeportistaParalimpico;
+use App\Models\Discapacidad;
 
 class DeportistaController extends Controller
 {
@@ -76,6 +81,10 @@ class DeportistaController extends Controller
 		$Arl = Arl::all();
 		$FondoPension = FondoPension::all();
 		$Club = Club::all();
+		$Diagnostico = Diagnostico::all();
+		$ClasificacionFuncional = ClasificacionFuncional::all();
+		$UsoSilla = UsoSilla::all();
+		$Discapacidad = Discapacidad::all();
 
 		return view('SIAB/deportista',['deportista' => $deportista])
 		->with(compact('Banco'))
@@ -97,6 +106,10 @@ class DeportistaController extends Controller
 		->with(compact('Arl'))		
 		->with(compact('FondoPension'))		
 		->with(compact('Club'))
+		->with(compact('Diagnostico'))		
+		->with(compact('ClasificacionFuncional'))
+		->with(compact('UsoSilla'))
+		->with(compact('Discapacidad'))
 		;
 	}
 
@@ -109,7 +122,8 @@ class DeportistaController extends Controller
         						 'deportista.deportistaValoracion.valoracionRiesgo', 
         						 'deportista.deportistaVisita',
         						 'deportista.deportistaVisita.preguntaA',
-        						 'deportista.deportistaVisita.miembros'
+        						 'deportista.deportistaVisita.miembros',
+        						 'deportista.deportistaParalimpico'
         					)->find($id);
         return $persona;
     }
@@ -118,9 +132,10 @@ class DeportistaController extends Controller
         if ($request->ajax()) {
             $tallas = TipoTalla::with('tipo_talla', 'tipo_talla.genero')->find($Tipo_Id);
             $talla_genero = $tallas->tipo_talla->whereIn('Genero_Id', [(int)$Genero_Id]);
-        }
+            $final = $talla_genero->sortBy('Eu');
+            return $final;
+        }        
         
-        return($talla_genero);
     }
 
     public function RegistrarDeportista(RegistroDeportista $request){ 
@@ -226,6 +241,25 @@ class DeportistaController extends Controller
 					 	$deportistaEtapaI->Smmlv = $sueldo;
 					 	$deportistaEtapaI->save();
 					 }
+					 if($request->ClasificacionDeportista == 2){
+
+					 	$DeportistaParalimpico = new DeportistaParalimpico;
+					 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
+					 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
+					 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+					 	$DeportistaParalimpico->Silla_Id = $request->Silla;
+					 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
+					 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
+					 	$DeportistaParalimpico->Clasificacion_Funcional_Internacional_Id = $request->ClasificadoNivelInternacional;
+					 	$DeportistaParalimpico->Discapacidad_Id = $request->Discapacidad;
+					 	$DeportistaParalimpico->EdadAdquirido = $request->DiagnosticoEdad;
+					 	$DeportistaParalimpico->Fecha_Clasificacion = $request->FechaCI;
+					 	$DeportistaParalimpico->Evento_Clasificacion = $request->EventoCI;
+					 	$DeportistaParalimpico->EdadDeportiva = $request->EdadDeportiva;
+					 	$DeportistaParalimpico->Resultado_Nacional = $request->resultadoNacional;
+					 	$DeportistaParalimpico->Resultado_Internacional = $request->resultadoInternacional;
+					 	$DeportistaParalimpico->save();
+					 }
 
 					$this->sendEmail($request->Correo, 'Novice', 'SIAB.correo');
 					
@@ -330,6 +364,54 @@ class DeportistaController extends Controller
 				 	$deportistaEtapaI->Smmlv = $sueldo;
 				 	$deportistaEtapaI->save();
 				 }
+			}
+
+			if($request->ClasificacionDeportista == 2){
+				$DP = DeportistaParalimpico::where('Deportista_Id', $deportista->Id)->get();	
+
+				if(count($DP) > 0){			
+					$DeportistaParalimpico = DeportistaParalimpico::find($DP[0]['Id']);
+				 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
+				 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+				 	$DeportistaParalimpico->Silla_Id = $request->Silla;
+				 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
+				 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Internacional_Id = $request->ClasificadoNivelInternacional;
+				 	$DeportistaParalimpico->Discapacidad_Id = $request->Discapacidad;
+				 	$DeportistaParalimpico->EdadAdquirido = $request->DiagnosticoEdad;
+				 	$DeportistaParalimpico->Fecha_Clasificacion = $request->FechaCI;
+				 	$DeportistaParalimpico->Evento_Clasificacion = $request->EventoCI;
+				 	$DeportistaParalimpico->EdadDeportiva = $request->EdadDeportiva;
+				 	$DeportistaParalimpico->Resultado_Nacional = $request->resultadoNacional;
+				 	$DeportistaParalimpico->Resultado_Internacional = $request->resultadoInternacional;
+				 	$DeportistaParalimpico->save();
+				}else{
+					$DeportistaParalimpico = new DeportistaParalimpico;
+				 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
+				 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+				 	$DeportistaParalimpico->Silla_Id = $request->Silla;
+				 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
+				 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Internacional_Id = $request->ClasificadoNivelInternacional;
+				 	$DeportistaParalimpico->Discapacidad_Id = $request->Discapacidad;
+				 	$DeportistaParalimpico->EdadAdquirido = $request->DiagnosticoEdad;
+				 	$DeportistaParalimpico->Fecha_Clasificacion = $request->FechaCI;
+				 	$DeportistaParalimpico->Evento_Clasificacion = $request->EventoCI;
+				 	$DeportistaParalimpico->EdadDeportiva = $request->EdadDeportiva;
+				 	$DeportistaParalimpico->Resultado_Nacional = $request->resultadoNacional;
+				 	$DeportistaParalimpico->Resultado_Internacional = $request->resultadoInternacional;
+				 	$DeportistaParalimpico->save();
+				}
+
+
+			}else{
+				$DP = DeportistaParalimpico::where('Deportista_Id', $deportista->Id)->get();
+				if(count($DP) > 0){
+					$DeportistaParalimpico = DeportistaParalimpico::find($DP[0]['Id']);
+					$DeportistaParalimpico->delete();
+				}
 			}
 
 		 	return response()->json(["Mensaje" => "Deportista modificado con éxito."]);                

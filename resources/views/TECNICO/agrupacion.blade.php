@@ -28,16 +28,15 @@
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
                         <div class="form-group">
-                            <label class="control-label" for="Id_TipoDocumento">Agrupación</label>
+                            <label class="control-label" for="Id_TipoDocumento">Búsqueda de Agrupación</label>
                             <select class="form-control selectpicker" name="Id_Agrupacion" id="Id_Agrupacion" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($agrupacion_datos as $agrupaciones)
-                                    <option value="{{ $agrupaciones['Id'] }}">{{ $agrupaciones['Id']." ".$agrupaciones['Nombre_Agrupacion'] }}</option>
+                                    <option  style="text-transform: uppercase;" value="{{ $agrupaciones['Id'] }}">{{ $agrupaciones['Id'].". ".$agrupaciones->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$agrupaciones['Nombre_Agrupacion'] }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    
+                    </div>                    
                     <div class="col-xs-6 col-sm-4">
                         <label class="control-label" for="Id_TipoDocumento">Gestionar:</label>
                         <div class="form-group">

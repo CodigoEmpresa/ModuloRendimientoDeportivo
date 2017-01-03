@@ -31,9 +31,7 @@ $(function(e){
     $.get("ListaComplemento/" + id+ "", function (respListaComplemento){
       $("#ListaComplemento").empty();      
       $.each(respListaComplemento.deportista_complemento, function(i, e){
-        /*$("#ListaComplemento").append('');*/
         $("#ListaComplemento").append('<tr><td>'+e['Nombre_Complemento']+'</td><td><center>'+e.pivot['Cantidad']+'</center></td><td><center>'+e.pivot['Valor']+'</center></td><td><center>'+(e.pivot['Cantidad'])*(e.pivot['Valor'])+'</center></td><td><center>'+e.pivot['Fecha']+'</center></td></tr>');
-        /*$("#ListaComplemento").append('</tr>');*/
       });
     });
   }
@@ -247,11 +245,15 @@ function Buscar(e){
 	var key = $('input[name="buscador"]').val(); 
   $.get('personaBuscarDeportista/'+key,{}, function(data){  
       if(data.length > 0){ //Existe la persona       	        
+
+        $("#Nombres").append(data[0]['Primer_Nombre']+' '+data[0]['Segundo_Nombre']+' '+data[0]['Primer_Apellido']+' '+data[0]['Segundo_Apellido']);
+        $("#Identificacion").append('IDENTIFICACIÓN '+data[0]['Cedula']);           
+
       	$.each(data, function(i, e){
         	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) { 
 
             if(responseDep.deportista){//Existe Deportista
-            //  Deportista(responseDep.deportista, data[0]);
+
               $("#deportista1").val(responseDep.deportista['Id']);
               $("#deportista2").val(responseDep.deportista['Id']);
               $("#deportista3").val(responseDep.deportista['Id']);
@@ -288,4 +290,6 @@ function Reset_campos(e){
     $("#SuministrosComplementosF").hide('slow');
     $("#SuministrosAlimentacionF").hide('slow');
     $("#ApoyoServiciosF").hide('slow');
+    $("#Nombres").empty();
+    $("#Identificacion").empty();      
 }

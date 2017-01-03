@@ -108,4 +108,8 @@ class Deportista extends Model
     {
         return $this->belongsToMany('App\Models\CertamenDivision','certamen_division_deportista','Deportista_Id','CertamenDivision_Id');
     }
+
+    public function deportistaParalimpico(){
+        return $this->hasMany('App\Models\DeportistaParalimpico', 'Deportista_Id');
+    }
 }

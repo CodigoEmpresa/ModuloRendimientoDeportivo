@@ -41,6 +41,21 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddPersonaTipo', 'AdministracionController@AgregarPersonaTipo');
 	Route::post('DeletePersonaTipo/{id_persona}/{id_tipo}', 'AdministracionController@EliminarPersonaTipo');
 
+
+	/********************Asignación de permisos***************************/
+	Route::get('persona_permiso','AdministracionController@indexPermisos');
+	Route::get('/actividadesModulo', 'AdministracionController@moduloActividades');
+	Route::get('getPersonaActividades/{id}','AdministracionController@personaActividades');
+	Route::post('PersonasActividadesProceso', 'AdministracionController@PersonasActividadesProceso');
+
+	/********************Administración de metodologos***************************/
+	Route::get('metodologo_agrupacion','AdministracionController@indexMetodologoAgrupacion');
+	Route::get('getMetodologoAgrupacion/{id_persona}','AdministracionController@GetMetodologoAgrupacion');
+	Route::get('getMetodologoAgrupacionNO/{id_persona}','AdministracionController@GetMetodologoAgrupacionNO');
+	Route::post('AddMetodologoAgrupacion','AdministracionController@AgregarMetodologoAgrupacion');			
+	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');			
+	
+
 	/********************SIAB***************************/
 	
 	Route::get('rud','DeportistaController@index');
@@ -105,7 +120,7 @@ Route::group(['middleware' => ['web']], function () {
 	/*************************************************/
 	
 
-	/********************Tecnico****************************/
+	/********************TECNICO****************************/
 	Route::get('configuracion','ConfiguracionController@inicio');
 	Route::post('configuracion/crear','ConfiguracionController@guardar');
 	Route::post('configuracion/modificar','ConfiguracionController@modificar');
@@ -175,6 +190,26 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getDivisionUnica/{id}','CertamenController@GetDivisionUnica');	
 	Route::post('DeletePruebaCertamenDeportista/{id_deportista}/{id_division}/{id_certamen}','CertamenController@EliminarPruebaCertamenDeportista');			
 	Route::get('getDepartamento','CertamenController@GetDepartamento');	
+
+	Route::get('asignacion_pruebas','RegistroResultadosController@AsignacionPruebasDeportivas');
+	Route::get('getEventosClasfificacion/{id}','RegistroResultadosController@GetEventosClasfificacion');
+	Route::get('getCertamenEventos/{id}','RegistroResultadosController@GetCertamenEventos');
+	Route::get('getDivisionCertamenMetod/{id_certamen}/{id_persona}','RegistroResultadosController@GetDivisionCertamenMetod');		
+	Route::post('addCertamenDivisionMetodologo/{id_certamenDivision}/{id_persona}','RegistroResultadosController@AgregarCertamenDivisionMetodologo');			
+
+
+	Route::get('denegacion_pruebas','RegistroResultadosController@DenegacionPruebasDeportivas');
+	Route::get('getDivisionCertamenMetodS/{id_certamen}/{id_persona}','RegistroResultadosController@GetDivisionCertamenMetodS');		
+	Route::post('deleteCertamenDivisionMetodologo/{id_certamenDivision}/{id_persona}','RegistroResultadosController@EliminarCertamenDivisionMetodologo');			
+
+
+	Route::get('registro_resultados','RegistroResultadosController@RegistroResultadosDeportivos');
+	Route::post('AddRegistroDeportista','RegistroResultadosController@AgregarRegistroDeportista');			
+	Route::post('AddRegistroDeportistaN','RegistroResultadosController@AgregarRegistroDeportistaN');			
+	Route::get('getCertamenDivisionResultados/{id_certamenDivision}','RegistroResultadosController@GetCertamenDivisionResultados');
+	Route::post('deleteCertamenDivisionRegistro/{id}','RegistroResultadosController@EliminarCertamenDivisionRegistro');
+
+	
 	
 	/*************************************************/
 });

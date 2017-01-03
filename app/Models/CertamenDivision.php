@@ -23,5 +23,19 @@ class CertamenDivision extends Model
     public function division()
     {
         return $this->belongsTo('App\Models\Division', 'Division_Id');
-    } 
+    }
+
+    public function metodologo(){   
+        return $this->hasMany('App\Models\CertamenDivisionMetodologo', 'CertamenDivision_Id');  
+    }
+
+    /*public function division_metodologo()
+    {
+        return $this->belongsTo('App\Models\Division', 'Division_Id');
+    } */
+
+    /*public function metodologo()
+    {
+        return $this->belongsToMany('App\Models\Persona','certamen_division_metodologo','CertamenDivision_Id','Persona_Id');
+    }*/
 }

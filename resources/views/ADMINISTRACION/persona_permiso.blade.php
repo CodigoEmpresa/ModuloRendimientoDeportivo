@@ -2,13 +2,13 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/ADMINISTRACION/persona_tipo.js') }}"></script>
+    <script src="{{ asset('public/Js/ADMINISTRACION/persona_permiso.js') }}"></script>
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}      
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
-<center><h3>ASIGNACIÓN DE TIPO PERSONA</h3></center>
+<center><h3>ASIGNACIÓN DE PERMISOS</h3></center>
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
@@ -42,50 +42,33 @@
                                 <div class="col-xs-12"><br></div>
                                     <div class="col-xs-12">
                                         <ul id="personas"></ul>
-                                        <li class="list-group-item" id="AsignarPersonas" style="display:none;">
+                                        <li class="list-group-item" id="AsignarPermisos" style="display:none;">
                                             <div class="list-group-item">
                                                 <h5 class="list-group-item-heading" style="text-transform: uppercase;" id="Nombres">
                                                 </h5>
                                                 <div class="row">
-                                                    <div class="col-xs-12 col-md-4">
+                                                    <div class="col-xs-12 col-md-12">
                                                         <div class="row">
                                                             <input type="hidden" id="Id_Persona" name="Id_Persona">
                                                             <div class="col-xs-12 col-sm-6 col-md-3"><small id="Identificacion"></small></div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-xs-12 col-md-4">
-                                                        <div class="row">
-                                                            <label class="control-label" for="Id_TipoDocumento">Tipo de persona</label>
-                                                            <select name="Tipo_Persona" id="Tipo_Persona" class="form-control">
-                                                                <option value="">Seleccionar</option>
-                                                            </select>
-                                                        </div>
+                                                    <br>
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <div class="row" style="margin-left:10px;" id="actividadesCheck"></div>
                                                     </div>
-                                                    <div class="col-xs-12 col-md-4">
+                                                    <div class="col-xs-12 col-md-6">
                                                         <div class="form-group text-center">
-                                                            <button type="button" class="btn btn-primary" id="AgregarTipo">Agregar</button>
+                                                            <button type="button" class="btn btn-primary" onclick="Agregar()" id="GuardarPermisos">Guardar Permisos</button>
                                                         </div>
                                                     </div>
-                                                </div>
                                             </div>
                                             <br> 
                                             <div class="row">
-                                                <div class="form-group"  id="mensaje_evento1">
-                                                    <div id="alert_evento1"></div>
+                                                <div class="form-group"  id="mensaje_persmiso">
+                                                    <div id="alert_permiso"></div>
                                                 </div>
                                             </div>
-                                            <div class="panel-body">
-                                                <table id="personaTipoTabla" name="personaTipoTabla" class="display nowrap" cellspacing="0" width="100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th><center>TIPO</center></th>
-                                                            <th><center>OPCIÓN</center></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>                                         
-                                                    </tbody> 
-                                                </table>
-                                            </div>   
                                         </li>                                    
                                     </div>
                                     <div id="paginador" class="col-xs-12"></div>                            
@@ -95,5 +78,4 @@
                 </div>
             </div>
         </div>
-<!-- ------------------------------------------------------------------------------------ -->
 @stop

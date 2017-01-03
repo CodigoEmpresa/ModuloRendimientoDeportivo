@@ -48,11 +48,24 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
     <div id="BotoneraAcciones" name ="BotoneraAcciones" style="display:none;" >
-        <button type="button" class="btn btn-primary" name="SuministrosComplementos" id="SuministrosComplementos">Ver complementos</button>
-        <button type="button" class="btn btn-default" name="SuministrosAlimentos" id="SuministrosAlimentos">Ver Alimentación</button>
-        <button type="button" class="btn btn-info" name="ApoyoServicios" id="ApoyoServicios">Ver apoyos y servicios</servicios>
+        <div class="list-group-item">
+            <h5 class="list-group-item-heading" style="text-transform: uppercase;" id="Nombres">
+            </h5>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3"><small id="Identificacion"></small></div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <br><br>
+            <button type="button" class="btn btn-primary" name="SuministrosComplementos" id="SuministrosComplementos">Ver complementos</button>
+            <button type="button" class="btn btn-default" name="SuministrosAlimentos" id="SuministrosAlimentos">Ver Alimentación</button>
+            <button type="button" class="btn btn-info" name="ApoyoServicios" id="ApoyoServicios">Ver apoyos y servicios</servicios>
+        </div>        
     </div>
     <form id="SuministrosComplementosF" name="SuministrosComplementosF" style="display:none;">
         <input type="hidden" name="deportista1" id="deportista1" value=""/>

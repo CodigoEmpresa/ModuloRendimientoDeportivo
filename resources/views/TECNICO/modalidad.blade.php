@@ -27,11 +27,11 @@
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
                         <div class="form-group">
-                            <label class="control-label" for="Id_TipoDocumento">Modalidad</label>
+                            <label class="control-label" for="Id_TipoDocumento">Búsqueda de Modalidad</label>
                             <select class="form-control selectpicker" name="Id_mdl" id="Id_mdl" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($modalidad as $modalidades)
-                                    <option value="{{ $modalidades['Id'] }}">{{ $modalidades['Id']." - ".$modalidades['Nombre_Modalidad'] }}</option>
+                                    <option style="text-transform: uppercase;" value="{{ $modalidades['Id'] }}">{{ $modalidades['Id'].". ".$modalidades->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$modalidades->deporte['Nombre_Deporte']." - ".$modalidades['Nombre_Modalidad'] }}</option>
                                 @endforeach
                             </select>
                         </div>

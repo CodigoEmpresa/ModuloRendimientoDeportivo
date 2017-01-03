@@ -27,7 +27,7 @@
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
                         <div class="form-group">
-                            <label class="control-label" for="Id_TipoDocumento">Rama</label>
+                            <label class="control-label" for="Id_TipoDocumento">Búsqueda de Rama</label>
                             <select name="Id_rm" id="Id_rm" class="form-control">
                                 <option value="">Seleccionar</option>
                                 @foreach($Rama as $rama)

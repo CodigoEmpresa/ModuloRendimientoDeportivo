@@ -183,7 +183,7 @@ class CertamenController extends Controller
 	}
 
 	public function GetDivisionDeportista(Request $request, $id_division){
-		$Division = Division::find($id_division);
+		$Division = Division::with('Agrupacion', 'Deporte', 'Modalidad', 'Rama', 'Categoria')->find($id_division);
 		return $Division;
 	}
 

@@ -76,6 +76,10 @@ class Talla extends Seeder
             ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '43', 'Uk' => '9.5', 'Usa' => '10'],
             ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '44', 'Uk' => '10', 'Usa' => '10.5'],
             ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '45', 'Uk' => '10.5', 'Usa' => '11'],
+            ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '34', 'Uk' => '3', 'Usa' => '3.5'],
+            ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '35', 'Uk' => '3.5', 'Usa' => '4'],
+            ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '36', 'Uk' => '4', 'Usa' => '4.5'],
+            ['Tipo_Talla_Id' => '2', 'Genero_Id' => '1', 'Eu' => '37', 'Uk' => '4.5', 'Usa' => '5'],
           
         ]);
     }

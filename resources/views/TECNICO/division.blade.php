@@ -27,7 +27,7 @@
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
                         <div class="form-group">
-                            <label class="control-label" for="Id_TipoDocumento">División</label>
+                            <label class="control-label" for="Id_TipoDocumento">Búsqueda de División</label>
                             <select class="form-control selectpicker" name="Id_Division" id="Id_Division" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($Division as $Divisiones)

@@ -83,7 +83,7 @@ function Buscar(e){
            
             $("#Id_Persona").val(data[0]['Id_Persona']);
             $("#Nombres").append(data[0]['Primer_Nombre']+' '+data[0]['Segundo_Nombre']+' '+data[0]['Primer_Apellido']+' '+data[0]['Segundo_Apellido']);
-            $("#Identificacion").append('Identificación '+data[0]['Cedula']);
+            $("#Identificacion").append('IDENTIFICACIÓN '+data[0]['Cedula']);
             
 
 
@@ -91,7 +91,7 @@ function Buscar(e){
                 $("#Tipo_Persona").empty();
                 $("#Tipo_Persona").append('<option value="">Seleccionar</option>');
                 $.each(Tipos, function(i, e){
-                    $("#Tipo_Persona").append('<option value="'+e['Id_Tipo']+'">'+e['Nombre']+'</option>');
+                    $("#Tipo_Persona").append('<option style="text-transform: uppercase;" value="'+e['Id_Tipo']+'">'+e['Nombre']+'</option>');
                 });
             }).done(function(){
                 $.get('persona_tipoEspe2/'+data[0]['Id_Persona'],{}, function(TipoPers){
@@ -100,7 +100,7 @@ function Buscar(e){
                     t.row.add( ['1','1', '1'] ).clear().draw( false );
                     $.each(TipoPers, function(i, e){
                         t.row.add( [
-                            e['Nombre'],                            
+                            '<div style="text-transform: uppercase;">'+e['Nombre']+'</div>',
                             '<center><button type="button" class="btn btn-danger" onclick="EliminarTipo('+e['Id_Tipo']+')">Eliminar</button></center>',
                         ] ).draw( false );
                     });
