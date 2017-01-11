@@ -124,12 +124,6 @@ class ValoracionPsicoController extends Controller
 			}
 			/*****************************************************/
 
-			/*******************PREGUNTA 12***********************/
-			if(isset($request->op13)){
-				$this->PreguntaA1($ValoracionPsico->Id, 'P12', $request->op12, $request->otro12);
-			}
-			/*****************************************************/
-
 			/*******************PREGUNTA 26***********************/
 		//	$this->PreguntaA1($ValoracionPsico->Id, 'P26', $request->op26, 'Otros', $request->otro26);
 			/*****************************************************/
@@ -301,9 +295,9 @@ class ValoracionPsicoController extends Controller
 			/****************************************************/
 
 
-
-			
-
+			/*******************PREGUNTA 12***********************/
+			$this->PreguntaB($ValoracionPsico->Id, 'P12', $request->op12, $request->otro12);
+			/*****************************************************/
 	       /*******************PREGUNTA 28-1***********************/
 			$this->PreguntaB($ValoracionPsico->Id, 'P281', $request->op281, $request->otro281);
 			/*****************************************************/
@@ -518,12 +512,6 @@ class ValoracionPsicoController extends Controller
 			}
 			/*****************************************************/
 
-			/*******************PREGUNTA 12***********************/
-			if(isset($request->op13)){
-				$this->PreguntaA1($ValoracionPsico->Id, 'P12', $request->op12, $request->otro12);
-			}
-			/*****************************************************/
-
 			/*******************PREGUNTA 26***********************/
 			//$this->PreguntaA1($ValoracionPsico->Id, 'P26', $request->op26, 'Otros', $request->otro26);
 			/*****************************************************/
@@ -693,10 +681,9 @@ class ValoracionPsicoController extends Controller
 			$PreguntaA->save();
 			/****************************************************/
 
-
-
-			
-
+			/*******************PREGUNTA 12***********************/
+			$this->PreguntaB($ValoracionPsico->Id, 'P12', $request->op12, $request->otro12);
+			/*****************************************************/				
 	       /*******************PREGUNTA 28-1***********************/
 			$this->PreguntaB($ValoracionPsico->Id, 'P281', $request->op281, $request->otro281);
 			/*****************************************************/

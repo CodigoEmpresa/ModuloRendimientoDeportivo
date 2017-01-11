@@ -143,7 +143,7 @@ class RegistroValoracionPsico extends Request
         'op54' => 'array|required',
         //'vector_idiomas' => 'required|min:4',
         'vector_quien' => 'required|min:4',
-        'vector_riesgo'=> 'required|min:4',
+        //'vector_riesgo'=> 'required|min:4',
             ];
         $contador4 = count($this->op4)-1;
         if ($this->op4[$contador4] == 'Otros'){ $validaciones['otro4'] = 'required'; }

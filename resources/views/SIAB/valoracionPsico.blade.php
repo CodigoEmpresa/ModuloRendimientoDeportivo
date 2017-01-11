@@ -376,7 +376,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o1" value="Soltero(a)">Soltero(a)</label></div>
-                                        <div class="radio"><label><input type="radio" name="op1" id="p1o2" value="En unión libre">En unión libre</label></div>
+                                        <div class="radio"><label><input type="radio" name="op1" id="p1o2" value="Casado(a)">Casado(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o3" value="Divorciado(a)">Divorciado(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o4" value="Viudo(a)">Viudo(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o5" value="Unión libre">Unión libre</label></div>
