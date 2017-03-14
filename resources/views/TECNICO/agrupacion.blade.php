@@ -160,8 +160,8 @@
                         </tfoot>
                         <tbody>
                             @foreach($agrupacion_datos as $agrupaciones)
-                                <tr>
-                                    <td>{{ $agrupaciones['Id'] }}</td>
+                                <tr style="text-transform: uppercase;">
+                                    <td >{{ $agrupaciones['Id'] }}</td>
                                     <td>{{ $agrupaciones['Nombre_Agrupacion'] }}</td>
                                     <td>{{ $agrupaciones->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>                                    
                                 </tr>

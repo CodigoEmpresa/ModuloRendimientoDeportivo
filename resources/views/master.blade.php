@@ -118,7 +118,7 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">SIAB <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
                   
-                      <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas</a></li>
+                      <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas (RUD)</a></li>
                   
                       <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>
                   
@@ -135,7 +135,9 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">TÉCNICO <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>                      
+                      <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>    
+                      <li class=”{{ Request::is( 'rue') ? 'active' : '' }}”><a href="{{ URL::to( 'rue') }}">Registro único de entrenadores (RUE)</a></li>                  
+                      <li class=”{{ Request::is( 'VEntrenadorDeportista') ? 'active' : '' }}”><a href="{{ URL::to( 'VEntrenadorDeportista') }}">Vinculación de entrenadores y deportistas</a></li>                  
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">REGISTRO LÍNEA DEPORTIVA</a></li>                      
                       

@@ -12,6 +12,10 @@
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
+            <br>
+            <center>
+                <h4>Ingrese el número de cédula de la persona a la cual le va a gestionar los permisos</h4>
+            </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">Buscar persona</h3>

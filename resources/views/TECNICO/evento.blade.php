@@ -29,7 +29,7 @@
                     </thead>
                     <tbody> 
                     @foreach($Evento as $Evento)
-                        <tr>
+                        <tr style="text-transform: uppercase;">
                             <td>{{ $Evento['Nombre_Evento'] }}</td>
                             <td>{{ $Evento->clasificacionDeportiva['Nombre_Clasificacion_Deportista'] }}</td>
                             <td>{{ $Evento->tipoNivel['Nombre_Tipo_Nivel'] }}</td>

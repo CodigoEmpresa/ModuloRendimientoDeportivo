@@ -136,7 +136,7 @@
                         </tfoot>
                         <tbody>
                             @foreach($Rama as $Rama)
-                                <tr>
+                                <tr style="text-transform: uppercase;">
                                     <td>{{ $Rama['Id'] }}</td>
                                     <td>{{ $Rama['Nombre_Rama'] }}</td>
                                 </tr>

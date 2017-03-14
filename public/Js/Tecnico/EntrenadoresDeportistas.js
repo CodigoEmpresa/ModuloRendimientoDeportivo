@@ -1,6 +1,6 @@
 $(function(e){  
 
-    $("#AgregarTipo").on('click', function(){
+  /*  $("#AgregarTipo").on('click', function(){
         $("#Id_Persona").val();
         var formData = new FormData($("#registro")[0]);
         var token = $("#token").val();      
@@ -42,18 +42,18 @@ $(function(e){
             }
         });
 
-    });
+    });*/
 
-    var validador_errores = function(data){
+   /* var validador_errores = function(data){
 
         $('#registro .form-group').removeClass('has-error');
 
         $.each(data, function(i, e){
             $("#"+i).closest('.form-group').addClass('has-error');
         });
-    }
+    }*/
 
-    $('#personaTipoTabla').DataTable({
+   /* $('#personaTipoTabla').DataTable({
         retrieve: true,
         buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
@@ -68,7 +68,7 @@ $(function(e){
             url: 'public/DataTables/Spanish.json',
             searchPlaceholder: "Buscar"
         }
-    });
+    });*/
  
 });
 
@@ -77,52 +77,40 @@ function Buscar(e){
     t.row.add( ['1','1', '1'] ).clear().draw( false );  
 
     var key = $('input[name="buscador"]').val(); 
-    $.get('personaBuscarDeportista/'+key,{}, function(data){  
 
-        if(data.length > 0){      
-           
-            $("#Id_Persona").val(data[0]['Id_Persona']);
-            $("#Nombres").append(data[0]['Primer_Nombre']+' '+data[0]['Segundo_Nombre']+' '+data[0]['Primer_Apellido']+' '+data[0]['Segundo_Apellido']);
-            $("#Identificacion").append('IDENTIFICACIÓN '+data[0]['Cedula']);
-
-            $.get('persona_tipoEspe/'+data[0]['Id_Persona'],{}, function(Tipos){
-                $("#Tipo_Persona").empty();
-                $("#Tipo_Persona").append('<option value="">Seleccionar</option>');
-                $.each(Tipos, function(i, e){
-                    $("#Tipo_Persona").append('<option style="text-transform: uppercase;" value="'+e['Id_Tipo']+'">'+e['Nombre']+'</option>');
-                });
-            }).done(function(){
-                $.get('persona_tipoEspe2/'+data[0]['Id_Persona'],{}, function(TipoPers){
-                var t = $('#personaTipoTabla').DataTable();
-                if(TipoPers.length != 0){                
-                    t.row.add( ['1','1', '1'] ).clear().draw( false );
-                    $.each(TipoPers, function(i, e){
-                        t.row.add( [
-                            '<div style="text-transform: uppercase;">'+e['Nombre']+'</div>',
-                            '<center><button type="button" class="btn btn-danger" onclick="EliminarTipo('+e['Id_Tipo']+')">Eliminar</button></center>',
-                        ] ).draw( false );
-                    });
-                }
-
-                }).done(function(){
-                    $("#AsignarPersonas").show('slow');
-                        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-                        $('#buscar span').empty();
-                        document.getElementById("buscar").disabled = false;    
-                });
-                
-            });            
-
-        }else{    
-            $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+    $.get('buscarTipoPersona/'+key,{}, function(TipoPersona){  
+    	//console.log(TipoPersona);
+		if(TipoPersona.Respuesta == 1){
+			$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
             $('#buscar span').empty();
             document.getElementById("buscar").disabled = false;
-            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">'+TipoPersona.Mensaje+'</h4></dvi><br>');
             $('#paginador').fadeOut();
-        }        
-    },
-    'json'
-    );
+		}else if(TipoPersona.Respuesta== 2){
+			 $.get('personaBuscarDeportista/'+key,{}, function(PersonaData){  
+			 	$.get("entrenador/" + PersonaData[0]['Id_Persona'] + "", function (EntrenadorData) {
+			 	console.log(EntrenadorData.entrenador)			 		;
+			 		if(EntrenadorData.entrenador != null){
+			 			$("#Id_Persona").val(PersonaData[0]['Id_Persona']);
+			            $("#Nombres").append(PersonaData[0]['Primer_Nombre']+' '+PersonaData[0]['Segundo_Nombre']+' '+PersonaData[0]['Primer_Apellido']+' '+PersonaData[0]['Segundo_Apellido']);
+			            $("#Identificacion").append('IDENTIFICACIÓN '+PersonaData[0]['Cedula']);
+			            $("#AsignarPersonas").show('slow');		            		 			 	
+			 		}else{
+			 			$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+			            $('#buscar span').empty();
+			            document.getElementById("buscar").disabled = false;
+			            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ningun entrenador registrado con estos datos!.</h4></dvi><br>');
+			            $('#paginador').fadeOut();				
+			 		}
+			 	}).done(function(){                    
+                    $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+                    $('#buscar span').empty();
+                    document.getElementById("buscar").disabled = false;    
+                });
+			 });
+
+		}
+	});   
 }
 
 function Reset_campos(e){    
@@ -137,7 +125,7 @@ function Reset_campos(e){
     $("#Registrar").hide();
 }
 
-function EliminarTipo(id_Tipo){
+/*function EliminarTipo(id_Tipo){
     var token = $("#token").val();  
      $.ajax({
         type: 'POST',
@@ -178,4 +166,4 @@ function EliminarTipo(id_Tipo){
         error: function (xhr){              
         }
     });
-} 
+} */

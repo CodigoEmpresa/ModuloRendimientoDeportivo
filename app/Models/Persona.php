@@ -24,4 +24,9 @@ class Persona extends MPersona
     public function metodologoAgrupacion() {
         return $this->belongsToMany('App\Models\Agrupacion', 'metodologo_agrupacion', 'Persona_Id', 'Agrupacion_Id');
     }
+
+    public function entrenador()
+    {
+        return $this->hasOne('App\Models\Entrenador', 'Persona_Id');
+    }
 }

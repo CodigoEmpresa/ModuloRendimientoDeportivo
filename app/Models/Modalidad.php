@@ -17,4 +17,8 @@ class Modalidad extends Model
     public function division(){   
         return $this->hasMany('App\Models\Division', 'Modalidad_Id');  
     }
+
+   public function modalidad_clasificacion_funcional() {
+        return $this->hasMany('App\Models\Modalidad_Clasificacion_Funcional', 'Modalidad_Id');  
+    }
 }

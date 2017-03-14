@@ -2,23 +2,23 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/ADMINISTRACION/persona_tipo.js') }}"></script>
+    <script src="{{ asset('public/Js/TECNICO/EntrenadoresDeportistas.js') }}"></script>
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}      
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
-<center><h3>ASIGNACIÓN DE TIPO PERSONA</h3></center>
+<center><h3>VINCULACIÓN DE ENTRENADORES Y DEPORTISTAS</h3></center>
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
             <br>
             <center>
-                <h4>Ingrese el número de cédula de la persona a la cual le va a gestionar los "Tipos"</h4>
+                <h4>Ingrese el número de cédula del entrenador al cual desea asignarle los deportistas, para la conformación del equipo de trabajo</h4>
             </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Buscar persona</h3>
+                  <h3 class="panel-title">Buscar entrenador</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1070955787" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -57,7 +57,7 @@
                                                             <div class="col-xs-12 col-sm-6 col-md-3"><small id="Identificacion"></small></div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-xs-12 col-md-4">
+                                                    <!--<div class="form-group col-xs-12 col-md-4">
                                                         <div class="row">
                                                             <label class="control-label" for="Id_TipoDocumento">Tipo de persona</label>
                                                             <select name="Tipo_Persona" id="Tipo_Persona" class="form-control">
@@ -69,7 +69,7 @@
                                                         <div class="form-group text-center">
                                                             <button type="button" class="btn btn-primary" id="AgregarTipo">Agregar</button>
                                                         </div>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                             </div>
                                             <br> 
@@ -78,7 +78,7 @@
                                                     <div id="alert_evento1"></div>
                                                 </div>
                                             </div>
-                                            <div class="panel-body">
+                                          <!--  <div class="panel-body">
                                                 <table id="personaTipoTabla" name="personaTipoTabla" class="display nowrap" cellspacing="0" width="100%">
                                                     <thead>
                                                         <tr>
@@ -89,7 +89,7 @@
                                                     <tbody>                                         
                                                     </tbody> 
                                                 </table>
-                                            </div>   
+                                            </div>   -->
                                         </li>                                    
                                     </div>
                                     <div id="paginador" class="col-xs-12"></div>                            

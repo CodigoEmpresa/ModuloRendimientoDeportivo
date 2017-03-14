@@ -63,6 +63,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/personaDeportista/{id}','PersonaDeportistaController@obtener');
 	Route::get('/personaBuscarDeportista/{id}','PersonaDeportistaController@buscar');
 	/****RUD****/
+	Route::get('buscarTipoPersonaRUD/{cedula}', 'EntrenadorController@BuscarTipoPersonaRUD');  
 	Route::get('getTallas/{id_genero}/{id_tipo}', 'DeportistaController@Tallas');  
 	Route::get('deportista/{id}','DeportistaController@datos');
 	Route::post('AddDeportista', 'DeportistaController@RegistrarDeportista');
@@ -208,8 +209,19 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddRegistroDeportistaN','RegistroResultadosController@AgregarRegistroDeportistaN');			
 	Route::get('getCertamenDivisionResultados/{id_certamenDivision}','RegistroResultadosController@GetCertamenDivisionResultados');
 	Route::post('deleteCertamenDivisionRegistro/{id}','RegistroResultadosController@EliminarCertamenDivisionRegistro');
-
-	
 	
 	/*************************************************/
+
+	/********************ENTRENADORES***************************/
+	Route::get('rue','EntrenadorController@index');
+	Route::get('buscarTipoPersona/{cedula}','EntrenadorController@BuscarTipoPersona');
+	Route::get('entrenador/{id}','EntrenadorController@datosEntrenador');
+	Route::post('AddEntrenador', 'EntrenadorController@RegistrarEntrenador');
+	Route::post('EditEntrenador', 'EntrenadorController@ModificarEntrenador');
+
+	Route::get('VEntrenadorDeportista','EntrenadorController@VincEntrenadorDeportista');
+	Route::get('entrenadorDeportistaDatos','EntrenadorController@entrenadorDeportistaDatos');
+	
+
+	/***********************************************************/
 });

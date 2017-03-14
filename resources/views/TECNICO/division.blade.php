@@ -329,7 +329,7 @@
                         </tfoot>
                         <tbody>
                             @foreach($Division as $Divisiones)
-                                <tr>
+                                <tr style="text-transform: uppercase;">
                                     <td>{{ $Divisiones['Id'] }}</td>                                    
                                     <td>{{ $Divisiones['Nombre_Division'] }}</td>
                                     <td>{{ $Divisiones->tipoEvaluacion['Nombre_Tipo_Evaluacion'] }}</td>

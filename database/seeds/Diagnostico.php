@@ -13,7 +13,7 @@ class Diagnostico extends Seeder
     {
         DB::table('diagnostico')->delete();        
         DB::table('diagnostico')->insert([
-            ['Nombre_Diagnostico' => 'Aquirido'],
+            ['Nombre_Diagnostico' => 'Adquirido'],
             ['Nombre_Diagnostico' => 'Congénito'],
             ['Nombre_Diagnostico' => 'Genético'],
         ]);
