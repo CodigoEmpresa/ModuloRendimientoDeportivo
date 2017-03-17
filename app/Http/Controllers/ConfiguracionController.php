@@ -13,30 +13,28 @@ use App\Models\Categoria;
 use App\Models\ClasificacionDeportista;
 use App\Models\TipoEvaluacion;
 use App\Models\Division;
+use App\Models\ClasificacionFuncional;
 
 class ConfiguracionController extends Controller
 {
     //----------------------AGRUPACIÓN--------------------------------------
-    public function inicio()
-	{
+    public function inicio()	{
         $Agrupacion =  Agrupacion::with('ClasificacionDeportista')->get();
-        $clasificacion_deportista =  ClasificacionDeportista::all();
+        $clasificacion_deportista =  ClasificacionDeportista::all();        
     	$datos = [
             'agrupacion_datos' => $Agrupacion,
-            'clasificacion_deportista' => $clasificacion_deportista,
+            'clasificacion_deportista' => $clasificacion_deportista,            
 		];
 	    return view('TECNICO/agrupacion', $datos);
 	}
 
-	public function guardar(Request $input)
-	{
+	public function guardar(Request $input)	{
 		$model_A = new Agrupacion;
 		return $this->crear_agrupacion($model_A, $input);
 	}
 
 
-	public function crear_agrupacion($model_A, $input)
-	{
+	public function crear_agrupacion($model_A, $input)	{
 		$validator = Validator::make($input->all(),
 		    [
 				'Id_Clase' => 'required',
@@ -54,16 +52,12 @@ class ConfiguracionController extends Controller
 		}
 	}
 
-
-	public function agrupacion(Request $input , $id)
-	{
+	public function agrupacion(Request $input , $id){
 		$model_A = Agrupacion::find($id);
 		return $model_A;
 	}
 
-
-	public function agrupacionDeporte(Request $input , $id)
-	{
+	public function agrupacionDeporte(Request $input , $id){
 		$model_A = Agrupacion::find($id);
 		if($model_A->delete()){
 			return response()->json(array('status' => 'True'));
@@ -72,9 +66,7 @@ class ConfiguracionController extends Controller
 		}		
 	}
 
-
-	public function agrupacionEliminar(Request $input , $id)
-	{
+	public function agrupacionEliminar(Request $input , $id){
 		$model_A = Agrupacion::find($id);
 		if($model_A->delete()){
 			return response()->json(array('status' => 'True'));
@@ -83,15 +75,12 @@ class ConfiguracionController extends Controller
 		}		
 	}
 
-	public function modificar(Request $input)
-	{
+	public function modificar(Request $input){
 		$modelo=Agrupacion::find($input["id_agrup"]);
 		return $this->modificar_agrupacion($modelo, $input);
 	}
 
-
-	public function modificar_agrupacion($modelo, $input)
-	{
+	public function modificar_agrupacion($modelo, $input){
 		$validator = Validator::make($input->all(),
 		    [
 				'Id_cla' => 'required',
@@ -107,14 +96,11 @@ class ConfiguracionController extends Controller
 			$modelo->save();
 			return $modelo;
 		}
-
 	}
-
 
 	//----------------------DEPORTE--------------------------------------
 
-	public function deporte()
-	{
+	public function deporte(){
 		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->get();
         $Agrupacion = new Agrupacion;
         $clasificacion_deportista = new ClasificacionDeportista;
@@ -127,14 +113,12 @@ class ConfiguracionController extends Controller
 	    return view('TECNICO/deporte', $datos);
 	}
 
-	public function crear_dpt(Request $input)
-	{
+	public function crear_dpt(Request $input)	{
 		$model_A = new Deporte;
 		return $this->crear_deporte($model_A, $input);
 	}
 
-	public function crear_deporte($model_A, $input)
-	{
+	public function crear_deporte($model_A, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -153,16 +137,13 @@ class ConfiguracionController extends Controller
 		}
 	}
 
-	public function id_deporte(Request $input , $id)
-	{
+	public function id_deporte(Request $input , $id){
 
 		$model_A = Deporte::find($id);
 		return $model_A;
 	}
 
-
-	public function deporteEliminar(Request $input , $id)
-	{
+	public function deporteEliminar(Request $input , $id){
 
 		$model_A = Deporte::find($id);
 
@@ -170,28 +151,21 @@ class ConfiguracionController extends Controller
 			return response()->json(array('status' => 'True'));
 		}else{
 			return response()->json(array('status' => 'False'));
-		}
-		
+		}		
 	}
 
-
-	public function ver_deporte(Request $input , $id)
-	{
-
+	public function ver_deporte(Request $input , $id){
 		$model_A = Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->find($id);
 		return $model_A;
 	}
 
-
-
-	public function modificar_dpt(Request $input)
-	{
+	public function modificar_dpt(Request $input){
 		$modelo=Deporte::find($input["id_Dpt"]);
 
 		return $this->modificar_deporte($modelo, $input);
 	}
-	public function modificar_deporte($modelo, $input)
-	{
+
+	public function modificar_deporte($modelo, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -208,35 +182,32 @@ class ConfiguracionController extends Controller
 			$modelo->save();
 			return $modelo;
 		}
-
 	}
-
 
 	//----------------------MODALIDAD--------------------------------------
 
-    public function modalidad()
-	{
+    public function modalidad(){
 
 		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->get();
         $Modalidad = Modalidad::with('deporte','deporte.agrupacion','deporte.agrupacion.ClasificacionDeportista')->get();
         $clasificacion_deportista = new ClasificacionDeportista;
+        $ClasificacionFuncional = ClasificacionFuncional::all();
 
     	$datos = [
     		'deporte'=>$Deporte->all(),
             'modalidad' => $Modalidad->all(),
             'clasificacion_deportista' => $clasificacion_deportista->all(),
+            'clasificacion_funcional' => $ClasificacionFuncional,
 		];
 	    return view('TECNICO/modalidad', $datos);
 	}
 
-	public function crear_mdl(Request $input)
-	{
+	public function crear_mdl(Request $input){
 		$model_A = new Modalidad;
 		return $this->crear_modalidad($model_A, $input);
 	}
 
-	public function crear_modalidad($model_A, $input)
-	{
+	public function crear_modalidad($model_A, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -255,16 +226,12 @@ class ConfiguracionController extends Controller
 		}
 	}
 
-	public function ver_modalidad(Request $input , $id)
-	{
-		$Modalidad = Modalidad::with('deporte', 'deporte.agrupacion','deporte.agrupacion.ClasificacionDeportista')->find($id);
+	public function ver_modalidad(Request $input , $id){
+		$Modalidad = Modalidad::with('deporte', 'deporte.agrupacion','deporte.agrupacion.ClasificacionDeportista', 'ModalidadClasificacionFuncional')->find($id);
 		return $Modalidad;
 	}
 
-
-
-	public function eliminarModalidad(Request $input , $id)
-	{
+	public function eliminarModalidad(Request $input , $id){
 
 		$model_A = Modalidad::find($id);
 
@@ -272,19 +239,16 @@ class ConfiguracionController extends Controller
 			return response()->json(array('status' => 'True'));
 		}else{
 			return response()->json(array('status' => 'False'));
-		}
-		
+		}		
 	}
 
-
-	public function modificar_mdl(Request $input)
-	{
+	public function modificar_mdl(Request $input){
 		$modelo=Modalidad::find($input["id_Mdl"]);
 
 		return $this->modificar_modalidad($modelo, $input);
 	}
-	public function modificar_modalidad($modelo, $input)
-	{
+
+	public function modificar_modalidad($modelo, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -301,26 +265,21 @@ class ConfiguracionController extends Controller
 			$modelo->save();
 			return $modelo;
 		}
-
 	}
-
 
 	//----------------------RAMA--------------------------------------
 
-    public function rama()
-	{
+    public function rama(){
 		$Rama = Rama::all();
 		return view('TECNICO/rama')->with(compact('Rama'));
 	}
 
-	public function crear_rm(Request $input)
-	{
+	public function crear_rm(Request $input){
 		$model_A = new Rama;
 		return $this->crear_rama($model_A, $input);
 	}
 
-	public function crear_rama($model_A, $input)
-	{
+	public function crear_rama($model_A, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -337,14 +296,12 @@ class ConfiguracionController extends Controller
 		}
 	}
 
-	public function ver_rama(Request $input , $id)
-	{
+	public function ver_rama(Request $input , $id){
 		$model_A = Rama::find($id);
 		return $model_A;
 	}
 
-	public function eliminarRama(Request $input , $id)
-	{
+	public function eliminarRama(Request $input , $id){
 
 		$model_A = Rama::find($id);
 
@@ -356,15 +313,13 @@ class ConfiguracionController extends Controller
 		
 	}
 
-
-	public function modificar_rm(Request $input)
-	{
+	public function modificar_rm(Request $input){
 		$modelo=Rama::find($input["id_Rm"]);
 
 		return $this->modificar_rama($modelo, $input);
 	}
-	public function modificar_rama($modelo, $input)
-	{
+
+	public function modificar_rama($modelo, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -379,15 +334,11 @@ class ConfiguracionController extends Controller
 			$modelo->save();
 			return $modelo;
 		}
-
 	}
-
-
 
    //----------------------CATEGORIA--------------------------------------
 
-    public function categoria()
-	{
+    public function categoria(){
 
 		$Categoria = new Categoria;
 
@@ -397,14 +348,12 @@ class ConfiguracionController extends Controller
 	    return view('TECNICO/categoria', $datos);
 	}
 
-	public function crear_ct(Request $input)
-	{
+	public function crear_ct(Request $input){
 		$model_A = new Categoria;
 		return $this->crear_categoria($model_A, $input);
 	}
 
-	public function crear_categoria($model_A, $input)
-	{
+	public function crear_categoria($model_A, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -421,16 +370,12 @@ class ConfiguracionController extends Controller
 		}
 	}
 
-
-	public function ver_categoria(Request $input , $id)
-	{
+	public function ver_categoria(Request $input , $id){
 		$model_A = Categoria::find($id);
 		return $model_A;
 	}
 
-
-	public function eliminarCategoria(Request $input , $id)
-	{
+	public function eliminarCategoria(Request $input , $id){
 
 		$model_A = Categoria::find($id);
 
@@ -438,20 +383,16 @@ class ConfiguracionController extends Controller
 			return response()->json(array('status' => 'True'));
 		}else{
 			return response()->json(array('status' => 'False'));
-		}
-		
+		}		
 	}
 
-
-
-	public function modificar_ct(Request $input)
-	{
+	public function modificar_ct(Request $input){
 		$modelo=Categoria::find($input["id_Ct"]);
 
 		return $this->modificar_categoria($modelo, $input);
 	}
-	public function modificar_categoria($modelo, $input)
-	{
+
+	public function modificar_categoria($modelo, $input){
 
 		$validator = Validator::make($input->all(),
 		    [
@@ -466,14 +407,11 @@ class ConfiguracionController extends Controller
 			$modelo->save();
 			return $modelo;
 		}
-
 	}
-
 
 	//----------------------DIVISION--------------------------------------
 
-    public function division()
-	{
+    public function division(){
 		$TipoEvaluacion = TipoEvaluacion::all();
 		$Division = Division::with('tipoEvaluacion')->get();
 		$ClasificacionDeportista = ClasificacionDeportista::all();
@@ -489,14 +427,12 @@ class ConfiguracionController extends Controller
 			   ;
 	}
 
-	public function ver_division(Request $input , $id)
-	{
+	public function ver_division(Request $input , $id){
 		$Division = Division::with('tipoEvaluacion', 'Rama', 'Categoria', 'Deporte')->find($id);
 		return $Division;
 	}
 
-	public function modificar_division(request $request)
-	{
+	public function modificar_division(request $request){
 		$validator = Validator::make($request->all(),
 		    [
 		    'Clasificacion_IdE' => 'required',
@@ -536,8 +472,7 @@ class ConfiguracionController extends Controller
 		}		
 	}
 
-	public function crear_division(Request $request)
-	{
+	public function crear_division(Request $request){
 		$validator = Validator::make($request->all(),
 		    [
 		    'Clasificacion_Id' => 'required',

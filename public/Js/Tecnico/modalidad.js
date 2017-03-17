@@ -1,5 +1,6 @@
 var agrupacionT = '';
-var deporteT='';
+var deporteT ='';
+var clasificaciones_funcionales = new Array();
 $(function(){
 	$('#a_edicar').on('click', function(e){			
 		var Id_mdl=$('select[name="Id_mdl"]').val();
@@ -10,22 +11,25 @@ $(function(){
 			$('#div_nuevo').fadeOut(20);
 		}else{
 
-			$.get(
-	            'configuracion/ver_modalidad/'+Id_mdl,
-	            {},
-	            function(data){
-	            	console.log(data);
-	                if(data){	                	
-	                   $('#Id_Dept').val(data.Deporte_Id);
-	                   $('#nom_modl').val(data.Nombre_Modalidad);
-	                   $('#id_Mdl').val(data.Id);
-	                   $('#Id_Clasificacion').val(data.deporte.agrupacion.clasificacion_deportista['Id']).change();
-	                   agrupacionT = data.deporte.agrupacion['Id'];
-					   deporteT = data.deporte['Id'];
-	                }
-	            },
-	            'json'
-	        );
+			$.get('configuracion/ver_modalidad/'+Id_mdl,{},function(data){
+				console.log(data.modalidad_clasificacion_funcional);
+                if(data){	                	
+                   $('#Id_Dept').val(data.Deporte_Id);
+                   $('#nom_modl').val(data.Nombre_Modalidad);
+                   $('#id_Mdl').val(data.Id);
+                   $('#Id_Clasificacion').val(data.deporte.agrupacion.clasificacion_deportista['Id']).change();
+                   agrupacionT = data.deporte.agrupacion['Id'];
+				   deporteT = data.deporte['Id'];
+				   if(data.deporte.agrupacion.clasificacion_deportista['Id'] == 2) {
+				   }
+				   /*if(data.deporte.agrupacion.clasificacion_deportista['Id'] == 2) {
+				   		$("#Id_Clasificacion_FuncionalEdit").val(data.modalidad_clasificacion_funcional[0]['Id']).change();				   	
+				   		$("#CFE").show('slow');
+				   }else{				   	
+				   		$("#CFE").hide('slow');
+				   }*/
+                }
+            },'json');
 
 			$('#div_mensaje').fadeOut(20);
 			$('#div_editar').show(20);
@@ -178,6 +182,7 @@ $(function(){
 		vector_acompañantes.length=0;
     }); 
 
+
     $('#example').DataTable({
         retrieve: true,
         buttons: [
@@ -207,6 +212,12 @@ $(function(){
 				$("#Id_Agrupa").val(agrupacionT).change();
 				agrupacionT = '';
 			});
+
+			if($(this).val() == 2){
+				$("#ClasificacionFuncionalD").show('slow');
+			}else{
+				$("#ClasificacionFuncionalD").hide('slow');
+			}
 		}	
     }); 
 
@@ -260,7 +271,59 @@ $(function(){
 		}		
 	});
 
+	 /******************************CORRECCIONES LÍNEA DEPORTIVA PARALIMPICO***********************************************/
+
+	 $("#AddClasificacionFuncional").on('click', function(){
+	 	if($("#Id_Clasificacion_Funcional").val() != ''){
+		 	$("#TablaClasificacionFuncional").hide('slow');
+		 	$("#TablaClasificacionFuncional").empty();
+		 	var html = '<thead><th>CLASIFICACIÓN FUNCIONAL</th><th>OPCIONES</th></thead><tbody>';
+		 	clasificaciones_funcionales.push({ "Id_Clasificacion_Funciona": $("#Id_Clasificacion_Funcional").val(),
+	                                 		   "Nombre_Clasificacion_Funcional": $("#Id_Clasificacion_Funcional option:selected").text()
+	                                 		});
+
+		 	clasificaciones_funcionales = removeDuplicates(clasificaciones_funcionales, "Id_Clasificacion_Funciona");
+		 	$.each(clasificaciones_funcionales, function(i, e){
+		 		html += '<tr><td>'+e['Nombre_Clasificacion_Funcional']+'</td><td><button type="button" data-funcion="EliminarClasificacionF" class="btn btn-danger" value="'+i+'">Eliminar</button></td></tr>';
+		 	});
+		 	html += '</tbody>';
+		 	$("#TablaClasificacionFuncional").show('slow');
+		 	$("#TablaClasificacionFuncional").html(html);
+
+		 	$("#Id_Clasificacion_Funcional").val('').change();
+		 }
+	 });
 
 
+	$('#TablaClasificacionFuncional').delegate('button[data-funcion="EliminarClasificacionF"]','click',function (e) {  
+		clasificaciones_funcionales.splice(($(this).val()), 1);
+		$("#TablaClasificacionFuncional").hide('slow');
+		 	$("#TablaClasificacionFuncional").empty();
+		 	var html = '<thead><th>CLASIFICACIÓN FUNCIONAL</th><th>OPCIONES</th></thead><tbody>';
+		 	clasificaciones_funcionales.push({ "Id_Clasificacion_Funciona": $("#Id_Clasificacion_Funcional").val(),
+	                                 		   "Nombre_Clasificacion_Funcional": $("#Id_Clasificacion_Funcional option:selected").text()
+	                                 		});
 
+		 	clasificaciones_funcionales = removeDuplicates(clasificaciones_funcionales, "Id_Clasificacion_Funciona");
+		 	$.each(clasificaciones_funcionales, function(i, e){
+		 		html += '<tr><td>'+e['Nombre_Clasificacion_Funcional']+'</td><td><button type="button" data-funcion="EliminarClasificacionF" class="btn btn-danger" value="'+e['Id_Clasificacion_Funciona']+'">Eliminar</button></td></tr>';
+		 	});
+		 	html += '</tbody>';
+		 	$("#TablaClasificacionFuncional").show('slow');
+		 	$("#TablaClasificacionFuncional").html(html);
+	});
+
+	 function removeDuplicates(originalArray, prop) {
+	    var newArray = [];
+	    var lookupObject  = {};
+
+	    for(var i in originalArray) {
+	       lookupObject[originalArray[i][prop]] = originalArray[i];
+	    }
+
+	    for(i in lookupObject) {
+	        newArray.push(lookupObject[i]);
+	    }
+	    return newArray;
+	 }
 });

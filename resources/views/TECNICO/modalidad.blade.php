@@ -126,10 +126,10 @@
                         </div>
                         <div class="form-group col-md-4">
                             <select name="Id_Clase" id="Id_Clase" class="form-control">
-                                    <option value="">Seleccionar</option>
-                                    @foreach($clasificacion_deportista as $clasificacion_deportistas)
-                                        <option value="{{ $clasificacion_deportistas['Id'] }}">{{ $clasificacion_deportistas['Nombre_Clasificacion_Deportista'] }}</option>
-                                    @endforeach
+                                <option value="">Seleccionar</option>
+                                @foreach($clasificacion_deportista as $clasificacion_deportistas)
+                                    <option value="{{ $clasificacion_deportistas['Id'] }}">{{ $clasificacion_deportistas['Nombre_Clasificacion_Deportista'] }}</option>
+                                @endforeach
                             </select>
                         </div>     
                         <div class="form-group col-md-2">                    
@@ -154,6 +154,30 @@
                         <div class="form-group col-md-4">
                             <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Modalidad" name="Nom_Modalidad">
                         </div> 
+                        
+                        
+                        <div id="ClasificacionFuncionalD" class="list-group-item form-group col-md-12" style="display: none;">
+                            <div class="form-group col-md-2">
+                                <label class="control-label" for="Id_TipoDocumento">Clasificación Funcional:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Id_Clasificacion_Funcional" id="Id_Clasificacion_Funcional" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($clasificacion_funcional as $clasificacion_funcionales)
+                                        <option value="{{ $clasificacion_funcionales['Id'] }}">{{ $clasificacion_funcionales['Nombre_Clasificacion_Funcional'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>   
+                            <div class="form-group col-md-6">
+                                 <button type="button" class="btn btn-primary" name="AddClasificacionFuncional" id="AddClasificacionFuncional">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Clasificación
+                                </button>
+                            </div> 
+                           
+                            <table class="form-group col-md-8 table table-bordered" id="TablaClasificacionFuncional" style="display:none;">                                
+                            </table>
+                        </div>
+
                         <div class="form-group col-md-12">
                             <center><button type="button" class="btn btn-success" id="btn_crear_mdl">Crear</button></center>
                         </div> 

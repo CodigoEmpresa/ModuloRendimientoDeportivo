@@ -1,6 +1,7 @@
 var agrupacionT = '';
 var deporteT = '';
 var modalidadT = '';
+var clasificacionT = '';
 
 $(function(e){ 
 	$("#Diagnostico").on('change', function(){
@@ -35,12 +36,10 @@ $(function(e){
 
 	$("#Registrar").on('click', function(){				
 		registro('AddDeportista');
-
 	});
 
 	$("#Modificar").on('click', function(){
 		registro('EditDeportista');
-
 	});    
 
 	function registro (url){	
@@ -122,6 +121,7 @@ $(function(e){
 			$("#"+i).closest('.form-group').addClass('has-error');
       	});
 	}
+
 	$("#seccion_compromiso_ver").on('click', function(e){
 		var role = $(this).data('role');               
 		if(role == 'ver'){
@@ -206,7 +206,6 @@ $(function(e){
 			$("#MedicinaPrepagoE").show("slow");
 		}
 	});
-
 	
 	$("#LibretaPreg").on('change',function (e){
 		var id = $("#LibretaPreg").val();
@@ -216,7 +215,6 @@ $(function(e){
 			$("#militares").hide("slow");
 		}
 	});
-
 
 	$("#ClasificacionDeportista").on('change',function (e){
 		$("#Agrupacion").empty();
@@ -309,6 +307,40 @@ $(function(e){
 			});
 		}		
 	});
+
+	$("#Modalidad").on('change',function (e){
+		$("#ClasificacionFuncional").empty();
+		$("#ClasificacionFuncional").append("<option value=''>Seleccionar</option>");
+		var id = $("#Modalidad").val();
+		if(id != ''){
+			$.get("getClasificacionFuncional/" + id, function (clasificacionFuncional) {
+				console.log(clasificacionFuncional);
+				$.each(clasificacionFuncional.modalidad_clasificacion_funcional, function(i, e){
+					$("#ClasificacionFuncional").append("<option value='" +e.Id + "'>" + e.Nombre_Clasificacion_Funcional + "</option>");
+				});
+			}).done(function(){
+				$("#ClasificacionFuncional").val(clasificacionT).change();
+				clasificacionT = '';
+			});
+		}
+
+		/*$("#Liga").empty();
+		$("#Liga").append($("#Deporte option:selected").text());
+		$("#Modalidad").empty();
+		$("#Modalidad").append("<option value=''>Seleccionar</option>");
+
+		var id = $("#Deporte").val();
+		if(id != ''){
+			$.get("getModalidad/" + id, function (modalidad) {
+				$.each(modalidad.modalidad, function(i, e){
+					$("#Modalidad").append("<option value='" +e.Id + "'>" + e.Nombre_Modalidad + "</option>");
+				});				
+			}).done(function(){
+				$("#Modalidad").val(modalidadT).change();
+				modalidadT = '';
+			});
+		}*/		
+	});
 });
 
 function Buscar(e){	
@@ -362,6 +394,7 @@ function Buscar(e){
 		              				agrupacionT = DeportistaDeporte['Agrupacion_Id'];
 		              				deporteT = DeportistaDeporte['Deporte_Id'];
 		              				modalidadT =DeportistaDeporte['Modalidad_Id'];
+
 		              				$("#Club").val(DeportistaDeporte['Club_Id']);   
 		              				$('#Club').selectpicker('refresh');           				
 		              			}).done(function(){
@@ -445,7 +478,8 @@ function Buscar(e){
 									$("#SeccionSeisD").show('slow');
 									$("#Discapacidad").val(responseDep.deportista.deportista_paralimpico[0]['Discapacidad_Id']).change();
 									$("#Diagnostico").val(responseDep.deportista.deportista_paralimpico[0]['Diagnostico_Id']).change();
-									$("#CladificacionFuncional").val(responseDep.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id']).change();
+									//$("#ClasificacionFuncional").val(responseDep.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id']).change();
+									clasificacionT =responseDep.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id'];
 									$("#Silla").val(responseDep.deportista.deportista_paralimpico[0]['Silla_Id']).change();
 									$("#Cuidador").val(responseDep.deportista.deportista_paralimpico[0]['Uso_Silla_Id']).change();
 									$("#Auxiliar").val(responseDep.deportista.deportista_paralimpico[0]['Auxiliar_Id']).change();
@@ -619,7 +653,7 @@ function Reset_campos(e){
 
 	$("#Discapacidad").val('').change();
 	$("#Diagnostico").val('').change();
-	$("#CladificacionFuncional").val('').change();
+	$("#ClasificacionFuncional").val('').change();
 	$("#Silla").val('').change();
 	$("#Cuidador").val('').change();
 	$("#Auxiliar").val('').change();
@@ -636,4 +670,5 @@ function Reset_campos(e){
 	agrupacionT = '';
 	deporteT = '';
 	modalidadT = '';
+	clasificacionT = '';
 }

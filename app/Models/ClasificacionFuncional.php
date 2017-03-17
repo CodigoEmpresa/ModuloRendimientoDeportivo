@@ -12,9 +12,5 @@ class ClasificacionFuncional extends Model
 
     public function deportistaParalimpico(){
         return $this->hasMany('App\Models\DeportistaParalimpico', 'Clasificacion_Funcional_Id');
-    }
-
-    public function modalidad_clasificacion_funcional() {
-        return $this->hasMany('App\Models\Modalidad_Clasificacion_Funcional', 'Clasificacion_Funcional_Id');  
-    }
+    }    
 } 

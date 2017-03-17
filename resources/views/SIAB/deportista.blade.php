@@ -969,11 +969,8 @@
                             <label for="inputEmail" class="control-label" id="CladificacionFuncionalL">Clasificación funcional deportiva:</label>
                         </div>
                         <div class="form-group col-md-10">
-                            <select name="CladificacionFuncional" id="CladificacionFuncional" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($ClasificacionFuncional as $ClasificacionFuncional)
-                                    <option value="{{ $ClasificacionFuncional['Id'] }}">{{ $ClasificacionFuncional['Nombre_Clasificacion_Funcional'] }}</option>
-                                @endforeach                           
+                            <select name="ClasificacionFuncional" id="ClasificacionFuncional" class="form-control">
+                                <option value="">Seleccionar</option>                       
                             </select>
                         </div>
                         </div>

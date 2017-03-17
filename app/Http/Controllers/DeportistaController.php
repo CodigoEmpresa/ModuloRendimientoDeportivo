@@ -48,6 +48,7 @@ use App\Models\ClasificacionFuncional;
 use App\Models\UsoSilla;
 use App\Models\DeportistaParalimpico;
 use App\Models\Discapacidad;
+use App\Models\Modalidad;
 
 class DeportistaController extends Controller
 {
@@ -82,7 +83,7 @@ class DeportistaController extends Controller
 		$FondoPension = FondoPension::all();
 		$Club = Club::all();
 		$Diagnostico = Diagnostico::all();
-		$ClasificacionFuncional = ClasificacionFuncional::all();
+		/*$ClasificacionFuncional = ClasificacionFuncional::all();*/
 		$UsoSilla = UsoSilla::all();
 		$Discapacidad = Discapacidad::all();
 
@@ -246,7 +247,7 @@ class DeportistaController extends Controller
 					 	$DeportistaParalimpico = new DeportistaParalimpico;
 					 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
 					 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
-					 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+					 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->ClasificacionFuncional;
 					 	$DeportistaParalimpico->Silla_Id = $request->Silla;
 					 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
 					 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
@@ -373,7 +374,7 @@ class DeportistaController extends Controller
 					$DeportistaParalimpico = DeportistaParalimpico::find($DP[0]['Id']);
 				 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
 				 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
-				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->ClasificacionFuncional;
 				 	$DeportistaParalimpico->Silla_Id = $request->Silla;
 				 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
 				 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
@@ -390,7 +391,7 @@ class DeportistaController extends Controller
 					$DeportistaParalimpico = new DeportistaParalimpico;
 				 	$DeportistaParalimpico->Deportista_Id = $deportista->Id;
 				 	$DeportistaParalimpico->Diagnostico_Id = $request->Diagnostico;
-				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->CladificacionFuncional;
+				 	$DeportistaParalimpico->Clasificacion_Funcional_Id = $request->ClasificacionFuncional;
 				 	$DeportistaParalimpico->Silla_Id = $request->Silla;
 				 	$DeportistaParalimpico->Uso_Silla_Id = $request->Cuidador;
 				 	$DeportistaParalimpico->Auxiliar_Id = $request->Auxiliar;
@@ -438,6 +439,14 @@ class DeportistaController extends Controller
 	    	return ($Modalidades);
 	    }
     }
+
+    public function ClasificacionesFuncionales(Request $request, $id){
+    	if ($request->ajax()) { 
+	    	$ClasificacionFuncional = Modalidad::with('ModalidadClasificacionFuncional')->find($id);
+	    	return ($ClasificacionFuncional);
+	    }
+    }
+    
 
     public function DeportistaDeporte(Request $request, $id){
     	if ($request->ajax()) { 

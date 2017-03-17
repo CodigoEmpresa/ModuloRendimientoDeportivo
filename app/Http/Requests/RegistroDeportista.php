@@ -89,7 +89,7 @@ class RegistroDeportista extends Request
                 $validaciones['Discapacidad'] = 'required';
                 $validaciones['Diagnostico'] = 'required';
                 $validaciones['DiagnosticoEdad'] = array('required_if:Diagnostico,1');
-                $validaciones['CladificacionFuncional'] = 'required';
+                $validaciones['ClasificacionFuncional'] = 'required';
                 $validaciones['Silla'] = 'required';
                 $validaciones['Cuidador'] = array('required_if:Silla,1');
                 $validaciones['Auxiliar'] = array('required_if:Silla,1');
