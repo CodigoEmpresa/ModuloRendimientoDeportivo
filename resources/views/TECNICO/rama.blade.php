@@ -16,6 +16,7 @@
               <button type="button" class="btn btn-success" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorias</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='division'">Pruebas/Divisiones</button>
+              <button type="button" class="btn btn-info" onclick="window.location.href='clasificacion_funcional'">Clasificación Funcional</button>
             </div>
         </div>
         <br><br>

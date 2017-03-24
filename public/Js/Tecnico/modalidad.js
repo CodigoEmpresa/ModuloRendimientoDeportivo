@@ -2,7 +2,8 @@ var agrupacionT = '';
 var deporteT ='';
 var clasificaciones_funcionales = new Array();
 $(function(){
-	$('#a_edicar').on('click', function(e){			
+	$('#a_edicar').on('click', function(e){	
+	clasificaciones_funcionales = new Array();		
 		var Id_mdl=$('select[name="Id_mdl"]').val();
 		if(Id_mdl==""){
 			$('#div_mensaje').fadeIn(20);
@@ -12,7 +13,6 @@ $(function(){
 		}else{
 
 			$.get('configuracion/ver_modalidad/'+Id_mdl,{},function(data){
-				console.log(data.modalidad_clasificacion_funcional);
                 if(data){	                	
                    $('#Id_Dept').val(data.Deporte_Id);
                    $('#nom_modl').val(data.Nombre_Modalidad);
@@ -20,14 +20,21 @@ $(function(){
                    $('#Id_Clasificacion').val(data.deporte.agrupacion.clasificacion_deportista['Id']).change();
                    agrupacionT = data.deporte.agrupacion['Id'];
 				   deporteT = data.deporte['Id'];
-				   if(data.deporte.agrupacion.clasificacion_deportista['Id'] == 2) {
+				   if((data.modalidad_clasificacion_funcional).length > 0 ){
+					   	$.each(data.modalidad_clasificacion_funcional, function(i, e){
+					   		clasificaciones_funcionales.push({ "Id_Clasificacion_Funciona": e['Id'],
+	                                 		   "Nombre_Clasificacion_Funcional": e['Nombre_Clasificacion_Funcional']
+	                                 		});
+					   	});
 				   }
-				   /*if(data.deporte.agrupacion.clasificacion_deportista['Id'] == 2) {
-				   		$("#Id_Clasificacion_FuncionalEdit").val(data.modalidad_clasificacion_funcional[0]['Id']).change();				   	
-				   		$("#CFE").show('slow');
-				   }else{				   	
-				   		$("#CFE").hide('slow');
-				   }*/
+				   var html = '';
+
+				   $.each(clasificaciones_funcionales, function(i, e){
+				 		html += '<tr><td>'+e['Nombre_Clasificacion_Funcional']+'</td><td><button type="button" data-funcion="EliminarClasificacionFE" class="btn btn-danger" value="'+i+'">Eliminar</button></td></tr>';
+				 	});
+				 	html += '</tbody>';
+				 	$("#TablaClasificacionFuncionalE").show('slow');
+				 	$("#TablaClasificacionFuncionalE").html(html);				
                 }
             },'json');
 
@@ -81,11 +88,18 @@ $(function(){
 		return false;
 	});
 
-	$('#btn_crear_mdl').on('click', function(e){		
+	$('#btn_crear_mdl').on('click', function(e){	
+		var formData = new FormData($("#form_nuevo")[0]);
+		var json_vector_clasificaciones_funcionales = JSON.stringify(clasificaciones_funcionales);
+        formData.append("Clasificaciones_Funcionales",json_vector_clasificaciones_funcionales);	
+
 		$.ajax({
             type: 'POST',
             url: 'configuracion/crear_mdl',
-            data: $('#form_nuevo').serialize(),
+            data: formData,
+            contentType: false,
+            processData: false,
+           dataType: "json",
             success: function(data){
 
             	if(data.status == 'error')
@@ -100,6 +114,7 @@ $(function(){
 					}, 2500)  
 
 				}else{	
+					document.getElementById("form_nuevo").reset();
 					
 				    $("#div_mensaje2").removeClass("alert alert-danger");		
 					$("#div_mensaje2").addClass("alert alert-success");			
@@ -108,7 +123,8 @@ $(function(){
 					setTimeout(function(){
 						$('#div_mensaje2').fadeOut(); 
 					}, 2500)  
-
+					$("#TablaClasificacionFuncional").empty();
+					clasificaciones_funcionales = new Array();
 				}
 
             }
@@ -148,10 +164,15 @@ $(function(){
 
 
 	$('#btn_editar').on('click', function(e){
+		var formData = new FormData($("#form_edit")[0]);
+		var json_vector_clasificaciones_funcionales = JSON.stringify(clasificaciones_funcionales);
+        formData.append("Clasificaciones_Funcionales",json_vector_clasificaciones_funcionales);	
 		$.ajax({
             type: 'POST',
             url: 'configuracion/modificar_mdl',
-            data: $('#form_edit').serialize(),
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function(data){
             	if(data.status == 'error'){								
 					$("#div_mensaje2").removeClass("alert alert-warning");
@@ -251,6 +272,12 @@ $(function(){
 				$("#Id_Agrupacion").val(agrupacionT).change();
 				agrupacionT = '';
 			});
+
+			if($(this).val() == 2){
+				$("#ClasificacionFuncionalDE").show('slow');
+			}else{
+				$("#ClasificacionFuncionalDE").hide('slow');
+			}
 		}	
     });
 
@@ -326,4 +353,41 @@ $(function(){
 	    }
 	    return newArray;
 	 }
+
+
+	 $("#AddClasificacionFuncionalE").on('click', function(){
+	 	if($("#Id_Clasificacion_FuncionalE").val() != ''){
+		 	$("#TablaClasificacionFuncionalE").hide('slow');
+		 	$("#TablaClasificacionFuncionalE").empty();
+		 	var html = '<thead><th>CLASIFICACIÓN FUNCIONAL</th><th>OPCIONES</th></thead><tbody>';
+		 	clasificaciones_funcionales.push({ "Id_Clasificacion_Funciona": $("#Id_Clasificacion_Funcional").val(),
+	                                 		   "Nombre_Clasificacion_Funcional": $("#Id_Clasificacion_Funcional option:selected").text()
+	                                 		});
+
+		 	clasificaciones_funcionales = removeDuplicates(clasificaciones_funcionales, "Id_Clasificacion_Funciona");
+		 	$.each(clasificaciones_funcionales, function(i, e){
+		 		html += '<tr><td>'+e['Nombre_Clasificacion_Funcional']+'</td><td><button type="button" data-funcion="EliminarClasificacionFE" class="btn btn-danger" value="'+i+'">Eliminar</button></td></tr>';
+		 	});
+		 	html += '</tbody>';
+		 	$("#TablaClasificacionFuncionalE").show('slow');
+		 	$("#TablaClasificacionFuncionalE").html(html);
+
+		 	$("#Id_Clasificacion_FuncionalE").val('').change();
+		 }
+	 });
+
+	 $('#TablaClasificacionFuncionalE').delegate('button[data-funcion="EliminarClasificacionFE"]','click',function (e) { 
+		clasificaciones_funcionales.splice(($(this).val()), 1);
+		$("#TablaClasificacionFuncionalE").hide('slow');
+	 	$("#TablaClasificacionFuncionalE").empty();
+	 	var html = '<thead><th>CLASIFICACIÓN FUNCIONAL</th><th>OPCIONES</th></thead><tbody>';
+
+	 	clasificaciones_funcionales = removeDuplicates(clasificaciones_funcionales, "Id_Clasificacion_Funciona");
+	 	$.each(clasificaciones_funcionales, function(i, e){
+	 		html += '<tr><td>'+e['Nombre_Clasificacion_Funcional']+'</td><td><button type="button" data-funcion="EliminarClasificacionFE" class="btn btn-danger" value="'+e['Id_Clasificacion_Funciona']+'">Eliminar</button></td></tr>';
+	 	});
+	 	html += '</tbody>';
+	 	$("#TablaClasificacionFuncionalE").show('slow');
+	 	$("#TablaClasificacionFuncionalE").html(html);
+	});
 });

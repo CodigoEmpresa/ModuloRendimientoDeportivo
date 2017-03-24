@@ -165,6 +165,12 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('configuracion/crear_division','ConfiguracionController@crear_division');
 
 
+	Route::get('clasificacion_funcional','ConfiguracionController@clasificacion_funcional');
+	Route::post('configuracion/crear_clasificacion_funcional','ConfiguracionController@AddClasificacionFuncional');
+	Route::get('configuracion/ver_clasificacion_funcional/{id}','ConfiguracionController@verClasificacionFuncional');
+	Route::post('configuracion/modificar_clasificacion_funcional','ConfiguracionController@EditClasificacionFuncional');
+	
+
 	Route::get('eventos','EventoController@index');
 	Route::get('getEvento/{id}','EventoController@GetEvento');	
 	Route::post('AddEvento','EventoController@AgregarEvento');	
@@ -223,6 +229,13 @@ Route::group(['middleware' => ['web']], function () {
 
 	Route::get('VEntrenadorDeportista','EntrenadorController@VincEntrenadorDeportista');
 	Route::get('entrenadorDeportistaDatos','EntrenadorController@entrenadorDeportistaDatos');
+	Route::get('getEntrenadorDeportistasNO/{id_persona}','EntrenadorController@GetEntrenadorDeportistasNO');
+	Route::post('addVinculoDeportitaEntrenador', 'EntrenadorController@AddVinculoDeportitaEntrenador');
+	Route::post('deleteVinculoDeportitaEntrenador', 'EntrenadorController@DeleteVinculoDeportitaEntrenador');
+
+
+	Route::get('registro_plan','PlanesEntrenamientoController@index');
+
 	
 
 	/***********************************************************/

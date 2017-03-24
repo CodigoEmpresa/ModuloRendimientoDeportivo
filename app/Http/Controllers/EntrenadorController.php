@@ -32,21 +32,20 @@ use App\Models\Agrupacion;
 use App\Models\Deporte;
 use App\Models\DeportistaDeporte;
 use App\Models\PersonaTipo;
-
 use App\Models\Entrenador;
+use App\Models\Deportista;
+use App\Models\EntrenadorDeportista;
 
 class EntrenadorController extends Controller
 {
-    public function __construct(PersonaInterface $repositorio_personas)
-	{
+    public function __construct(PersonaInterface $repositorio_personas){
 		if (isset($_SESSION['Usuario']))
 			$this->Usuario = $_SESSION['Usuario'];
 
 		$this->repositorio_personas = $repositorio_personas;
 	}
 
-    public function index()
-	{
+    public function index(){
 		$Ciudad = Ciudad::all();
 		$ClasificacionDeportista = ClasificacionDeportista::all();
 		$Departamento = Departamento::all();
@@ -102,17 +101,12 @@ class EntrenadorController extends Controller
 	}
 
 	public function datosEntrenador($id){
-        $persona = Persona::with('entrenador'
-        					)->find($id);
+        $persona = Persona::with('entrenador', 'entrenador.entrenadorDeportista', 'entrenador.entrenadorDeportista.persona', 'entrenador.entrenadorDeportista.deportistaDeporte', 'entrenador.entrenadorDeportista.deportistaDeporte.agrupacion', 'entrenador.entrenadorDeportista.deportistaDeporte.deporte', 'entrenador.entrenadorDeportista.deportistaDeporte.modalidad')->find($id);
         return $persona;
     }
 
-
-    public function RegistrarEntrenador(RegistroEntrenador $request){ 
-    	//dd($request->all());
-    	
+    public function RegistrarEntrenador(RegistroEntrenador $request){     	
     	if ($request->ajax()) { 
-
     		$validator = Validator::make($request->all(), ['FotografiaDep' => 'mimes:jpeg,jpg,png,bmp',]);
 
 	        if ($validator->fails()){
@@ -196,7 +190,7 @@ class EntrenadorController extends Controller
     	}
     }
 
-     public function ModificarEntrenador(RegistroEntrenador $request){     	
+    public function ModificarEntrenador(RegistroEntrenador $request){     	
     	if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), ['FotografiaDep' => 'mimes:jpeg,jpg,png,bmp',]);
 
@@ -276,48 +270,15 @@ class EntrenadorController extends Controller
     	}
     }    
 
-    public function VincEntrenadorDeportista(){
-    	/*$Ciudad = Ciudad::all();
-		$ClasificacionDeportista = ClasificacionDeportista::all();
-		$Departamento = Departamento::all();
-		$GrupoSanguineo = GrupoSanguineo::all();
-		$Localidad = Localidad::all();
-		$NivelRegimenSub = NivelRegimenSub::all();
-		$Parentesco = Parentesco::all();
-		$RegimenSalud = RegimenSalud::all();
-		$TipoAfiliacion = TipoAfiliacion::all();
-		$Eps = Eps::all();
-		$deportista = array();
-		$Pais = Pais::all();
-		$Genero = Genero::all();
-		$Arl = Arl::all();
-		$FondoPension = FondoPension::all();*/
+    public function VincEntrenadorDeportista(){    	
 		$entrenador = array();
-
 		return view('TECNICO/entrenadorDeportista',['entrenador' => $entrenador])
-		/*->with(compact('Ciudad'))
-		->with(compact('ClasificacionDeportista'))
-		->with(compact('Departamento'))
-		->with(compact('Localidad'))
-		->with(compact('GrupoSanguineo'))
-		->with(compact('NivelRegimenSub'))
-		->with(compact('Parentesco'))
-		->with(compact('RegimenSalud'))
-		->with(compact('TipoAfiliacion'))
-		->with(compact('Eps'))
-		->with(compact('Pais'))
-		->with(compact('Genero'))		
-		->with(compact('Arl'))		
-		->with(compact('FondoPension'))	*/
 		;
-
-    }
+	}
 
     public function BuscarTipoPersonaRUD(Request $request, $cedula){
 		if ($request->ajax()) {
-
 			$Persona = Persona:: with('tipo')->where('Cedula', $cedula)->get();
-
 			if(count($Persona) != 0){
 				foreach ($Persona[0]->tipo as $key => $tipo) {
 					if($tipo['Id_Tipo'] == 47 || $tipo['Id_Tipo'] == 49){
@@ -333,12 +294,61 @@ class EntrenadorController extends Controller
 		}
 	}
 
-	public function entrenadorDeportistaDatos(Request $request, $id_persona){//Solo Tipos que NO esten vinculados a la persona
-		$Persona = Persona::with('tipo')->find($id_persona);	
-		dd($Persona);
-/*		$TipoLista = $Persona->tipo->lists('Id_Tipo');
-		$Tipo = Tipo::where('Id_Modulo', '=', 28)->whereNotIn('Id_Tipo', $TipoLista)->get();
-		return $Tipo;*/
+	public function GetEntrenadorDeportistasNO(Request $request, $id_persona){
+		$Persona = Persona::with('entrenador.entrenadorDeportista.deportistaDeporte')->find($id_persona);		
+		$listas = $Persona->entrenador->entrenadorDeportista->lists('Id');
+		$DeportistasNo = Deportista::with('persona')->whereHas('deportistaDeporte', function($query) use ($Persona)
+												{
+													$query->where('Deporte_Id', $Persona->entrenador['Deporte_Id']);
+												})->whereNotIn('Id', $listas)->get();
+
+		return ($DeportistasNo);
 	}
 
+	public function AddVinculoDeportitaEntrenador(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+    			'Id_Entrenador' => 'required',
+    			'Deportistas' => 'required',
+    			]);
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$EntrenadorDeportista = new EntrenadorDeportista;
+				$EntrenadorDeportista->Deportista_Id = $request->Deportistas;
+				$EntrenadorDeportista->Entrenador_Id = $request->Id_Entrenador;
+
+	        	if($EntrenadorDeportista->save()){
+	        		$Deportista = Deportista::with('persona', 'deportistaDeporte.agrupacion', 'deportistaDeporte.deporte', 'deportistaDeporte.modalidad')->find($request->Deportistas);
+	        		return response()->json(["Mensaje" => "Este deportista ha sido vinculado al entenador de forma exitosa al certamen!", "Datos" => $Deportista]);				        		
+	        	}else{
+	        		return response()->json(["Mensaje" => "El deportista NO ha sido vinculado al entrenador, por favor intentelo más tarde!"]);			
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function DeleteVinculoDeportitaEntrenador(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+    			'Id_Deportista' => 'required',
+    			'Id_Entrenador' => 'required',
+    			]);
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$EntrenadorDeportista = EntrenadorDeportista::where('Deportista_Id', $request->Id_Deportista)->where('Entrenador_Id', $request->Id_Entrenador)->get();
+
+	        	if($EntrenadorDeportista[0]->delete()){
+	        		return response()->json(["Mensaje" => "Este deportista ha sido desvinculado del entenador con éxito!"/*, "Datos" => $Deportista*/]);
+	        	}else{
+	        		return response()->json(["Mensaje" => "No se pudo retirar al deportista, por favor intentelo más tarde!"]);			
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
 }

@@ -19,6 +19,7 @@ class CrearTablaCertamenDivisionResultado extends Migration
             $table->integer('Deportista_Id')->nullable();            
             $table->string('Marca');            
             $table->string('Puesto');            
+            $table->string('Observacion')->nullable();            
             $table->timestamps();
         });
     }

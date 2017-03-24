@@ -70,4 +70,10 @@ class Entrenador extends Model
     {
         return $this->belongsTo('App\Models\Persona', 'Persona_Id');
     }
+
+     public function entrenadorDeportista() {
+        return $this->belongsToMany('App\Models\Deportista', 'entrenador_deportista', 'Entrenador_Id', 'Deportista_Id');
+                //->withTimestamps()->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor');
+    }
+
 }

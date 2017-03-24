@@ -161,6 +161,7 @@ $(function(){
                     $("#CiudadTres").append(xhr.Ciudad);
                     $("#MarcaTres").append(xhr.Marca);         
                     $("#PuestoTres").append(xhr.Puesto);         
+                    $("#ObservacionPuestoTres").append(xhr.Observacion);
                     $("#CertamenDivisionResultadoITres").val(xhr.Id);   
 
                     $("#TresDeportista").val('');   
@@ -420,6 +421,7 @@ $(function(){
             TresMarca: $("#TresMarca").val(),
             TresCiudad: $("#TresCiudad").val(),
             TresPuesto: $("#TresPuesto").val(),
+            ObservacionTresPuesto: $("#ObservacionTresPuesto").val(),
             Puesto: '4',
         } 
         AgregarRegistro(datos,4); 
@@ -533,6 +535,7 @@ function Resultado(id_certamenDivision, id_certamen, id_division){
                     $("#CiudadTres").empty();
                     $("#MarcaTres").empty();
                     $("#PuestoTres").empty();
+                    $("#ObservacionPuestoTres").empty();
                     if(e.deportista != null){                        
                         $("#NombreTres").append(e.deportista.persona['Primer_Nombre']+' '+e.deportista.persona['Segundo_Nombre']+' '+e.deportista.persona['Primer_Apellido']+' '+e.deportista.persona['Segundo_Apellido']);
                     }else{
@@ -550,6 +553,7 @@ function Resultado(id_certamenDivision, id_certamen, id_division){
                     }
                     $("#MarcaTres").append(e['Marca']);
                     $("#PuestoTres").append(e['Puesto']);
+                    $("#ObservacionPuestoTres").append(e['Observacion']);                    
                     $("#CertamenDivisionResultadoITres").val(e['Id']);
                 }
             });

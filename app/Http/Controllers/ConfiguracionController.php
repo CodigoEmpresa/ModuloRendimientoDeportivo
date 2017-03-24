@@ -14,6 +14,7 @@ use App\Models\ClasificacionDeportista;
 use App\Models\TipoEvaluacion;
 use App\Models\Division;
 use App\Models\ClasificacionFuncional;
+use App\Models\ModalidadClasificacionFuncional;
 
 class ConfiguracionController extends Controller
 {
@@ -221,7 +222,17 @@ class ConfiguracionController extends Controller
         }else{
 			$model_A['Deporte_Id'] = $input['Id_Deporte'];
 			$model_A['Nombre_Modalidad'] = strtoupper($input['Nom_Modalidad']);	
-			$model_A->save();
+			if($model_A->save()){
+				$Clasificaciones_Funcionales_Vector = json_decode($input['Clasificaciones_Funcionales']);
+				if(count($Clasificaciones_Funcionales_Vector) > 0){	
+					foreach($Clasificaciones_Funcionales_Vector as $Vector){
+						$ModalidadClasificacionFuncional = new ModalidadClasificacionFuncional;
+						$ModalidadClasificacionFuncional->Modalidad_Id = $model_A->Id;
+						$ModalidadClasificacionFuncional->Clasificacion_Funcional_Id = $Vector->Id_Clasificacion_Funciona;
+						$ModalidadClasificacionFuncional->save();
+					}
+				}
+			}
 			return $model_A;
 		}
 	}
@@ -262,7 +273,18 @@ class ConfiguracionController extends Controller
         }else{
 			$modelo['Deporte_Id'] = $input['Id_Dept'];
 			$modelo['Nombre_Modalidad'] = strtoupper($input['nom_modl']);	
-			$modelo->save();
+			if($modelo->save()){
+				$ModalidadClasificacionFuncional = ModalidadClasificacionFuncional::where('Modalidad_Id', $input->id_Mdl)->delete();
+				$Clasificaciones_Funcionales_Vector = json_decode($input['Clasificaciones_Funcionales']);
+				if(count($Clasificaciones_Funcionales_Vector) > 0){	
+					foreach($Clasificaciones_Funcionales_Vector as $Vector){
+						$ModalidadClasificacionFuncional = new ModalidadClasificacionFuncional;
+						$ModalidadClasificacionFuncional->Modalidad_Id = $modelo->Id;
+						$ModalidadClasificacionFuncional->Clasificacion_Funcional_Id = $Vector->Id_Clasificacion_Funciona;
+						$ModalidadClasificacionFuncional->save();
+					}
+				}
+			}
 			return $modelo;
 		}
 	}
@@ -502,4 +524,62 @@ class ConfiguracionController extends Controller
 			return $Division;
 		}
 	}
-}
+
+	//----------------------CLASIFICACION FUNCIONAL--------------------------------------
+
+    public function clasificacion_funcional(){
+		$ClasificacionFuncional = ClasificacionFuncional::all();
+		//dd($ClasificacionFuncional);
+		return view('TECNICO/clasificacion_funcional')->with(compact('ClasificacionFuncional'));
+	}
+	public function AddClasificacionFuncional(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+    			'Nom_Clasificacion_Funcional' => 'required',
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{       
+	        	$ClasificacionFuncional = new ClasificacionFuncional;
+	        	$ClasificacionFuncional->Nombre_Clasificacion_Funcional = $request->Nom_Clasificacion_Funcional;
+	        	if($ClasificacionFuncional->save()){
+	        		return response()->json(array('status' => 'success', 'Mensaje' => 'La clasificación funcinal se ha registrado con éxito!'));
+	        	}else{
+	        		return response()->json(array('status' => 'errorC', 'Mensaje' => 'No se realizo el registro, por favor intentelo más tarde!'));
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function verClasificacionFuncional(Request $request, $id){
+		$ClasificacionFuncional = ClasificacionFuncional::find($id);
+		return $ClasificacionFuncional;
+
+	}
+
+	public function EditClasificacionFuncional(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+    			'Nombre_Clasificacion_FuncionalE' => 'required',
+    			'Id_Clasificacion_FuncionalE' => 'required',
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{       
+	        	$ClasificacionFuncional = ClasificacionFuncional::find($request->Id_Clasificacion_FuncionalE);
+	        	$ClasificacionFuncional->Nombre_Clasificacion_Funcional = $request->Nombre_Clasificacion_FuncionalE;
+	        	if($ClasificacionFuncional->save()){
+	        		return response()->json(array('status' => 'success', 'Mensaje' => 'La clasificación funcinal se ha modificado con éxito!'));
+	        	}else{
+	        		return response()->json(array('status' => 'errorC', 'Mensaje' => 'No se realizó la modificación, por favor intentelo más tarde!'));
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+}		

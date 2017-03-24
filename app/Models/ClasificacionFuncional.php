@@ -10,6 +10,7 @@ class ClasificacionFuncional extends Model
     protected $primaryKey = 'Id';
     protected $fillable = ['Nombre_Clasificacion_Funcional'];
 
+
     public function deportistaParalimpico(){
         return $this->hasMany('App\Models\DeportistaParalimpico', 'Clasificacion_Funcional_Id');
     }    

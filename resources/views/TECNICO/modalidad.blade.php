@@ -16,6 +16,7 @@
               <button type="button" class="btn btn-info" onclick="window.location.href='rama'">Ramas</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='categoria'">Categorías</button>
               <button type="button" class="btn btn-info" onclick="window.location.href='division'">Pruebas/Divisiones</button>
+              <button type="button" class="btn btn-info" onclick="window.location.href='clasificacion_funcional'">Clasificación Funcional</button>
             </div>
         </div>
         <br><br>
@@ -90,6 +91,29 @@
                             <input type="text" style="text-transform: uppercase;" class="form-control"  placeholder="Modalidad" id="nom_modl" name="nom_modl">
                             <input type="hidden" placeholder="Deporte" id="id_Mdl" name="id_Mdl">
                         </div> 
+
+                         <div id="ClasificacionFuncionalDE" class="list-group-item form-group col-md-12" style="display: none;">
+                            <div class="form-group col-md-2">
+                                <label class="control-label" for="Id_TipoDocumento">Clasificación Funcional:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Id_Clasificacion_FuncionalE" id="Id_Clasificacion_FuncionalE" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($clasificacion_funcional as $clasificacion_funcionales)
+                                        <option value="{{ $clasificacion_funcionales['Id'] }}">{{ $clasificacion_funcionales['Nombre_Clasificacion_Funcional'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>   
+                            <div class="form-group col-md-6">
+                                 <button type="button" class="btn btn-primary" name="AddClasificacionFuncionalE" id="AddClasificacionFuncionalE">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Clasificación
+                                </button>
+                            </div> 
+                           
+                            <table class="form-group col-md-8 table table-bordered" id="TablaClasificacionFuncionalE" style="display:none;">                                
+                            </table>
+                        </div>
+
                         <div class="form-group col-md-12">
                             <center><button type="button" class="btn btn-primary" id="btn_editar">Modificar</button></center>
                         </div> 

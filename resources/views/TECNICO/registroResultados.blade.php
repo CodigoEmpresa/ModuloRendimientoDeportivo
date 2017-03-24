@@ -300,6 +300,8 @@
                                 <br>
                                 <h5>Puesto: </h5><label style="text-transform: uppercase;"  id="PuestoTres"></label>   
                                 <br>
+                                <h5>Observación: </h5><label style="text-transform: uppercase;"  id="ObservacionPuestoTres"></label>   
+                                <br>
                                 <button type="button" class="btn btn-danger" onclick="Eliminar(4)">Eliminar</button>                    
                             </div>
                             <div id="RegistroTresD" style="display:none;">                                
@@ -330,6 +332,9 @@
                                     </div>
                                     <div class="form-group col-md-12">
                                         <input type="text" style="text-transform: uppercase;" class="form-control" placeholder="Puesto" name="TresPuesto" id="TresPuesto">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <input type="text" style="text-transform: uppercase;" class="form-control" placeholder="Observacion" name="ObservacionTresPuesto" id="ObservacionTresPuesto">
                                     </div>
                                     <br>
                                     <button type="button" class="btn btn-primary" id="AgregarTresD">Agregar</button>

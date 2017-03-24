@@ -102,7 +102,7 @@ $(function(){
 
     $("#Agregar").on('click', function(){
     	var token = $("#token").val();
-	  	var formData = new FormData($("#")[0]);       
+	  	//var formData = new FormData($("#")[0]);       
 	  	var formData = new FormData($("#creaCertamenF")[0]);       	  
 	  	$.ajax({
 	      url: 'AddCertamen',  
@@ -154,7 +154,13 @@ $(function(){
     	$("#PruebasCertamenLi").removeClass('active');
     	$("#DeportistasCertamenLi").removeClass('active');
     	$("#loading").show('slow');
+
+        $("#Deportista_IdD").empty();
+        var html = '<option value="">Seleccionar</option>';
+        $("#Deportista_IdD").html(html).selectpicker('refresh');
+        
     	$.get("getCertamen/"+$(this).val(), function (certamen){
+            //console.log(certamen);
     		$("#TituloCertamen").empty();
     		$("#TituloCertamen").append(certamen['Nombre_Certamen']);
 
@@ -182,11 +188,12 @@ $(function(){
 	    		$("#Deporte_Id").html(html).selectpicker('refresh');
     		});		
     		$.get("getDivisionCertamen/"+certamen['Id'], function (DivisionCertamen){
+                //console.log(DivisionCertamen);
     			var t = $('#pruebasTabla').DataTable();
+                t.row.add( ['1','1', '1'] ).clear().draw( false );
     			$("#Prueba_IdD").empty();
     			var htmlP = '<option value="">Seleccionar</option>';
-    			if(DivisionCertamen['division'].length != 0){                
-	                t.row.add( ['1','1', '1'] ).clear().draw( false );
+    			if(DivisionCertamen['division'].length != 0){             
 		    		$.each(DivisionCertamen['division'], function(i, e){
 		    			htmlP += '<option value="'+e.Id+'"">'+e.deporte['Nombre_Deporte']+' - '+e.rama['Nombre_Rama']+' - '+e.categoria['Nombre_Categoria']+' - '+e['Nombre_Division']+'</option>';
 		    			t.row.add( [
@@ -197,7 +204,7 @@ $(function(){
 		    		$("#Prueba_IdD").html(htmlP).selectpicker('refresh');
 		    	}
     		});
-            $.get("getDeportistaCertamenDivision/"+certamen['Id'], function (Deportistas){
+            $.get("getDeportistaCertamenDivision/"+certamen['Id'], function (Deportistas){                
                 var t = $('#deportistasTabla').DataTable();    
                 t.row.add( ['1','1', '1'] ).clear().draw( false );
                 $.each(Deportistas, function(i, e){

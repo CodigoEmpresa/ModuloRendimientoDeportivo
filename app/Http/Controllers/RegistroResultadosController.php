@@ -149,6 +149,7 @@ class RegistroResultadosController extends Controller
     			'TresMarca' => array('required_if:Puesto,4'),
     			'TresCiudad' => array('required_if:Puesto,4'),
     			'TresPuesto' => array('required_if:Puesto,4', 'numeric', 'min:4'),
+    			'ObservacionTresPuesto' => '',
     			'Puesto' => 'required',
     			]);
 	        if ($validator->fails()){
@@ -190,6 +191,7 @@ class RegistroResultadosController extends Controller
 		        	$CertamenDivisionResultado->Deportista_Id = $request->TresDeportista;
 		        	$CertamenDivisionResultado->Marca = $request->TresMarca;
 		        	$CertamenDivisionResultado->Puesto = $request->TresPuesto;	
+		        	$CertamenDivisionResultado->Observacion = $request->ObservacionTresPuesto;	
 		        	if($request->TresCiudad == 33){ $Departamento = 'Bogota D.C';}
 		        	        		        	
 		        }		        
@@ -199,7 +201,7 @@ class RegistroResultadosController extends Controller
 		        	$Nombres =  $datos->deportista->persona['Primer_Nombre'].' '.$datos->deportista->persona['Segundo_Nombre'].' '.$datos->deportista->persona['Primer_Apellido'].' '.$datos->deportista->persona['Segundo_Apellido'];
 		        	$Marca = $datos['Marca'];
 		        	$Id_c = $CertamenDivisionResultado['Id'];
-	        		return response()->json(["Mensaje" => "Se ha realizado el registro de este resultado de forma exitosa", "Nombres" => $Nombres, "Ciudad" => $Departamento, "Marca" => $Marca, "Id" => $Id_c, 'Puesto' => $request->TresPuesto ]);
+	        		return response()->json(["Mensaje" => "Se ha realizado el registro de este resultado de forma exitosa", "Nombres" => $Nombres, "Ciudad" => $Departamento, "Marca" => $Marca, "Id" => $Id_c, 'Puesto' => $request->TresPuesto, 'Observacion' => $request->ObservacionTresPuesto ]);
 	        	}else{
 	        		return response()->json(["Mensaje" => "No se ha logrado el registro, por favor intentelo nuevamente!"]);				        		  	
 	        	}

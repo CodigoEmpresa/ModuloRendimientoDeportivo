@@ -8,7 +8,7 @@ class CertamenDivisionResultado extends Model
 {
     protected $table = 'certamen_division_resultado';
     protected $primaryKey = 'Id';
-    protected $fillable = ['CertamenDivision_Id', 'Departamento_Id', 'Deportista_Id', 'Marca', 'Puesto'];
+    protected $fillable = ['CertamenDivision_Id', 'Departamento_Id', 'Deportista_Id', 'Marca', 'Puesto', 'Observacion'];
 
     public function resultadoExterno(){
         return $this->hasMany('App\Models\ResultadoExterno', 'CertamenDivisionResultado_Id');
