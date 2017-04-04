@@ -146,10 +146,13 @@
                                             
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">PLANES DE ENTRENAMIENTO</a>
-                         <li class=”{{ Request::is( 'registro_plan') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_plan') }}">Registro planes de entrenamiento</a></li>                       
+                         <li class=”{{ Request::is( 'registro_plan') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_plan') }}">Gestor de planes de entrenamiento</a></li>                       
                       </li>
                       <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a></li>                                            
+                      <li>
+                        <a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a>
+                        <li class=”{{ Request::is( 'gestor_entrenamientos') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_entrenamientos') }}">Gestor de entrenamientos</a></li>
+                      </li>                                            
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                      
                       

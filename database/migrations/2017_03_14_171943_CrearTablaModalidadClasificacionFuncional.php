@@ -18,8 +18,8 @@ class CrearTablaModalidadClasificacionFuncional extends Migration
             $table->integer('Clasificacion_Funcional_Id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
-            $table->foreign('Clasificacion_Funcional_Id')->references('Id')->on('clasificacion_funcional');
+            /*$table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
+            $table->foreign('Clasificacion_Funcional_Id')->references('Id')->on('clasificacion_funcional');*/
 
         });
     }

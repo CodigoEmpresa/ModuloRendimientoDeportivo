@@ -234,8 +234,22 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('deleteVinculoDeportitaEntrenador', 'EntrenadorController@DeleteVinculoDeportitaEntrenador');
 
 
+	/**********************PLANES DE ENTRENAMIENTO*************************************/
 	Route::get('registro_plan','PlanesEntrenamientoController@index');
+	Route::post('addPlanEntrenamiento', 'PlanesEntrenamientoController@AgregarPlanEntrenamiento');
+	Route::get('getPlanActual/{id_deportista}','PlanesEntrenamientoController@GetPlanActual');
+	Route::post('addObservaciones', 'PlanesEntrenamientoController@AgregarObservaciones');
+	Route::get('getHistorialPlan/{id_deportista}','PlanesEntrenamientoController@GetHistorialPlan');
+	Route::get('getPlanUnico/{id_plan}','PlanesEntrenamientoController@GetPlanUnico');
+	Route::post('addPlanEntrenamientoActualizacion', 'PlanesEntrenamientoController@AgregarPlanEntrenamientoActualizacion');
+	Route::get('getHistorialPlanActual/{id_plan}','PlanesEntrenamientoController@GetHistorialPlanActual');
+	Route::get('getVersionUnica/{id_version}','PlanesEntrenamientoController@GetVersionUnica');
+	Route::get('getVersionActual/{id_plan}','PlanesEntrenamientoController@GetVersionActual');	
+	Route::post('addObservacionesVersion', 'PlanesEntrenamientoController@AgregarObservacionesVersion');
 
+
+	/**********************PLANILLAS DE ASISTENCIA*************************************/
+	Route::get('gestor_entrenamientos','GestorEntrenamientosController@index');
 	
 
 	/***********************************************************/

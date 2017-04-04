@@ -66,14 +66,27 @@ class Entrenador extends Model
             'Archivo1_Url' 
     ];
 
-    public function Persona()
-    {
+    public function Persona(){
         return $this->belongsTo('App\Models\Persona', 'Persona_Id');
     }
 
-     public function entrenadorDeportista() {
+    public function entrenadorDeportista() {
         return $this->belongsToMany('App\Models\Deportista', 'entrenador_deportista', 'Entrenador_Id', 'Deportista_Id');
                 //->withTimestamps()->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor');
     }
+
+    public function entrenamiento() {
+        return $this->hasMany('App\Models\Entrenamiento', 'Entrenamiento_Id');
+    }
+
+    public function deporte(){
+        return $this->belongsTo('App\Models\Deporte', 'Deporte_Id');
+    }
+
+    public function clasificacionDeportiva(){
+        return $this->belongsTo('App\Models\ClasificacionDeportista', 'Clasificacion_Deportista_Id');
+    }
+
+    
 
 }

@@ -115,6 +115,13 @@ class Deportista extends Model
 
     public function deportistaEntrenador() {
         return $this->belongsToMany('App\Models\Entrenador', 'entrenador_deportista', 'Deportista_Id', 'Entrenador_Id');
-                //->withTimestamps()->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor');
+    }
+
+    public function planEntrenamiento() {
+        return $this->hasMany('App\Models\PlanEntrenamiento', 'Deportista_Id');
+    }
+
+    public function deportistaEntrenamiento() {
+        return $this->hasMany('App\Models\DeportistaEntrenamiento', 'Deportista_Id');
     }
 }
