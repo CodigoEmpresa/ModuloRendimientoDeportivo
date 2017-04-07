@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaDeportistaEntrenamiento extends Migration
+class CrearTabla2AsistenciaEntrenamiento extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,9 @@ class CrearTablaDeportistaEntrenamiento extends Migration
      */
     public function up()
     {
-        Schema::create('deportista_entrenamiento', function (Blueprint $table) {
+         Schema::create('asistencia_entrenamiento', function (Blueprint $table) {
             $table->increments('Id');            
-            $table->integer('Deportista_Id')->unsigned();            
-            $table->integer('Entrenamiento_Id')->unsigned();
+            $table->integer('Deportista_Entrenamiento_Id')->unsigned();            
             $table->date('Fecha');
             $table->integer('Numero_Dia');
             $table->integer('Convencion_Asistencia_Id')->unsigned();
@@ -26,8 +25,7 @@ class CrearTablaDeportistaEntrenamiento extends Migration
             $table->string('Url_Soporte_Calamidad')->nullable();            
             $table->timestamps();            
             
-            $table->foreign('Deportista_Id')->references('Id')->on('deportista');
-            $table->foreign('Entrenamiento_Id')->references('Id')->on('entrenamiento');
+            $table->foreign('Deportista_Entrenamiento_Id')->references('Id')->on('deportista_entrenamiento');
             $table->foreign('Convencion_Asistencia_Id')->references('Id')->on('convencion_asistencia');
             $table->foreign('Verificacion_Convencion_1_Id')->references('Id')->on('convencion_asistencia');
             $table->foreign('Verificacion_Convencion_2_Id')->references('Id')->on('convencion_asistencia');
@@ -42,14 +40,13 @@ class CrearTablaDeportistaEntrenamiento extends Migration
      */
     public function down()
     {
-        Schema::table('deportista_entrenamiento', function(Blueprint $table){
-            $table->dropForeign('Deportista_Id')->references('Id');
-            $table->dropForeign('Entrenamiento_Id')->references('Id');
+        Schema::table('asistencia_entrenamiento', function(Blueprint $table){
+            $table->dropForeign('Deportista_Entrenamiento_Id')->references('Id');
             $table->dropForeign('Convencion_Asistencia_Id')->references('Id');
             $table->dropForeign('Verificacion_Convencion_1_Id')->references('Id');
             $table->dropForeign('Verificacion_Convencion_2_Id')->references('Id');
             $table->dropForeign('Verificacion_Convencion_3_Id')->references('Id');
         });    
-        Schema::drop('deportista_entrenamiento');
+        Schema::drop('asistencia_entrenamiento');
     }
 }

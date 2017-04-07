@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaTratamientoConformidad extends Migration
+class CrearTabla2ConvencionAsistencia extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class CrearTablaTratamientoConformidad extends Migration
      */
     public function up()
     {
-        Schema::create('tratamiento_conformidad', function (Blueprint $table) {
+        Schema::create('convencion_asistencia', function (Blueprint $table) {
             $table->increments('Id');
-            $table->string('Nombre_Tratamiento_Conformidad'); 
+            $table->string('Nombre_Convencion_asistencia'); 
+            $table->string('Abreviatura'); 
         });
     }
 
@@ -25,6 +26,6 @@ class CrearTablaTratamientoConformidad extends Migration
      */
     public function down()
     {
-        Schema::drop('tratamiento_conformidad');
+        Schema::drop('convencion_asistencia');
     }
 }

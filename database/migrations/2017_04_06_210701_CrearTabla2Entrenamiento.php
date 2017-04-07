@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaEntrenamiento extends Migration
+class CrearTabla2Entrenamiento extends Migration
 {
     /**
      * Run the migrations.
@@ -24,7 +24,6 @@ class CrearTablaEntrenamiento extends Migration
             $table->timestamps();            
             
             $table->foreign('Entrenador_Id')->references('Id')->on('entrenador');
-            $table->foreign('Horario_Id')->references('Id')->on('horario');
         });
     }
 
@@ -37,7 +36,6 @@ class CrearTablaEntrenamiento extends Migration
     {
         Schema::table('entrenamiento', function(Blueprint $table){
             $table->dropForeign('Entrenador_Id');
-            $table->dropForeign('Horario_Id');
         });    
         Schema::drop('entrenamiento');
     }

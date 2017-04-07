@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CrearTablaHorario extends Migration
+class CrearTabla2TratamientoConformidad extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class CrearTablaHorario extends Migration
      */
     public function up()
     {
-        Schema::create('horario', function (Blueprint $table) {
+        Schema::create('tratamiento_conformidad', function (Blueprint $table) {
             $table->increments('Id');
-            $table->string('Nombre_Horario'); 
+            $table->string('Nombre_Tratamiento_Conformidad'); 
         });
     }
 
@@ -25,6 +25,6 @@ class CrearTablaHorario extends Migration
      */
     public function down()
     {
-        Schema::drop('horario');
+        Schema::drop('tratamiento_conformidad');
     }
 }

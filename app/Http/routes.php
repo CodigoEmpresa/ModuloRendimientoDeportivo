@@ -250,6 +250,14 @@ Route::group(['middleware' => ['web']], function () {
 
 	/**********************PLANILLAS DE ASISTENCIA*************************************/
 	Route::get('gestor_entrenamientos','GestorEntrenamientosController@index');
+	Route::post('AddEntrenamiento', 'GestorEntrenamientosController@AgregarEntrenamiento');
+	Route::get('getEntrenamientos/{id_entrenador}','GestorEntrenamientosController@GetEntrenamientos');
+	Route::get('getEntrenamientoOnly/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoOnly');
+	Route::post('EditEntrenamiento', 'GestorEntrenamientosController@ModificarEntrenamiento');
+	Route::get('getEntrenadorDeportistasSINO/{id_entrenador}/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenadorDeportistasSINO');
+	Route::post('AddDeportistaEntrenamiento', 'GestorEntrenamientosController@AgregarDeportistaEntrenamiento');
+
+	Route::get('getEntrenamientoDeportistas/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoDeportistas');
 	
 
 	/***********************************************************/

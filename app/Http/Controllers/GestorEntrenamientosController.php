@@ -12,9 +12,15 @@ use Exception;
 
 use App\Models\Entrenador;
 use App\Models\Deporte;
+use App\Models\Entrenamiento;
+use App\Models\Deportista;
+
+use App\Models\DeportistaEntrenamiento;
+use App\Models\EntrenadorDeportista;
 
 class GestorEntrenamientosController extends Controller
 {
+
     public function __construct(PersonaInterface $repositorio_personas){
 		if (isset($_SESSION['Usuario']))
 			$this->Usuario = $_SESSION['Usuario'];
@@ -22,8 +28,7 @@ class GestorEntrenamientosController extends Controller
 		$this->repositorio_personas = $repositorio_personas;
 	}
 
-    public function index()
-	{
+    public function index(){
 		$Entrenadores = Entrenador::with('deporte', 'clasificacionDeportiva')->where('Persona_Id', $_SESSION['Usuario'][0])->get();
 		$Entrenador = $Entrenadores[0];
 		$Persona = $_SESSION['Usuario']['Persona'];
@@ -32,5 +37,210 @@ class GestorEntrenamientosController extends Controller
 					->with(compact('Persona'))
 					;
 	}
-}
 
+	public function AgregarEntrenamiento(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+				"Entrenador_Id" => "required",
+				"Lugar_Entrenamiento" => "required",
+				"FechaInicio" => "required|date",
+				"FechaFin" => "required|date",
+				"HoraInicio" => "required",
+				"HoraFin" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$Entrenamiento = new Entrenamiento;
+	        	$Entrenamiento ->Entrenador_Id = $request->Entrenador_Id;	        	
+	        	$Entrenamiento ->Lugar_Entrenamiento = $request->Lugar_Entrenamiento;
+	        	$Entrenamiento ->Fecha_Inicio = $request->FechaInicio;
+	        	$Entrenamiento ->Fecha_Fin = $request->FechaFin;
+	        	$Entrenamiento ->Hora_Inicio = $request->HoraInicio;
+	        	$Entrenamiento ->Hora_Fin = $request->HoraFin;
+
+
+	        	if($Entrenamiento->save()){
+	        		return response()->json(["Mensaje" => "Entrenamiento agregado con éxito!"]);				        		
+	        	}else{
+	        		return response()->json(["Mensaje" => "El entrenamiento no ha sido agregado!"]);			
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function GetEntrenamientos (Request $request, $id_entrenador){
+		$Entrenamientos = Entrenamiento::where('Entrenador_Id', $id_entrenador)->get();
+		$Resultado = "<table id='datosEntrenamientos' name='datosEntrenamientos'>
+					        <thead>
+					            <tr>
+									<th>LUGAR DE ENTRENAMIENTO</th>                        
+			                        <th>FECHA INICIO</th>
+			                        <th>FECHA FIN</th>
+			                        <th>OPCIONES</th>							
+								</tr>
+							</thead>";
+		foreach ($Entrenamientos as $key) {			
+			  $Resultado .="<tbody>
+								<tr style='text-transform: uppercase;'>
+									<td>".$key->Lugar_Entrenamiento."</td>
+									<td>".$key->Fecha_Inicio."</td>
+									<td>".$key->Fecha_Fin."</td>
+									<td>
+										<button type='button' class='btn-sm btn-info' data-funcion='verEntrenamiento' value='".$key->Id."'>
+	                                  		<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span>
+	                              		</button>
+	                              		<button type='button' class='btn-sm btn-warning' data-funcion='entrenamientoDeportista' value='".$key->Id."'>
+	                                  		<span class='glyphicon glyphicon-user' aria-hidden='true'></span>
+	                              		</button>
+	                              		<button type='button' class='btn-sm btn-primary' data-funcion='planillaAsistencia' value='".$key->Id."'>
+	                                  		<span class='glyphicon glyphicon-check' aria-hidden='true'></span>
+	                              		</button>
+	                          		</td>
+	                      		</tr>
+	                  		</tbody>";		
+		}
+		$Resultado .= "</table>";
+		return ($Resultado);
+	}
+
+	public function GetEntrenamientoOnly (Request $request, $id_entrenamiento){
+		$Entrenamiento = Entrenamiento::find($id_entrenamiento);
+		return $Entrenamiento;
+	}
+
+	public function ModificarEntrenamiento(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+				"Entrenamiento_Id" => "required",
+				"Lugar_EntrenamientoM" => "required",
+				"FechaInicioM" => "required|date",
+				"FechaFinM" => "required|date",
+				"HoraInicioM" => "required",
+				"HoraFinM" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$Entrenamiento = Entrenamiento::find($request->Entrenamiento_Id);	
+	        	$Entrenamiento ->Lugar_Entrenamiento = $request->Lugar_EntrenamientoM;
+	        	$Entrenamiento ->Fecha_Inicio = $request->FechaInicioM;
+	        	$Entrenamiento ->Fecha_Fin = $request->FechaFinM;
+	        	$Entrenamiento ->Hora_Inicio = $request->HoraInicioM;
+	        	$Entrenamiento ->Hora_Fin = $request->HoraFinM;
+
+
+	        	if($Entrenamiento->save()){
+	        		return response()->json(["Mensaje" => "Entrenamiento modificado con éxito!"]);				        		
+	        	}else{
+	        		return response()->json(["Mensaje" => "El entrenamiento no ha sido modificado!"]);			
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function GetEntrenadorDeportistasSINO(Request $request, $id_entrenador, $id_entrenamiento){
+		$Resultado = '';
+
+		$DeportistasVinculados = EntrenadorDeportista::with('deportista', 'deportista.persona', 'deportista.DeportistaEntrenamiento')->where('Entrenador_Id', $id_entrenador)
+												    ->whereHas('deportista.DeportistaEntrenamiento', function ($query) use($id_entrenamiento){
+    													$query->where('Entrenamiento_Id',$id_entrenamiento); })->get();
+
+
+		/**********LISTADO DE DEPORTISTAS VINCULADOS AL ENTRENAMIENTO************/
+		if(count($DeportistasVinculados) > 0){
+		//	$Resultado .= '<h4>Listado de deportistas vinculados al entrenamiento</h4>';
+			foreach ($DeportistasVinculados as $key) {			
+				$Resultado .= '<div class="radio" style="text-transform: uppercase;"><label><input type="checkbox" checked="checked" name="deportista[]" id="';
+				$Resultado .= $key['deportista']['Id'];
+				$Resultado .= '" value="';
+				$Resultado .= $key['deportista']['Id'];
+				$Resultado .= '">';
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Primer_Nombre'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Segundo_Nombre'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Primer_Apellido'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Segundo_Apellido'];
+				$Resultado .= '</label></div>';								
+			}
+		}
+
+		/**********LISTADO DE DEPORTISTAS VINCULADOS AL ENTRENAMIENTO************/
+
+		$ListaVinculados = $DeportistasVinculados->lists('deportista.Id');
+
+
+		$EntrenadorDeportista = EntrenadorDeportista::with('deportista', 'deportista.persona', 'deportista.DeportistaEntrenamiento')->where('Entrenador_Id', $id_entrenador)->whereHas('deportista', function ($query) use($ListaVinculados){
+    										$query->whereNotIn('Id',$ListaVinculados);
+											})->get();
+
+		if(count($EntrenadorDeportista) > 0){
+		//	$Resultado .= '<h4>Listado de deportistas NO vinculados al entrenamiento</h4>';
+			foreach ($EntrenadorDeportista as $key) {			
+				$Resultado .= '<div class="radio" style="text-transform: uppercase;"><label><input type="checkbox" name="deportista[]" id="';
+				$Resultado .= $key['deportista']['Id'];
+				$Resultado .= '" value="';
+				$Resultado .= $key['deportista']['Id'];
+				$Resultado .= '">';
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Primer_Nombre'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Segundo_Nombre'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Primer_Apellido'];
+				$Resultado .= ' ';
+				$Resultado .= $key['deportista']['persona']['Segundo_Apellido'];
+				$Resultado .= '</label></div>';								
+			}
+		}
+
+		$Resultado .= '<br><div class="form-group col-md-12" align="center">
+	                            <button data-funcion="AgregarDeportistasEntrenamiento" type="button" class="btn btn-primary ver" value="" name="AgregarDeportistasEntrenamiento" id="AgregarDeportistasEntrenamiento" >Vincular deportistas a entrenamiento</button>
+	                        </div>';
+		return ($Resultado);
+	}
+
+	public function AgregarDeportistaEntrenamiento(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+				"Entrenamiento_Id2" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$DeportistaEntrenamiento = DeportistaEntrenamiento::where('Entrenamiento_Id', $request->Entrenamiento_Id2)->delete();
+
+	        	if(count($request['deportista']) > 0){
+	        		foreach ($request['deportista'] as $key => $value) {
+	        		$DeportistaEntrenamientoN = new DeportistaEntrenamiento;
+	        		$DeportistaEntrenamientoN->Deportista_Id = (integer)$value;
+	        		$DeportistaEntrenamientoN->Entrenamiento_Id = $request->Entrenamiento_Id2;
+	        		if(!$DeportistaEntrenamientoN->save()){
+	        			return response()->json(["Estado" => "Error", "Mensaje" => "Se detuvo la vinculación de deportistas, recargue y revise la información de nuevo."]);			
+	        		}
+	        	}
+        			return response()->json(["Estado" => "Success","Mensaje" => "La vinculación de los deportistas se realizó con éxito!"]);		
+	        	}else{
+	        		return response()->json(["Estado" => "Success","Mensaje" => "Se han desvinculado todos los deportistas con éxito!"]);	
+	        	}	        			        		
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function GetEntrenamientoDeportistas(Request $request, $id_entrenamiento){
+		$DeportistaEntrenamiento = DeportistaEntrenamiento::with('deportista.persona')->where('Entrenamiento_Id', $id_entrenamiento)->get();
+		return $DeportistaEntrenamiento;
+	}
+}
