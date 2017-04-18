@@ -313,6 +313,7 @@
 		                            <input type="hidden" name="Entrenamiento_Id3" id="Entrenamiento_Id3">
 		                            <!---------------------------------------------------------------------->
                                     <form id="AsistenciaF" name="AsistenciaF" style="display: none;">
+                                        <!--<input type="hidden" name="Entrenamiento_Id4" id="Entrenamiento_Id4">-->
                                     	<div id="PlanillaAsistencia"></div>
                                     	<div class="row panel-body" align="center">                                                   
                                             <div id="MensajeAsistencia"></div>

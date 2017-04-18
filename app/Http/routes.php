@@ -258,7 +258,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddDeportistaEntrenamiento', 'GestorEntrenamientosController@AgregarDeportistaEntrenamiento');
 
 	Route::get('getEntrenamientoDeportistas/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoDeportistas');
-	
+
+	Route::post('AddAsistencias', 'GestorEntrenamientosController@AgregarAsistencias');
+	Route::get('getAsistenciaDeportistas/{id_deportista}/{id_entrenamiento}/{numero_dia}','GestorEntrenamientosController@GetAsistenciaDeportistas');
 
 	/***********************************************************/
 });

@@ -1,3 +1,4 @@
+var Convencion = '';
 $(function(){
 	GetEntrenamientos();	
 	
@@ -195,13 +196,14 @@ $(function(){
     	$("#NoConformidades").removeClass('active');
     	$("#PlanillaModal").modal('show');
     	$("#Entrenamiento_Id3").val($(this).val());
+    	//$("#Entrenamiento_Id4").val($(this).val());
     	$("#DescripcionPlanilla").empty();
     	$.get("getEntrenamientoOnly/"+$("#Entrenamiento_Id3").val(), function (EntrenamientoOnly) {
     		$("#DescripcionPlanilla").append('Planilla de asistencia para el entrenamiento: <br>'+EntrenamientoOnly['Lugar_Entrenamiento']+' - (FI: '+EntrenamientoOnly['Fecha_Inicio']+' - FF: '+EntrenamientoOnly['Fecha_Fin']+')');
     	});
     });
 
-    $("#Asistencia").on('click', function(e){
+    $("#Asistencia").on('click', function(e){    	
     	$("#AsistenciaF").show('slow');
     	$("#VerificacionRequisitosF").hide('slow');
     	$("#NoConformidadesF").hide('slow');
@@ -211,56 +213,152 @@ $(function(){
     	$('#MensajeAsistencia').hide('slow');	
 
     	$("#PlanillaAsistencia").empty();
-    	console.log('sjasnhjahsjahs');
 
     	$.get("getEntrenamientoOnly/"+$("#Entrenamiento_Id3").val(), function (EntrenamientoOnly) {
     		$.get("getEntrenamientoDeportistas/"+$("#Entrenamiento_Id3").val(), function (DeportistasEntrenamientoOnly) {
+    			//console.log(DeportistasEntrenamientoOnly);
     			if(DeportistasEntrenamientoOnly.length > 0){
 		    		var CantidadDias = moment(EntrenamientoOnly['Fecha_Fin']).diff(moment(EntrenamientoOnly['Fecha_Inicio']), 'days');
 		    		var k = 0;
+		    		
 		    		var html = '<table  class="table" style="text-transform: uppercase; font-size:10px;">';
 		    		html += '<thead>';	    		
 		    		html += '<th>Atleta</th>';
-		    		/*html += '<th>Documento de identidad</th>';
-		    		html += '<th>Dirección residencia</th>';
-		    		html += '<th>Teléfono</th>';*/
 		    		for(k = 0; CantidadDias > k; k++){						
 							html += '<th>'+(k+1)+'</th>';
 						}
 		    		html += '</thead>';
+
+		    		var Obligacion = new Array();
+
 		    		$.each(DeportistasEntrenamientoOnly, function(i, e){
+		    			//alert(Convencion);
+		    			Convencion = '';
+		    			//Route::get('getAsistenciaDeportistas/{id_deportista_entrenamiento}		    			
 		    			var j = 0;
 		    			html += '<tr>';			
 		    			html += '<td>';
 						html += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['persona']['Primer_Nombre']+' '+e['deportista']['persona']['Segundo_Nombre']+' '+e['deportista']['persona']['Primer_Apellido']+' '+e['deportista']['persona']['Segundo_Apellido']+'</label>';
 						html += '</td>';
-						/*html += '<td>';
-						html += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['persona']['Cedula']+'</label>';
-						html += '</td>';
-						html += '<td>';
-						html += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['Direccion_Localiza']+'</label>';
-						html += '</td>';
-						html += '<td>';
-						html += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['Celular_Localiza']+'</label>';
-						html += '</td>';*/
+						
+
+						arr = new Array();
+						//console.log(i);
+						/*var Interm = i;*/
+						//arr[parseInt(Interm)] = 'i';
+						//Convencion = ' ';
+
 						for(j = 0; CantidadDias > j; j++){						
+							
+							$.get("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j, function (AsistenciaDeportistas) {
+								//console.log("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j);
+								
+
+								if (AsistenciaDeportistas) {
+								//	console.log('existe');
+									//Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id']+'/';
+									Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id'];
+								  // your code here
+								}else{
+								//	console.log('NO existe');
+									Convencion = 'NO ex ';
+								}
+								
+
+								//console.log(AsistenciaDeportistas);
+			    				/*if(AsistenciaDeportistas){
+			    					Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id']+'/';
+
+			    				}else{
+			    					Convencion = ' ';
+			    				}*/			    				
+			    				
+			    				
+		    				});
+		    				console.log(Convencion);
+
+
+		    				/*console.log(i, '->'+j);
+		    				console.log(Convencion);*/
+		    			//	Convencion = ' ';
+		    				/*
+			    				console.log("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j);
+			    				console.log(AsistenciaDeportistas);
+
+							arr.push(Convencion);
+							console.log(i);
+		    				console.log(arr);
+		    				Convencion = '';*/
+
+							//console.log(arr);
+							
 							html += '<td>';
-							html += '<select style="padding:0px; font-size:10px;" name="AsistenciaS'+e['deportista']['Id']+'-'+(j+1)+'" id="AsistenciaS'+e['deportista']['Id']+'-'+(j+1)+'" class="form-control">';
+							html += '<select style="padding:0px; font-size:10px;" name="Asistencias-'+e['deportista']['Id']+'-'+(j+1)+'" id="Asistencias'+e['deportista']['Id']+'-'+(j+1)+'" class="form-control">';
+							if(Convencion = ''){
+								html += '<option selected="selected" value="">----</option>';
+							}else{
 								html += '<option value="">----</option>';
-								html += '<option value="1">1</option>';
+							}
+							if(Convencion = 1){
+								html += '<option selected="selected" value="1">1</option>';								
+							}else{
+								html += '<option value="1">1</option>';								
+							}
+
+							if(Convencion = 2){								
+								html += '<option selected="selected" value="2">2</option>';
+							}else{
 								html += '<option value="2">2</option>';
+							}
+							
+							if(Convencion = 3){
+								html += '<option selected="selected" value="3">F</option>';
+							}else{
 								html += '<option value="3">F</option>';
+							}
+
+							if(Convencion = 4){
+								html += '<option selected="selected" value="4">M</option>';
+							}else{
 								html += '<option value="4">M</option>';
+							}
+
+							if(Convencion = 5){								
+								html += '<option selected="selected" value="5">K</option>';
+							}else{
 								html += '<option value="5">K</option>';
-								html += '<option value="6">cm</option>';
+							}
+
+							if(Convencion = 6){
+								html += '<option selected="selected" value="6">CM</option>';
+							}else{
+								html += '<option value="6">CM</option>';
+							}
+
+							if(Convencion = 7){
+								html += '<option selected="selected" value="7">NP</option>';
+							}else{
 								html += '<option value="7">NP</option>';
+								
 							html += '</select>';
 							html += '</td>';
+							}
 						}			
-						html += '</tr>';			    	
+						html += '</tr>';		
+						//console.log('#Asistencias-'+e['deportista']['Id']+'-'+(j+1));
 				    });
-					html += '</table>';					
+					html += '</table>';		
+					html += '<button type="button" class="btn btn-success" data-funcion="GuardaAsistencia" name="GuardaAsistencia" id="GuardaAsistencia" >Guardar Asistencia</button>';			
 					$("#PlanillaAsistencia").append(html);
+
+					/*$.each(DeportistasEntrenamientoOnly, function(i, e){
+		    			var j2 = 0;
+						for(j2 = 0; CantidadDias > j2; j2++){					
+							var st = '#Asistencias-'+e['deportista']['Id']+'-'+(j2+1);
+							$(st).val(2);
+						}			
+						//console.log('#Asistencias-'+e['deportista']['Id']+'-'+(j2+1));
+				    });*/
 				}else{
 					$('#MensajeAsistencia').html('<div class="alert alert-dismissible alert-danger" ><strong>Error! </strong>No se encontraron deportistas vinculados a este entrenamiento!</div>');
 					$('#MensajeAsistencia').show(60);
@@ -270,6 +368,35 @@ $(function(){
 				}
 	    	});			
     	});    	
+    });
+
+	$("body").delegate('button[data-funcion="GuardaAsistencia"]', 'click', function(){
+    	var token = $("#token").val();
+	  	var formData = new FormData($("#AsistenciaF")[0]);       	  
+	  	formData.append("Asistencias",$("#Entrenamiento_Id3").val());
+	  	$.ajax({
+	      url: 'AddAsistencias',  
+	      type: 'POST',
+	      data: formData,
+	      contentType: false,
+	      processData: false,
+	      dataType: "json",
+	      success: function (xhr) {
+	      	console.log(xhr);
+	        if(xhr.status == 'error'){
+	          validador_errores(xhr.errors);
+	        }
+	        else 
+	        {
+	          $('#MensajeAsistencia').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+	          $('#MensajeAsistencia').show(60);
+	          $('#MensajeAsistencia').delay(1500).hide(600);  	          
+	        }
+	      },
+	      error: function (xhr){
+	        validador_errores(xhr.responseJSON, 'AsistenciaF');
+	      }
+      	});
     });
 
     $("#VerificacionRequisitos").on('click', function(e){
@@ -290,3 +417,4 @@ $(function(){
     	$("#NoConformidades").addClass('active');
     });
 });
+

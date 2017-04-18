@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Idrd\Usuarios\Repo\PersonaInterface;
 use Validator;
 use Exception;
+use Carbon\Carbon;
 
 use App\Models\Entrenador;
 use App\Models\Deporte;
@@ -17,6 +18,7 @@ use App\Models\Deportista;
 
 use App\Models\DeportistaEntrenamiento;
 use App\Models\EntrenadorDeportista;
+use App\Models\AsistenciaEntrenamiento;
 
 class GestorEntrenamientosController extends Controller
 {
@@ -242,5 +244,59 @@ class GestorEntrenamientosController extends Controller
 	public function GetEntrenamientoDeportistas(Request $request, $id_entrenamiento){
 		$DeportistaEntrenamiento = DeportistaEntrenamiento::with('deportista.persona')->where('Entrenamiento_Id', $id_entrenamiento)->get();
 		return $DeportistaEntrenamiento;
+	}
+
+	public function AgregarAsistencias (Request $request){
+	//	dd($request->all());
+		foreach ($request->all() as $key => $value) {
+			$valores = explode('-', $key);
+			if(count($valores) > 1){
+				$id = $valores[1];
+				$Numero_Dia = $valores[2];
+			}else{
+				$id = 0;
+				$Numero_Dia = 0;
+			}
+
+			if($id != null){
+				$DeportistaEntrenamiento = DeportistaEntrenamiento::where('Deportista_Id', $id)->where('Entrenamiento_Id', $request->Asistencias)->get();
+				$Entrenamiento = Entrenamiento::find($request->Asistencias);
+
+				$date =  Carbon::parse($Entrenamiento->Fecha_Inicio);				 
+				$fecha = $date->addDays($Numero_Dia-1);
+
+				///Buscar si existe ya registro de la asistencia
+				if($value != '' && $id > 0){
+					$AsistenciaEntrenamiento = AsistenciaEntrenamiento::where('Deportista_Entrenamiento_Id', $DeportistaEntrenamiento[0]->Id)->where('Numero_Dia', $Numero_Dia)->get();
+					if(count($AsistenciaEntrenamiento) > 0){					
+						$AsistenciaEntrenamientoEdit = $AsistenciaEntrenamiento[0];
+						$AsistenciaEntrenamientoEdit->Deportista_Entrenamiento_Id = $DeportistaEntrenamiento[0]->Id;
+						$AsistenciaEntrenamientoEdit->Fecha = $fecha;
+						$AsistenciaEntrenamientoEdit->Numero_Dia = $Numero_Dia;
+						$AsistenciaEntrenamientoEdit->Convencion_Asistencia_Id = $value;
+						$AsistenciaEntrenamientoEdit->save();
+					}else{
+						$AsistenciaEntrenamientoAdd = new AsistenciaEntrenamiento;
+						$AsistenciaEntrenamientoAdd->Deportista_Entrenamiento_Id = $DeportistaEntrenamiento[0]->Id;
+						$AsistenciaEntrenamientoAdd->Fecha = $fecha;
+						$AsistenciaEntrenamientoAdd->Numero_Dia = $Numero_Dia;
+						$AsistenciaEntrenamientoAdd->Convencion_Asistencia_Id = $value;
+						$AsistenciaEntrenamientoAdd->save();
+					}
+
+					return response()->json(["Estado" => "Success","Mensaje" => "La asistencia de  la planilla ha sido almacenada con éxito!"]);		
+				}
+			}
+		}		
+	}
+
+	public function GetAsistenciaDeportistas(Request $request, $id_deportista, $id_entrenamiento, $numero_dia){
+		$DeportistaEntrenamiento = DeportistaEntrenamiento::where('Deportista_Id', $id_deportista)->where('Entrenamiento_Id', $id_entrenamiento)->get();
+		if(count($DeportistaEntrenamiento) > 0){
+			$AsistenciaEntrenamiento = AsistenciaEntrenamiento::where('Deportista_Entrenamiento_Id', $DeportistaEntrenamiento[0]->Id)->where('Numero_Dia', $numero_dia)->get();
+			if(count($AsistenciaEntrenamiento) > 0){
+				return ($AsistenciaEntrenamiento[0]);
+			}
+		}
 	}
 }

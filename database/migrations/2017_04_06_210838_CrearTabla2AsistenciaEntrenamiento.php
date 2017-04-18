@@ -18,9 +18,9 @@ class CrearTabla2AsistenciaEntrenamiento extends Migration
             $table->date('Fecha');
             $table->integer('Numero_Dia');
             $table->integer('Convencion_Asistencia_Id')->unsigned();
-            $table->integer('Verificacion_Convencion_1_Id')->unsigned();
-            $table->integer('Verificacion_Convencion_2_Id')->unsigned();
-            $table->integer('Verificacion_Convencion_3_Id')->unsigned();
+            $table->integer('Verificacion_Convencion_1_Id')->unsigned()->nullable();            
+            $table->integer('Verificacion_Convencion_2_Id')->unsigned()->nullable();            
+            $table->integer('Verificacion_Convencion_3_Id')->unsigned()->nullable();            
             $table->string('Url_Soporte_Medico')->nullable();            
             $table->string('Url_Soporte_Calamidad')->nullable();            
             $table->timestamps();            
