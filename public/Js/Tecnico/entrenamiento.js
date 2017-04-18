@@ -196,178 +196,99 @@ $(function(){
     	$("#NoConformidades").removeClass('active');
     	$("#PlanillaModal").modal('show');
     	$("#Entrenamiento_Id3").val($(this).val());
-    	//$("#Entrenamiento_Id4").val($(this).val());
+    	$("#Entrenamiento_Id4").val($(this).val());
     	$("#DescripcionPlanilla").empty();
     	$.get("getEntrenamientoOnly/"+$("#Entrenamiento_Id3").val(), function (EntrenamientoOnly) {
     		$("#DescripcionPlanilla").append('Planilla de asistencia para el entrenamiento: <br>'+EntrenamientoOnly['Lugar_Entrenamiento']+' - (FI: '+EntrenamientoOnly['Fecha_Inicio']+' - FF: '+EntrenamientoOnly['Fecha_Fin']+')');
+    		$("#Fecha_Inicio3").val(EntrenamientoOnly['Fecha_Inicio']);
+    		$("#Fecha_Fin3").val(EntrenamientoOnly['Fecha_Fin']);
+    	}).done(function(){
+    		//AsistenciasFormato();
+    		VerificacionRequisitosFormato();
     	});
     });
 
-    $("#Asistencia").on('click', function(e){    	
+    function AsistenciasFormato(){
     	$("#AsistenciaF").show('slow');
-    	$("#VerificacionRequisitosF").hide('slow');
-    	$("#NoConformidadesF").hide('slow');
     	$("#AsistenciaLi").addClass('active');
+
+
+    	$("#VerificacionRequisitosF").hide('slow');
     	$("#VerificacionRequisitos").removeClass('active');
+    	$("#PlanillaVerificacion").empty();
+
+    	$("#NoConformidadesF").hide('slow');    	
     	$("#NoConformidades").removeClass('active');
+
+
     	$('#MensajeAsistencia').hide('slow');	
-
     	$("#PlanillaAsistencia").empty();
+    	$("#PlanillaAsistencia").hide();
+    	$("#loadingPA").show();
 
-    	$.get("getEntrenamientoOnly/"+$("#Entrenamiento_Id3").val(), function (EntrenamientoOnly) {
-    		$.get("getEntrenamientoDeportistas/"+$("#Entrenamiento_Id3").val(), function (DeportistasEntrenamientoOnly) {
-    			//console.log(DeportistasEntrenamientoOnly);
-    			if(DeportistasEntrenamientoOnly.length > 0){
-		    		var CantidadDias = moment(EntrenamientoOnly['Fecha_Fin']).diff(moment(EntrenamientoOnly['Fecha_Inicio']), 'days');
-		    		var k = 0;
-		    		
+    	$.get("getEntrenamientoDeportistas/"+$("#Entrenamiento_Id3").val(), function (DeportistasEntrenamientoOnly) {
+    		if(DeportistasEntrenamientoOnly.length > 0){
+		    		var CantidadDias = moment($("#Fecha_Fin3").val()).diff(moment($("#Fecha_Inicio3").val()), 'days');	
 		    		var html = '<table  class="table" style="text-transform: uppercase; font-size:10px;">';
-		    		html += '<thead>';	    		
+		    		html += '<thead>';
 		    		html += '<th>Atleta</th>';
-		    		for(k = 0; CantidadDias > k; k++){						
-							html += '<th>'+(k+1)+'</th>';
+
+		    		var k = 1;
+		    		for(k = 1; CantidadDias >= k; k++){						
+							html +='<th>'+(k)+'</th>';
 						}
 		    		html += '</thead>';
+		    		html += '<tbody id="BodyTabla" name="BodyTabla">';		    		
+					html += '</tbody>';
+					html += '</table>';
 
-		    		var Obligacion = new Array();
-
-		    		$.each(DeportistasEntrenamientoOnly, function(i, e){
-		    			//alert(Convencion);
-		    			Convencion = '';
-		    			//Route::get('getAsistenciaDeportistas/{id_deportista_entrenamiento}		    			
-		    			var j = 0;
-		    			html += '<tr>';			
-		    			html += '<td>';
-						html += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['persona']['Primer_Nombre']+' '+e['deportista']['persona']['Segundo_Nombre']+' '+e['deportista']['persona']['Primer_Apellido']+' '+e['deportista']['persona']['Segundo_Apellido']+'</label>';
-						html += '</td>';
-						
-
-						arr = new Array();
-						//console.log(i);
-						/*var Interm = i;*/
-						//arr[parseInt(Interm)] = 'i';
-						//Convencion = ' ';
-
-						for(j = 0; CantidadDias > j; j++){						
-							
-							$.get("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j, function (AsistenciaDeportistas) {
-								//console.log("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j);
-								
-
-								if (AsistenciaDeportistas) {
-								//	console.log('existe');
-									//Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id']+'/';
-									Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id'];
-								  // your code here
-								}else{
-								//	console.log('NO existe');
-									Convencion = 'NO ex ';
-								}
-								
-
-								//console.log(AsistenciaDeportistas);
-			    				/*if(AsistenciaDeportistas){
-			    					Convencion = AsistenciaDeportistas['Convencion_Asistencia_Id']+'/';
-
-			    				}else{
-			    					Convencion = ' ';
-			    				}*/			    				
-			    				
-			    				
-		    				});
-		    				console.log(Convencion);
-
-
-		    				/*console.log(i, '->'+j);
-		    				console.log(Convencion);*/
-		    			//	Convencion = ' ';
-		    				/*
-			    				console.log("getAsistenciaDeportistas/"+e.Deportista_Id+"/"+e.Entrenamiento_Id+"/"+j);
-			    				console.log(AsistenciaDeportistas);
-
-							arr.push(Convencion);
-							console.log(i);
-		    				console.log(arr);
-		    				Convencion = '';*/
-
-							//console.log(arr);
-							
-							html += '<td>';
-							html += '<select style="padding:0px; font-size:10px;" name="Asistencias-'+e['deportista']['Id']+'-'+(j+1)+'" id="Asistencias'+e['deportista']['Id']+'-'+(j+1)+'" class="form-control">';
-							if(Convencion = ''){
-								html += '<option selected="selected" value="">----</option>';
-							}else{
-								html += '<option value="">----</option>';
-							}
-							if(Convencion = 1){
-								html += '<option selected="selected" value="1">1</option>';								
-							}else{
-								html += '<option value="1">1</option>';								
-							}
-
-							if(Convencion = 2){								
-								html += '<option selected="selected" value="2">2</option>';
-							}else{
-								html += '<option value="2">2</option>';
-							}
-							
-							if(Convencion = 3){
-								html += '<option selected="selected" value="3">F</option>';
-							}else{
-								html += '<option value="3">F</option>';
-							}
-
-							if(Convencion = 4){
-								html += '<option selected="selected" value="4">M</option>';
-							}else{
-								html += '<option value="4">M</option>';
-							}
-
-							if(Convencion = 5){								
-								html += '<option selected="selected" value="5">K</option>';
-							}else{
-								html += '<option value="5">K</option>';
-							}
-
-							if(Convencion = 6){
-								html += '<option selected="selected" value="6">CM</option>';
-							}else{
-								html += '<option value="6">CM</option>';
-							}
-
-							if(Convencion = 7){
-								html += '<option selected="selected" value="7">NP</option>';
-							}else{
-								html += '<option value="7">NP</option>';
-								
-							html += '</select>';
-							html += '</td>';
-							}
-						}			
-						html += '</tr>';		
-						//console.log('#Asistencias-'+e['deportista']['Id']+'-'+(j+1));
-				    });
-					html += '</table>';		
-					html += '<button type="button" class="btn btn-success" data-funcion="GuardaAsistencia" name="GuardaAsistencia" id="GuardaAsistencia" >Guardar Asistencia</button>';			
 					$("#PlanillaAsistencia").append(html);
 
-					/*$.each(DeportistasEntrenamientoOnly, function(i, e){
-		    			var j2 = 0;
-						for(j2 = 0; CantidadDias > j2; j2++){					
-							var st = '#Asistencias-'+e['deportista']['Id']+'-'+(j2+1);
-							$(st).val(2);
-						}			
-						//console.log('#Asistencias-'+e['deportista']['Id']+'-'+(j2+1));
-				    });*/
+		    		$.each(DeportistasEntrenamientoOnly, function(i, e){    		
+		    			html2 = ''
+		    			html2 += '<tr id=DeportistaRegistro'+i+'>';
+		    			html2 += '<td id="NombresAtleta'+i+'">';
+						html2 += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['persona']['Primer_Nombre']+' '+e['deportista']['persona']['Segundo_Nombre']+' '+e['deportista']['persona']['Primer_Apellido']+' '+e['deportista']['persona']['Segundo_Apellido']+'</label>';
+						html2 += '</td>';						
+						html2 += '</tr>';
+
+						$("#BodyTabla").append(html2);
+	    				var j = 1;
+	    				for(j = 1; CantidadDias >= j; j++){	
+	    					htmlExtra = '';
+	    					htmlExtra += '<td>';
+							htmlExtra += '<select style="padding:0px; font-size:10px;"  data-function="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" name="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" id="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" class="form-control">';
+							htmlExtra += '<option value="">----</option>';
+							htmlExtra += '<option value="1">1</option>';
+							htmlExtra += '<option value="2">2</option>';
+							htmlExtra += '<option value="3">F</option>';
+							htmlExtra += '<option value="4">M</option>';
+							htmlExtra += '<option value="5">K</option>';
+							htmlExtra += '<option value="6">CM</option>'
+							htmlExtra += '<option value="7">NP</option>'
+							htmlExtra += '</select>';
+							htmlExtra += '</td>';
+							$("#DeportistaRegistro"+i).append(htmlExtra);
+						}
+
+						$.each(e.deportista_asistencia, function(it, efe){
+							$("#Asistencias-"+e['deportista']['Id']+'-'+(efe['Numero_Dia'])).val(efe['Convencion_Asistencia_Id']).change();
+	    				});	    
+	    			});
+	    			
 				}else{
 					$('#MensajeAsistencia').html('<div class="alert alert-dismissible alert-danger" ><strong>Error! </strong>No se encontraron deportistas vinculados a este entrenamiento!</div>');
 					$('#MensajeAsistencia').show(60);
-					/*setTimeout(function(){ 
-				        $('#MensajeAsistencia').hide('slow');	
-				      }, 2000); */
 				}
-	    	});			
-    	});    	
+    	}).done(function(){  
+    		$("#PlanillaAsistencia").append('<button type="button" class="btn btn-success" data-funcion="GuardaAsistencia" name="GuardaAsistencia" id="GuardaAsistencia" >Guardar Asistencia</button>');  		
+			$("#loadingPA").hide();
+			$("#PlanillaAsistencia").show();
+    	});
+    }
+
+    $("#Asistencia").on('click', function(e){
+    	AsistenciasFormato();
     });
 
 	$("body").delegate('button[data-funcion="GuardaAsistencia"]', 'click', function(){
@@ -382,7 +303,6 @@ $(function(){
 	      processData: false,
 	      dataType: "json",
 	      success: function (xhr) {
-	      	console.log(xhr);
 	        if(xhr.status == 'error'){
 	          validador_errores(xhr.errors);
 	        }
@@ -399,13 +319,194 @@ $(function(){
       	});
     });
 
-    $("#VerificacionRequisitos").on('click', function(e){
-    	$("#AsistenciaF").hide('slow');
-    	$("#VerificacionRequisitosF").show('slow');
-    	$("#NoConformidadesF").hide('slow');
+    function VerificacionRequisitosFormato(){
+    	$("#AsistenciaF").hide('slow');    	
     	$("#AsistenciaLi").removeClass('active');
+    	$("#PlanillaAsistencia").empty();
+
+
+    	$("#VerificacionRequisitosF").show('slow');
     	$("#VerificacionRequisitos").addClass('active');
+
+
+    	$("#NoConformidadesF").hide('slow');    	
     	$("#NoConformidades").removeClass('active');
+
+
+    	$('#MensajeVerificacion').hide('slow');	
+    	$("#PlanillaVerificacion").empty();
+    	$("#PlanillaVerificacion").hide();
+    	$("#loadingPV").show();
+
+    	$.get("getEntrenamientoDeportistas/"+$("#Entrenamiento_Id4").val(), function (DeportistasEntrenamientoOnly) {
+    		if(DeportistasEntrenamientoOnly.length > 0){
+		    		var CantidadDias = moment($("#Fecha_Fin3").val()).diff(moment($("#Fecha_Inicio3").val()), 'days');	
+		    		var html = '<table  class="table" style="text-transform: uppercase; font-size:10px;">';
+		    		html += '<thead>';
+		    		html += '<th>Atleta</th>';
+
+		    		var k = 1;
+		    		for(k = 1; CantidadDias >= k; k++){						
+							html +='<th>'+(k)+'</th>';
+						}
+		    		html += '</thead>';
+		    		html += '<tbody id="BodyTablaV" name="BodyTablaV">';
+					html += '</tbody>';
+					html += '</table>';
+
+					$("#PlanillaVerificacion").append(html);
+
+					html2 = ''
+	    			html2 += '<tr id=VerificacionRegistroV1>';
+					html2 += '<td id="P1" width="200px;">';
+					html2 += '<label style="text-transform: uppercase; font-size:10px;">';
+					html2 += 'El entrenamiento inició a la hora establecida?';
+					html2 += '</label>';
+					html2 += '</td>';						
+					html2 += '</tr>';
+
+					html2 += '<tr id=VerificacionRegistroV2>';
+					html2 += '<td id="P2">';
+					html2 += '<label style="text-transform: uppercase; font-size:10px;">';
+					html2 += 'El escenario deportivo se encuentra en condiciones adecuadas para desarrollar el entrenamiento?';
+					html2 += '</label>';
+					html2 += '</td>';						
+					html2 += '</tr>';
+
+					html2 += '<tr id=VerificacionRegistroV3>';
+					html2 += '<td id="P3">';
+					html2 += '<label style="text-transform: uppercase; font-size:10px;">';
+					html2 += 'Se cuenta con los implementos deportivos requeridos para el desarrollo del entrenamiento?';
+					html2 += '</label>';
+					html2 += '</td>';	
+					html2 += '</tr>';
+
+					html2 += '</tr>';
+					$("#BodyTablaV").append(html2);
+
+					var g = 0;
+					for(g = 0; 3 >= g; g++){
+						console.log(g);
+						var j = 1;
+	    				for(j = 1; CantidadDias >= j; j++){	
+	    					htmlExtra = '';
+	    					htmlExtra += '<td>';
+							htmlExtra += '<select style="padding:0px; font-size:10px;"name="Verificacion-'+g+'-'+(j)+'" id="Asistencias-'+g+'-'+(j)+'" class="form-control">';
+							htmlExtra += '<option value="">----</option>';
+							htmlExtra += '<option value="1">SI</option>';
+							htmlExtra += '<option value="2">NO</option>';
+							htmlExtra += '</select>';
+							htmlExtra += '</td>';
+
+							console.log("#VerificacionRegistroV"+(g+1));
+							$("#VerificacionRegistroV"+(g+1)).append(htmlExtra);
+						}
+
+					}
+
+		    		/*$.each(DeportistasEntrenamientoOnly, function(i, e){    				    									
+	    				var j = 1;
+	    				for(j = 1; CantidadDias >= j; j++){	
+	    					htmlExtra = '';
+	    					htmlExtra += '<td>';
+							htmlExtra += '<select style="padding:0px; font-size:10px;"  data-function="Verificacion-'+e['deportista']['Id']+'-'+(j)+'" name="Verificacion-'+e['deportista']['Id']+'-'+(j)+'" id="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" class="form-control">';
+							htmlExtra += '<option value="">----</option>';
+							htmlExtra += '<option value="1">SI</option>';
+							htmlExtra += '<option value="2">NO</option>';
+							htmlExtra += '</select>';
+							htmlExtra += '</td>';
+							$("#DeportistaRegistroV").append(htmlExtra);
+						}
+
+						$.each(e.deportista_asistencia, function(it, efe){
+							$("#Asistencias-"+e['deportista']['Id']+'-'+(efe['Numero_Dia'])).val(efe['Convencion_Asistencia_Id']).change();
+	    				});	   
+	    			});*/
+	    			
+				}else{
+					$('#MensajeAsistencia').html('<div class="alert alert-dismissible alert-danger" ><strong>Error! </strong>No se encontraron deportistas vinculados a este entrenamiento!</div>');
+					$('#MensajeAsistencia').show(60);
+				}
+    	}).done(function(){      	
+			$("#loadingPV").hide();
+			$("#PlanillaVerificacion").show();
+    	});
+
+    	/*$("#AsistenciaF").show('slow');
+    	$("#VerificacionRequisitosF").hide('slow');
+    	$("#NoConformidadesF").hide('slow');
+    	$("#AsistenciaLi").addClass('active');
+    	$("#VerificacionRequisitos").removeClass('active');
+    	$("#NoConformidades").removeClass('active');
+    	$('#MensajeAsistencia').hide('slow');	
+
+    	$("#PlanillaAsistencia").empty();
+    	$("#PlanillaAsistencia").hide();
+    	$("#loadingPA").show();
+
+    	$.get("getEntrenamientoDeportistas/"+$("#Entrenamiento_Id3").val(), function (DeportistasEntrenamientoOnly) {
+    		if(DeportistasEntrenamientoOnly.length > 0){
+		    		var CantidadDias = moment($("#Fecha_Fin3").val()).diff(moment($("#Fecha_Inicio3").val()), 'days');	
+		    		var html = '<table  class="table" style="text-transform: uppercase; font-size:10px;">';
+		    		html += '<thead>';
+		    		html += '<th>Atleta</th>';
+
+		    		var k = 1;
+		    		for(k = 1; CantidadDias >= k; k++){						
+							html +='<th>'+(k)+'</th>';
+						}
+		    		html += '</thead>';
+		    		html += '<tbody id="BodyTabla" name="BodyTabla">';		    		
+					html += '</tbody>';
+					html += '</table>';
+
+					$("#PlanillaAsistencia").append(html);
+
+		    		$.each(DeportistasEntrenamientoOnly, function(i, e){    		
+		    			html2 = ''
+		    			html2 += '<tr id=DeportistaRegistro'+i+'>';
+		    			html2 += '<td id="NombresAtleta'+i+'">';
+						html2 += '<label style="text-transform: uppercase; font-size:10px;">'+e['deportista']['persona']['Primer_Nombre']+' '+e['deportista']['persona']['Segundo_Nombre']+' '+e['deportista']['persona']['Primer_Apellido']+' '+e['deportista']['persona']['Segundo_Apellido']+'</label>';
+						html2 += '</td>';						
+						html2 += '</tr>';
+
+						$("#BodyTabla").append(html2);
+	    				var j = 1;
+	    				for(j = 1; CantidadDias >= j; j++){	
+	    					htmlExtra = '';
+	    					htmlExtra += '<td>';
+							htmlExtra += '<select style="padding:0px; font-size:10px;"  data-function="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" name="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" id="Asistencias-'+e['deportista']['Id']+'-'+(j)+'" class="form-control">';
+							htmlExtra += '<option value="">----</option>';
+							htmlExtra += '<option value="1">1</option>';
+							htmlExtra += '<option value="2">2</option>';
+							htmlExtra += '<option value="3">F</option>';
+							htmlExtra += '<option value="4">M</option>';
+							htmlExtra += '<option value="5">K</option>';
+							htmlExtra += '<option value="6">CM</option>'
+							htmlExtra += '<option value="7">NP</option>'
+							htmlExtra += '</select>';
+							htmlExtra += '</td>';
+							$("#DeportistaRegistro"+i).append(htmlExtra);
+						}
+
+						$.each(e.deportista_asistencia, function(it, efe){
+							$("#Asistencias-"+e['deportista']['Id']+'-'+(efe['Numero_Dia'])).val(efe['Convencion_Asistencia_Id']).change();
+	    				});	    
+	    			});
+	    			
+				}else{
+					$('#MensajeAsistencia').html('<div class="alert alert-dismissible alert-danger" ><strong>Error! </strong>No se encontraron deportistas vinculados a este entrenamiento!</div>');
+					$('#MensajeAsistencia').show(60);
+				}
+    	}).done(function(){  
+    	$("#PlanillaAsistencia").append('<button type="button" class="btn btn-success" data-funcion="GuardaAsistencia" name="GuardaAsistencia" id="GuardaAsistencia" >Guardar Asistencia</button>');  		
+			$("#loadingPA").hide();
+			$("#PlanillaAsistencia").show();
+    	});*/
+    }
+
+    $("#VerificacionRequisitos").on('click', function(e){
+    	VerificacionRequisitosFormato();
     });
 
     $("#NoConformidades").on('click', function(e){
@@ -417,4 +518,3 @@ $(function(){
     	$("#NoConformidades").addClass('active');
     });
 });
-

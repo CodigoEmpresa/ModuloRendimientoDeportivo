@@ -242,7 +242,7 @@ class GestorEntrenamientosController extends Controller
 	}
 
 	public function GetEntrenamientoDeportistas(Request $request, $id_entrenamiento){
-		$DeportistaEntrenamiento = DeportistaEntrenamiento::with('deportista.persona')->where('Entrenamiento_Id', $id_entrenamiento)->get();
+		$DeportistaEntrenamiento = DeportistaEntrenamiento::with('deportista.persona', 'deportistaAsistencia')->where('Entrenamiento_Id', $id_entrenamiento)->get();
 		return $DeportistaEntrenamiento;
 	}
 
@@ -282,12 +282,11 @@ class GestorEntrenamientosController extends Controller
 						$AsistenciaEntrenamientoAdd->Numero_Dia = $Numero_Dia;
 						$AsistenciaEntrenamientoAdd->Convencion_Asistencia_Id = $value;
 						$AsistenciaEntrenamientoAdd->save();
-					}
-
-					return response()->json(["Estado" => "Success","Mensaje" => "La asistencia de  la planilla ha sido almacenada con éxito!"]);		
+					}					
 				}
 			}
 		}		
+		return response()->json(["Estado" => "Success","Mensaje" => "La asistencia de  la planilla ha sido almacenada con éxito!"]);		
 	}
 
 	public function GetAsistenciaDeportistas(Request $request, $id_deportista, $id_entrenamiento, $numero_dia){

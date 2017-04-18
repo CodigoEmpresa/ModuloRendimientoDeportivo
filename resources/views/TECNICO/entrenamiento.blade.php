@@ -311,27 +311,37 @@
 		                              <li role="presentation" id="NoConformidadesLi" ><a id="NoConformidades" >No conformidades</a></li>
 		                            </ul>
 		                            <input type="hidden" name="Entrenamiento_Id3" id="Entrenamiento_Id3">
+                                    <input type="hidden" name="Fecha_Inicio3" id="Fecha_Inicio3">
+                                    <input type="hidden" name="Fecha_Fin3" id="Fecha_Fin3">
 		                            <!---------------------------------------------------------------------->
                                     <form id="AsistenciaF" name="AsistenciaF" style="display: none;">
-                                        <!--<input type="hidden" name="Entrenamiento_Id4" id="Entrenamiento_Id4">-->
                                     	<div id="PlanillaAsistencia"></div>
+                                        <div id="loadingPA" style="display:none;">
+                                            <br>
+                                            <center><button class="btn btn-lg btn-default">
+                                            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button>
+                                            </center>
+                                            </div>
                                     	<div class="row panel-body" align="center">                                                   
                                             <div id="MensajeAsistencia"></div>
-                                        </div>
-                                    	<!--<div class="row panel-body">
-                                    		<h4 align="center">Marque los deportistas que desea incluir dentro de este entrenamiento.</h4>
-                                            <div class="form-group col-md-12" id="ListadoDeportistas"></div>
-                                        </div>
-                                        <div class="row panel-body" align="center">                                                   
-                                            <div id="MensajeEntrenamientoDeportistas" style="display:none;"></div>
-                                            <div id="loading" style="display:none;">
-							                    <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
-							                </div>
-                                        </div>-->                                                   
+                                        </div>                                                
                                     </form>  
                                     <!---------------------------------------------------------------------->
                                     <form id="VerificacionRequisitosF" name="VerificacionRequisitosF" style="display: none;">
-                                    verf
+                                        <input type="hidden" name="Entrenamiento_Id4" id="Entrenamiento_Id4">
+                                        <input type="hidden" name="Fecha_Inicio4" id="Fecha_Inicio4">
+                                        <input type="hidden" name="Fecha_Fin4" id="Fecha_Fin4">
+                                        <div id="PlanillaVerificacion"></div>
+                                        <div id="loadingPV" style="display:none;">
+                                            <br>
+                                            <center><button class="btn btn-lg btn-default">
+                                            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button>
+                                            </center>
+                                            </div>
+                                        <div class="row panel-body" align="center">                                                   
+                                            <div id="MensajeVerificacion"></div>
+                                        </div>  
+                                    
                                     	<!--<div class="row panel-body">
                                     		<h4 align="center">Marque los deportistas que desea incluir dentro de este entrenamiento.</h4>
                                             <div class="form-group col-md-12" id="ListadoDeportistas"></div>

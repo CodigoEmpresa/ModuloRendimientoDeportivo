@@ -17,4 +17,8 @@ class DeportistaEntrenamiento extends Model
     public function entrenamiento(){
         return $this->belongsTo('App\Models\Entrenamiento', 'Entrenamiento_Id');
     }
+
+    public function deportistaAsistencia(){
+        return $this->hasMany('App\Models\AsistenciaEntrenamiento', 'Deportista_Entrenamiento_Id');
+    }
 }
