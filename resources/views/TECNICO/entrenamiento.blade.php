@@ -340,32 +340,114 @@
                                             </div>
                                         <div class="row panel-body" align="center">                                                   
                                             <div id="MensajeVerificacion"></div>
-                                        </div>  
-                                    
-                                    	<!--<div class="row panel-body">
-                                    		<h4 align="center">Marque los deportistas que desea incluir dentro de este entrenamiento.</h4>
-                                            <div class="form-group col-md-12" id="ListadoDeportistas"></div>
-                                        </div>
-                                        <div class="row panel-body" align="center">                                                   
-                                            <div id="MensajeEntrenamientoDeportistas" style="display:none;"></div>
-                                            <div id="loading" style="display:none;">
-							                    <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
-							                </div>
-                                        </div>-->                                                   
+                                        </div>                                            
                                     </form>  
                                     <!---------------------------------------------------------------------->
                                     <form id="NoConformidadesF" name="NoConformidadesF" style="display: none;">
-                                    nop cof
-                                    	<!--<div class="row panel-body">
-                                    		<h4 align="center">Marque los deportistas que desea incluir dentro de este entrenamiento.</h4>
-                                            <div class="form-group col-md-12" id="ListadoDeportistas"></div>
+                                        <input type="hidden" name="Entrenamiento_Id5" id="Entrenamiento_Id5">
+                                        <div id="PlanillaNoConformidad">
+                                            <div class="panel">  
+                                                <div class="content">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                          <h3 class="panel-title">Agregar No Conformidad</h3>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">Descripción</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                    <textarea class="form-control" name="DescripcionNC" id="DescripcionNC"></textarea>    
+                                                                </div>
+
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">Fecha</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                    <div class="input-group date form-control" id="FechaNCDate" style="border: none;">
+                                                                        <input id="FechaNC" class="form-control " type="text" style="text-transform: uppercase;" value="" name="FechaNC" default="" data-date="" data-behavior="FechaNC">
+                                                                    <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
+                                                                    </div>    
+                                                                </div>
+
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">Requisito</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">     
+                                                                    <select name="RequisitoNC" id="RequisitoNC" class="form-control">
+                                                                        <option value="">Seleccionar</option>   
+                                                                        <option value="1">1</option>   
+                                                                        <option value="2">2</option>   
+                                                                        <option value="3">3</option>                             
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">Tratamiento</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                    <select name="TratamientoNC" id="TratamientoNC" class="form-control">
+                                                                        <option value="">Seleccionar</option>   
+                                                                        <option value="1">REPROCESO</option>   
+                                                                        <option value="2">CONCESIÓN</option>   
+                                                                        <option value="3">IDENTIFICACIÓN DE NO USO</option>                             
+                                                                    </select>
+                                                                </div>
+
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">Descripción de la acción tomada</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">
+                                                                   <textarea class="form-control" name="DescripcionAccionNC" id="DescripcionAccionNC"></textarea>       
+                                                                </div>
+
+                                                                <div class="form-group col-md-1">
+                                                                    <label for="inputEmail" class="control-label">El entreno presentó inconvenientes</label>
+                                                                </div>
+                                                                <div class="form-group col-md-3">     
+                                                                    <select name="InconvenienteNC" id="InconvenienteNC" class="form-control">
+                                                                        <option value="">Seleccionar</option>   
+                                                                        <option value="1">SI</option>   
+                                                                        <option value="2">NO</option>                             
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-12">
+                                                                    <center>
+                                                                        <button type="button" class="btn btn-success ver" value="" name="AgregarNC" id="AgregarNC" >Agregar No Conformidad</button>
+                                                                    </center>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel">  
+                                                <div class="content">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                          <h3 class="panel-title">Lista No Conformidades</h3>
+                                                        </div>
+                                                        <div class="panel-body" id="ListaNC" name="ListaNC">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div id="loadingPNC" style="display:none;">
+                                            <br>
+                                            <center><button class="btn btn-lg btn-default">
+                                            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button>
+                                            </center>
+                                            </div>
                                         <div class="row panel-body" align="center">                                                   
-                                            <div id="MensajeEntrenamientoDeportistas" style="display:none;"></div>
-                                            <div id="loading" style="display:none;">
-							                    <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
-							                </div>
-                                        </div>-->                                                   
+                                            <div id="MensajeNoConformidad"></div>
+                                        </div>                                                
                                     </form>                                                                                    
                                 </div>                                                                                            
                             </div>    

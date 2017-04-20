@@ -258,9 +258,19 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddDeportistaEntrenamiento', 'GestorEntrenamientosController@AgregarDeportistaEntrenamiento');
 
 	Route::get('getEntrenamientoDeportistas/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoDeportistas');
-
 	Route::post('AddAsistencias', 'GestorEntrenamientosController@AgregarAsistencias');
 	Route::get('getAsistenciaDeportistas/{id_deportista}/{id_entrenamiento}/{numero_dia}','GestorEntrenamientosController@GetAsistenciaDeportistas');
 
+	Route::post('AddVerificacionRequisitos', 'GestorEntrenamientosController@AgregarVerificacionRequisitos');
+	Route::get('getEntrenamientoVerificaciones/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoVerificaciones');
+
+	Route::post('AddNoConformidad', 'GestorEntrenamientosController@AgregarNoConformidad');
+	Route::get('getEntrenamientoNC/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoNC');
+	Route::post('DeleteNoConformidad', 'GestorEntrenamientosController@EliminarNoConformidad');	
 	/***********************************************************/
+
+	/**********************TEST PEDAGOGICOS *******************************************/
+	Route::get('gestor_test','GestorTestController@index');
+
+	/**********************************************************************************/
 });

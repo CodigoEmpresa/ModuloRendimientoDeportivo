@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TratamientoConformidad extends Model
 {
-    protected $table = 'entrenamiento';
+    protected $table = 'tratamiento_conformidad';
     protected $primaryKey = 'Id';
     protected $fillable = ['Nombre_Tratamiento_Conformidad'];
 

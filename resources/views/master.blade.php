@@ -157,26 +157,17 @@
                       <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                      
                       
                         <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”><a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a></li>
-                      
-
-                      
                         <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”><a href="{{ URL::to( 'certamen') }}">Gestor de certámenes deportivos</a></li>
-                      
-
-                      
                         <li class=”{{ Request::is( 'asignacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'asignacion_pruebas') }}">Asignación de pruebas deportivas</a></li>
-                      
-
-                      
                         <li class=”{{ Request::is( 'denegacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'denegacion_pruebas') }}">Denegación de pruebas deportivas</a></li>
-                      
-
-                      
                         <li class=”{{ Request::is( 'mis_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_resultados') }}">Mis pruebas deportivas</a></li>
                       
                       
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">CONTROLES FÍSICOS</a></li>                                            
+                        <li class=”{{ Request::is( 'gestor_test') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}">Gestor de Test Pedagógicos</a></li>
+                        <li class=”{{ Request::is( 'test_pedagogico') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}"> Mis Test Pedagógicos</a></li>
+
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">VISITAS TÉCNICAS</a></li>                                            
                       <li class="divider"></li>

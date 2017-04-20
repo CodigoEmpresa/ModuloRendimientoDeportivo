@@ -27,9 +27,9 @@ class CrearTabla2AsistenciaEntrenamiento extends Migration
             
             $table->foreign('Deportista_Entrenamiento_Id')->references('Id')->on('deportista_entrenamiento');
             $table->foreign('Convencion_Asistencia_Id')->references('Id')->on('convencion_asistencia');
-            $table->foreign('Verificacion_Convencion_1_Id')->references('Id')->on('convencion_asistencia');
+            /*$table->foreign('Verificacion_Convencion_1_Id')->references('Id')->on('convencion_asistencia');
             $table->foreign('Verificacion_Convencion_2_Id')->references('Id')->on('convencion_asistencia');
-            $table->foreign('Verificacion_Convencion_3_Id')->references('Id')->on('convencion_asistencia');
+            $table->foreign('Verificacion_Convencion_3_Id')->references('Id')->on('convencion_asistencia');*/
         });
     }
 
@@ -43,9 +43,9 @@ class CrearTabla2AsistenciaEntrenamiento extends Migration
         Schema::table('asistencia_entrenamiento', function(Blueprint $table){
             $table->dropForeign('Deportista_Entrenamiento_Id')->references('Id');
             $table->dropForeign('Convencion_Asistencia_Id')->references('Id');
-            $table->dropForeign('Verificacion_Convencion_1_Id')->references('Id');
+            /*$table->dropForeign('Verificacion_Convencion_1_Id')->references('Id');
             $table->dropForeign('Verificacion_Convencion_2_Id')->references('Id');
-            $table->dropForeign('Verificacion_Convencion_3_Id')->references('Id');
+            $table->dropForeign('Verificacion_Convencion_3_Id')->references('Id');*/
         });    
         Schema::drop('asistencia_entrenamiento');
     }

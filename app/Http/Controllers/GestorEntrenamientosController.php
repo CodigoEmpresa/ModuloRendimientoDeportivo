@@ -19,6 +19,8 @@ use App\Models\Deportista;
 use App\Models\DeportistaEntrenamiento;
 use App\Models\EntrenadorDeportista;
 use App\Models\AsistenciaEntrenamiento;
+use App\Models\VerificacionEntrenamiento;
+use App\Models\EntrenamientoNoConformidad;
 
 class GestorEntrenamientosController extends Controller
 {
@@ -247,7 +249,6 @@ class GestorEntrenamientosController extends Controller
 	}
 
 	public function AgregarAsistencias (Request $request){
-	//	dd($request->all());
 		foreach ($request->all() as $key => $value) {
 			$valores = explode('-', $key);
 			if(count($valores) > 1){
@@ -296,6 +297,128 @@ class GestorEntrenamientosController extends Controller
 			if(count($AsistenciaEntrenamiento) > 0){
 				return ($AsistenciaEntrenamiento[0]);
 			}
+		}
+	}
+
+	public function AgregarVerificacionRequisitos (Request $request){
+		$Entrenamiento = Entrenamiento::find($request->Verificacion);
+		foreach ($request->all() as $key => $value) {
+			$valores = explode('-', $key);
+			if(count($valores) > 1){
+				$id = $valores[1];
+				$Numero_Dia = $valores[2];
+			}else{
+				$id = 0;
+				$Numero_Dia = 0;
+			}
+			if($id != null){
+				$date =  Carbon::parse($Entrenamiento->Fecha_Inicio);				 
+				$fecha = $date->addDays($Numero_Dia-1);
+
+				$VerificacionEntrenamiento = VerificacionEntrenamiento::where('Entrenamiento_Id', $request->Verificacion)->where('Numero_Dia', $Numero_Dia)->get();	
+
+				if(count($VerificacionEntrenamiento) > 0){
+					$VerificacionEntrenamientoEdit = $VerificacionEntrenamiento[0];
+					$VerificacionEntrenamientoEdit->Entrenamiento_Id = $Entrenamiento->Id;
+					$VerificacionEntrenamientoEdit->Fecha = $fecha;
+					$VerificacionEntrenamientoEdit->Numero_Dia = $Numero_Dia;
+					if($id == 1){
+						$VerificacionEntrenamientoEdit->P_1 = $value;
+					}
+					if($id == 2){
+						$VerificacionEntrenamientoEdit->P_2 = $value;
+					}
+					if($id == 3){
+						$VerificacionEntrenamientoEdit->P_3 = $value;
+					}
+					$VerificacionEntrenamientoEdit->save();
+				}else{
+						if($value != ''){
+						$VerificacionEntrenamientoAdd = new VerificacionEntrenamiento;
+						$VerificacionEntrenamientoAdd->Entrenamiento_Id = $Entrenamiento->Id;
+						$VerificacionEntrenamientoAdd->Fecha = $fecha;
+						$VerificacionEntrenamientoAdd->Numero_Dia = $Numero_Dia;
+						if($id == 1){
+							$VerificacionEntrenamientoAdd->P_1 = $value;
+						}
+						if($id == 2){
+							$VerificacionEntrenamientoAdd->P_2 = $value;
+						}
+						if($id == 3){
+							$VerificacionEntrenamientoAdd->P_3 = $value;
+						}					
+						$VerificacionEntrenamientoAdd->save();
+					}
+				}
+			}
+		}	
+		return response()->json(["Estado" => "Success","Mensaje" => "La verificación de  la planilla ha sido almacenada con éxito!"]);		
+	}
+
+	public function GetEntrenamientoVerificaciones(Request $request, $id_entrenamiento){
+		$VerificacionEntrenamiento = Entrenamiento::with('entrenamientoVerificacion')->find($id_entrenamiento);
+		return($VerificacionEntrenamiento);
+	}
+
+	public function AgregarNoConformidad(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+				"Entrenamiento_Id5" => "required",
+				"DescripcionNC" => "required",
+				"FechaNC" => "date|required",
+				"RequisitoNC" => "required",
+				"TratamientoNC" => "required",
+				"DescripcionAccionNC" => "required",
+				"InconvenienteNC" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$EntrenamientoNoConformidad = new EntrenamientoNoConformidad;
+	        	$EntrenamientoNoConformidad->Entrenamiento_Id = $request->Entrenamiento_Id5;
+	        	$EntrenamientoNoConformidad->Tratamiento_Conformidad_Id = $request->TratamientoNC;
+	        	$EntrenamientoNoConformidad->Fecha = $request->FechaNC;
+	        	$EntrenamientoNoConformidad->Numero_Requisito = $request->RequisitoNC;
+	        	$EntrenamientoNoConformidad->Descripcion_No_Conformidad = $request->DescripcionNC;
+	        	$EntrenamientoNoConformidad->Descripcion_Accion = $request->DescripcionAccionNC;
+	        	$EntrenamientoNoConformidad->Inconvenientes = $request->InconvenienteNC;
+
+	        	if($EntrenamientoNoConformidad->save()){
+	        		return response()->json(["Estado" => "Success","Mensaje" => "Se ha agregado la Inconformidad con éxito!"]);		
+	        	}else{
+	        		return response()->json(["Estado" => "Success","Mensaje" => "No se logro la adición de la inconformidad, por favor intentelo nuevamente"]);	
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
+	}
+
+	public function GetEntrenamientoNC(Request $request, $id_entrenamiento){
+		$EntrenamientoNoConformidad = Entrenamiento::with('entrenamientoNoConformidad', 'entrenamientoNoConformidad.tratamientoConformidad')->find($id_entrenamiento);
+		return $EntrenamientoNoConformidad;
+	}
+
+	public function EliminarNoConformidad(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [
+				"Id_No_Conformidad" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$EntrenamientoNoConformidad = EntrenamientoNoConformidad::find($request->Id_No_Conformidad);
+
+	        	if($EntrenamientoNoConformidad->delete()){
+	        		return response()->json(["Estado" => "Success","Mensaje" => "Se ha eliminado la Inconformidad con éxito!"]);		
+	        	}else{
+	        		return response()->json(["Estado" => "Success","Mensaje" => "No se logro la eliminación de la inconformidad, por favor intentelo nuevamente"]);	
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
 		}
 	}
 }

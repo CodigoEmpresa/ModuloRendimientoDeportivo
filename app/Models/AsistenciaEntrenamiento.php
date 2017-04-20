@@ -8,7 +8,7 @@ class AsistenciaEntrenamiento extends Model
 {
     protected $table = 'asistencia_entrenamiento';
     protected $primaryKey = 'Id';
-    protected $fillable = ['Deportista_Entrenamiento_Id', 'Fecha', 'Numero_Dia', 'Convencion_Asistencia_Id', 'Verificacion_Convencion_1_Id', 'Verificacion_Convencion_2_Id', 'Verificacion_Convencion_3_Id', 'Url_Soporte_Medico', 'Url_Soporte_Calamidad'];
+    protected $fillable = ['Deportista_Entrenamiento_Id', 'Fecha', 'Numero_Dia', 'Convencion_Asistencia_Id', /*'Verificacion_Convencion_1_Id', 'Verificacion_Convencion_2_Id', 'Verificacion_Convencion_3_Id',*/ 'Url_Soporte_Medico', 'Url_Soporte_Calamidad'];
 
     public function deportistaEntrenamiento(){
         return $this->belongsTo('App\Models\DeportistaEntrenamiento', 'Deportista_Entrenamiento_Id');
@@ -26,7 +26,7 @@ class AsistenciaEntrenamiento extends Model
         return $this->belongsTo('App\Models\ConvencionAsistencia', 'Convencion_Asistencia_Id');
     }
 
-    public function verificacionConvencion1(){
+    /*public function verificacionConvencion1(){
         return $this->belongsTo('App\Models\ConvencionAsistencia', 'Verificacion_Convencion_1_Id');
     }
 
@@ -36,5 +36,5 @@ class AsistenciaEntrenamiento extends Model
 
     public function verificacionConvencion3(){
         return $this->belongsTo('App\Models\ConvencionAsistencia', 'Verificacion_Convencion_3_Id');
-    }
+    }*/
 }

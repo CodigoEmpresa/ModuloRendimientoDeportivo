@@ -25,4 +25,8 @@ class Entrenamiento extends Model
     public function entrenamientoNoConformidad() {
         return $this->hasMany('App\Models\EntrenamientoNoConformidad', 'Entrenamiento_Id');
     }
+
+    public function entrenamientoVerificacion() {
+        return $this->hasMany('App\Models\VerificacionEntrenamiento', 'Entrenamiento_Id');
+    }
 }
