@@ -164,9 +164,9 @@
                       
                       
                       <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">CONTROLES FÍSICOS</a></li>                                            
+                      <li><a href="#" style="color:#1995dc">TEST PEDAGÓGICOS</a></li>                                            
                         <li class=”{{ Request::is( 'gestor_test') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}">Gestor de Test Pedagógicos</a></li>
-                        <li class=”{{ Request::is( 'test_pedagogico') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}"> Mis Test Pedagógicos</a></li>
+                        <li class=”{{ Request::is( 'registro_test_deportista') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_test_deportista') }}"> Asignación Test a Deportista</a></li>
 
                       <li class="divider"></li>
                       <li><a href="#" style="color:#1995dc">VISITAS TÉCNICAS</a></li>                                            

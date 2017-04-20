@@ -272,5 +272,23 @@ Route::group(['middleware' => ['web']], function () {
 	/**********************TEST PEDAGOGICOS *******************************************/
 	Route::get('gestor_test','GestorTestController@index');
 
+	Route::get('getTest','GestorTestController@GetTest');
+	Route::post('AddTest', 'GestorTestController@AgregarTest');
+	Route::post('DeleteTest', 'GestorTestController@EliminarTest');
+
+	Route::post('AddVariable', 'GestorTestController@AgregarVariable');
+	Route::get('getVariables','GestorTestController@GetVariables');
+	Route::post('DeleteVariable', 'GestorTestController@EliminarVariable');
 	/**********************************************************************************/
+
+	/**********************TEST PEDAGOGICOS *******************************************/
+	Route::get('registro_test_deportista','GestorTestController@indexAsignacion');
+	Route::get('getDeportista/{id_deportista}','GestorTestController@GetDeportista');
+	Route::post('AddAsignacionTestDeportista', 'GestorTestController@AgregarAsignacionTestDeportista');
+	Route::get('getTestTipos/{id_tipo_test}','GestorTestController@GetTestTipos');
+	
+	
+	/**********************************************************************************/
+
+	
 });
