@@ -2,7 +2,7 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/TECNICO/EntrenadoresDeportistas.js') }}"></script>
+    <script src="{{ asset('public/Js/Tecnico/EntrenadoresDeportistas.js') }}"></script>
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}      
 @stop  
