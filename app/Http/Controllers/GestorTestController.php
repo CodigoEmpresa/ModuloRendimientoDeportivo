@@ -154,7 +154,6 @@ class GestorTestController extends Controller
 	}
 
 	public function AgregarAsignacionTestDeportista(Request $request){
-		///dd($request->all());
 		if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), [    			
 				"Tipo_Test_Id" => "required",
@@ -162,13 +161,14 @@ class GestorTestController extends Controller
 				"Variable_Id" => "required",
 				"Resultado" => "required",
 				"Descripcion" => "required",
+				"Deportista_Id" => "required",
     			]);
 
 	        if ($validator->fails()){
 	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
 	        }else{
 	        	$DeportistaTest = new DeportistaTest;
-	        	$DeportistaTest->Tipo_Test_Id = $request->Tipo_Test_Id;
+	        	$DeportistaTest->Deportista_Id = $request->Deportista_Id;
 	        	$DeportistaTest->Test_Id = $request->Test_Id;
 	        	$DeportistaTest->Variable_Test_Id = $request->Variable_Id;
 	        	$DeportistaTest->Resultado = $request->Resultado;
@@ -188,5 +188,32 @@ class GestorTestController extends Controller
 	public function GetTestTipos(Request $request, $id_tipo_test){
 		$Test = Test::where('Tipo_Test_Id', $id_tipo_test)->get();
 		return $Test;
+	}
+
+	public function GetTestDeportista(Request $request, $id_deportista){
+		$Deportista = Deportista::with('deportistaTest', 'deportistaTest.variableTest', 'deportistaTest.test', 'deportistaTest.test.tipoTest')->find($id_deportista);
+		return $Deportista;
+	}
+
+	public function EliminarAsignacionTestDeportista(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), [    			
+				"Id_DeportistaTes_Delete" => "required",
+    			]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$DeportistaTest = DeportistaTest::find($request->Id_DeportistaTes_Delete);
+
+	        	if($DeportistaTest->delete()){
+	        		return response()->json(["Mensaje" => "Se ha eliminado el test de este deportista con éxito!"]);				        		
+	        	}else{
+	        		return response()->json(["Mensaje" => "No se logro el la eliminación del test, por favor inténtelo nuevamente!"]);			
+	        	}
+			}
+		}else{
+			return response()->json(["Sin acceso"]);
+		}
 	}
 }

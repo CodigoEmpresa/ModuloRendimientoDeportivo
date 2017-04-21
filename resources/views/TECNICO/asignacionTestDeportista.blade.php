@@ -109,7 +109,15 @@
                                 <h3 class="panel-title">Datos del entrenador</h3>
                             </div>
                             <form id="AsignacionTestDeportistaF" name="AsignacionTestDeportistaF">
-                                <div class="row panel-body">
+                                <input type="hidden" name="Deportista_Id" id="Deportista_Id">
+                                <div align="right">
+                                    <br>
+                                    <button type="button" class="btn btn-success" name="VerAsignar" id="VerAsignar">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Asignar Test
+                                    </button>
+                                    <br>
+                                </div>
+                                <div class="row panel-body" id="ADF" style="display: none;">
                                      <div class="form-group col-md-2">
                                         <label for="inputEmail" class="control-label">Tipo Test:</label>
                                     </div>

@@ -286,8 +286,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getDeportista/{id_deportista}','GestorTestController@GetDeportista');
 	Route::post('AddAsignacionTestDeportista', 'GestorTestController@AgregarAsignacionTestDeportista');
 	Route::get('getTestTipos/{id_tipo_test}','GestorTestController@GetTestTipos');
-	
-	
+	Route::get('getTestDeportista/{id_deportista}','GestorTestController@GetTestDeportista');	
+	Route::post('DeleteAsignacionTestDeportista', 'GestorTestController@EliminarAsignacionTestDeportista');
 	/**********************************************************************************/
 
 	
