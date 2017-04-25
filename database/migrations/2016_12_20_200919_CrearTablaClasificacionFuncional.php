@@ -12,14 +12,10 @@ class CrearTablaClasificacionFuncional extends Migration
      */
     public function up()
     {
-         Schema::create('modalidad_clasificacion_funcional', function (Blueprint $table) {
+         Schema::create('clasificacion_funcional', function (Blueprint $table) {
             $table->increments('Id');
-            $table->integer('Modalidad_Id')->unsigned();
-            $table->integer('Clasificacion_Funcional_Id')->unsigned();            
+            $table->string('Nombre_Clasificacion_Funcional_Id');
             $table->timestamps();
-
-            $table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
-            $table->foreign('Clasificacion_Funcional_Id')->references('Id')->on('clasificacion_funcional');
         });
     }
 
@@ -30,10 +26,6 @@ class CrearTablaClasificacionFuncional extends Migration
      */
     public function down()
     {
-        Schema::table('modalidad_clasificacion_funcional', function(Blueprint $table){
-            $table->dropForeign('Modalidad_Id');
-            $table->dropForeign('Clasificacion_Funcional_Id');
-        });    
-        Schema::drop('modalidad_clasificacion_funcional');
+        Schema::drop('clasificacion_funcional');
     }
 }
