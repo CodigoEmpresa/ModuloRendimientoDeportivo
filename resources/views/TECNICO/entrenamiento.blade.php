@@ -13,7 +13,8 @@
 
     <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
-        <div class="content">
+        <div class="content">        
+        @if($Entrenador != null)
             <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">Datos del entrenador</h3>
@@ -454,8 +455,23 @@
 	                    </div>
 	                </div>
 	            </div>
-
             </div>
+            @else
+                <div class="panel-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Datos del entrenador</h3>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>No se encuentra registrado como un entrenador!, revise el usuario de Inicio de Sesión</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>   
 @stop

@@ -34,8 +34,14 @@ class GestorEntrenamientosController extends Controller
 
     public function index(){
 		$Entrenadores = Entrenador::with('deporte', 'clasificacionDeportiva')->where('Persona_Id', $_SESSION['Usuario'][0])->get();
-		$Entrenador = $Entrenadores[0];
+		if(count($Entrenadores) > 0){
+			$Entrenador = $Entrenadores[0];
+		}else{
+			$Entrenador = null;
+		}
+		
 		$Persona = $_SESSION['Usuario']['Persona'];
+
 		return view('TECNICO/entrenamiento')
 					->with(compact('Entrenador'))
 					->with(compact('Persona'))
