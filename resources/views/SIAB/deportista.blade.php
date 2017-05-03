@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1073155693" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -133,7 +133,7 @@
                         </div>
                         <br>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" id="CamposConvencional">
                         <div class="row">
                             <div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
@@ -156,6 +156,46 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Modalidad" id="Modalidad" class="form-control">
+                                    <option value="">Seleccionar</option>                                
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                    </li>
+                    <li class="list-group-item" id="CamposParalimpico">
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Agrupacion" id="AgrupacionP" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label" id="DiscapacidadL" >Discapacidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Discapacidad" id="Discapacidad" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($Discapacidad as $Discapacidad)
+                                        <option value="{{ $Discapacidad['Id'] }}">{{ $Discapacidad['Nombre_Discapacidad'] }}</option>
+                                    @endforeach                           
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="DeporteL" >Deporte:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Deporte" id="DeporteP" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="ModalidadL" >Modalidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Modalidad" id="ModalidadP" class="form-control">
                                     <option value="">Seleccionar</option>                                
                                 </select>
                             </div>
@@ -924,7 +964,7 @@
             <ul class="list-group" id="seccion_seis" name="seccion_seis">
 
                 <li class="list-group-item">
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="form-group col-md-2">
                             <label for="inputEmail" class="control-label" id="DiscapacidadL" >Discapacidad:</label>
                         </div>
@@ -936,7 +976,7 @@
                                 @endforeach                           
                             </select>
                         </div>                        
-                    </div>
+                    </div>-->
                     <br>
                 </li>
                 <li class="list-group-item">

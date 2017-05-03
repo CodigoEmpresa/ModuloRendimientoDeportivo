@@ -15,6 +15,6 @@ class ModalidadClasificacionFuncional extends Model
     }
 
     public function clasificacion_funcional(){
-        return $this->belongsTo('App\Models\Clasificacion_Funcional', 'Clasificacion_Funcional_Id');
+        return $this->belongsTo('App\Models\ClasificacionFuncional', 'Clasificacion_Funcional_Id');
     }
 }

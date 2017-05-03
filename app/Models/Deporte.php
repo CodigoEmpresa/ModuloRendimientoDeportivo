@@ -31,4 +31,9 @@ class Deporte extends Model
     {
         return $this->belongsToMany('App\Models\Deportista','deportista_deporte','Deporte_Id','Deportista_Id');
     }
+
+    public function deporteDiscapacidad() {
+        return $this->belongsToMany('App\Models\Discapacidad', 'deporte_discapacidad', 'Deporte_Id', 'Discapacidad_Id')
+                ->withTimestamps()/*->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor')*/;
+    }
 }

@@ -14,4 +14,9 @@ class ClasificacionFuncional extends Model
     public function deportistaParalimpico(){
         return $this->hasMany('App\Models\DeportistaParalimpico', 'Clasificacion_Funcional_Id');
     }    
+
+    public function clasificacionFuncionalModalidad() {
+        return $this->belongsToMany('App\Models\Modalidad', 'modalidad_clasificacion_funcional', 'Modalidad_Id', 'Clasificacion_Funcional_Id')
+                ->withTimestamps()/*->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor')*/;
+    }
 } 

@@ -77,6 +77,11 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getEtapas/{id}', 'DeportistaController@Etapas');
 	Route::get('getEtapasD/{id}', 'DeportistaController@getDeportistaEtapas');	
 	Route::get('TallaTenis/{id}', 'DeportistaController@TallaTenis');  
+
+	Route::get('getDiscapacidad', 'DeportistaController@GetDiscapacidad');
+	Route::get('getDeporteParalimpico/{id_agrupacion}/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
+
+	
 	
 
 	/***********PDF*************/
