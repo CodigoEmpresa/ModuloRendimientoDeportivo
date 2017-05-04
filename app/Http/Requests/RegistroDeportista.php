@@ -99,13 +99,19 @@ class RegistroDeportista extends Request
 
              'ClasificacionDeportista' => 'required',
 
-             'Agrupacion' => 'required',
+             'Agrupacion' => array('required_if:ClasificacionDeportista,1'),
 
-             'Deporte' => 'required',
+             'Deporte' => array('required_if:ClasificacionDeportista,1'),
 
              'Club' => 'required',
 
-             'Modalidad' => 'required',             
+             'Modalidad' => array('required_if:ClasificacionDeportista,1'),
+
+             'AgrupacionP' => array('required_if:ClasificacionDeportista,2'),
+
+             'DeporteP' => array('required_if:ClasificacionDeportista,2'),
+
+             'ModalidadP' => array('required_if:ClasificacionDeportista,2'),
 
              //--'LugarExpedicion' => 'required',
 

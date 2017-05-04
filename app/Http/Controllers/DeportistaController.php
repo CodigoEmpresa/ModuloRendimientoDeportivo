@@ -574,20 +574,35 @@ class DeportistaController extends Controller
 
 		 	return response()->json(["Mensaje" => "Deportista modificado con éxito."]);                
     	}*/
+    	//dd($request->all());
     	if ($request->ajax()) { 
 
     		$DeportistaDeporte = Deportista::with('deportistaDeporte')->find($request->deportista);
 	    	$dep = $DeportistaDeporte->deportistaDeporte[count($DeportistaDeporte->deportistaDeporte)-1];
 
-	    	if($dep['Agrupacion_Id'] != $request->Agrupacion || $dep['Deporte_Id'] != $request->Deporte || $dep['Modalidad_Id'] != $request->Modalidad || $dep['Club_Id'] != $request->Club){	    		
-	    		$deportistaDeporte = new DeportistaDeporte;
-			 	$deportistaDeporte->Deportista_Id = $request->deportista;
-			 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
-			 	$deportistaDeporte->Deporte_Id = $request->Deporte;
-			 	$deportistaDeporte->Modalidad_Id = $request->Modalidad;
-			 	$deportistaDeporte->Club_Id = $request->Club;
-			 	$deportistaDeporte->save();
+	    	if($request['ClasificacionDeportista'] == 1){
+	    		if($dep['Agrupacion_Id'] != $request->Agrupacion || $dep['Deporte_Id'] != $request->Deporte || $dep['Modalidad_Id'] != $request->Modalidad || $dep['Club_Id'] != $request->Club){	    		
+		    		$deportistaDeporte = new DeportistaDeporte;
+				 	$deportistaDeporte->Deportista_Id = $request->deportista;
+				 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
+				 	$deportistaDeporte->Deporte_Id = $request->Deporte;
+				 	$deportistaDeporte->Modalidad_Id = $request->Modalidad;
+				 	$deportistaDeporte->Club_Id = $request->Club;
+				 	$deportistaDeporte->save();
+		    	}
+	    	}elseif($request['ClasificacionDeportista'] == 2){
+	    		if($dep['Agrupacion_Id'] != $request->AgrupacionP || $dep['Deporte_Id'] != $request->DeporteP || $dep['Modalidad_Id'] != $request->ModalidadP || $dep['Club_Id'] != $request->Club){	    		
+		    		$deportistaDeporte = new DeportistaDeporte;
+				 	$deportistaDeporte->Deportista_Id = $request->deportista;
+				 	$deportistaDeporte->Agrupacion_Id = $request->AgrupacionP;
+				 	$deportistaDeporte->Deporte_Id = $request->DeporteP;
+				 	$deportistaDeporte->Modalidad_Id = $request->ModalidadP;
+				 	$deportistaDeporte->Club_Id = $request->Club;
+				 	$deportistaDeporte->save();
+		    	}
 	    	}
+
+	    	
 
     		$deportista = Deportista::find($request->deportista);
     		/*$deportista->Persona_Id = $request->persona;

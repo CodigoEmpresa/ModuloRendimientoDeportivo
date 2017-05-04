@@ -168,7 +168,7 @@
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
                             </div>
                             <div class="form-group col-md-4">
-                                <select name="Agrupacion" id="AgrupacionP" class="form-control">
+                                <select name="AgrupacionP" id="AgrupacionP" class="form-control">
                                     <option value="">Seleccionar</option>
                                 </select>
                             </div>
@@ -187,7 +187,7 @@
                                 <label for="inputEmail" class="control-label"  id="DeporteL" >Deporte:</label>
                             </div>
                             <div class="form-group col-md-4">
-                                <select name="Deporte" id="DeporteP" class="form-control">
+                                <select name="DeporteP" id="DeporteP" class="form-control">
                                     <option value="">Seleccionar</option>
                                 </select>
                             </div>
@@ -195,7 +195,7 @@
                                 <label for="inputEmail" class="control-label"  id="ModalidadL" >Modalidad:</label>
                             </div>
                             <div class="form-group col-md-4">
-                                <select name="Modalidad" id="ModalidadP" class="form-control">
+                                <select name="ModalidadP" id="ModalidadP" class="form-control">
                                     <option value="">Seleccionar</option>                                
                                 </select>
                             </div>
