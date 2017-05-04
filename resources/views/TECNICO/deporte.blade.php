@@ -76,7 +76,22 @@
                             <select name="Id_Agrupa" id="Id_Agrupa" class="form-control">
                                 <option value="">Seleccionar</option>
                             </select>
-                        </div>                        
+                        </div>                    
+
+                        <div id="DiscapacidadDE" style="display: none;">
+                            <div class="form-group col-md-2">
+                                <label class="control-label" for="Id_TipoDocumento">Discapacidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Id_DiscapacidadE" id="Id_DiscapacidadE" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                     @foreach($discapacidad as $discapacidades)
+                                        <option value="{{ $discapacidades['Id'] }}">{{ $discapacidades['Nombre_Discapacidad'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group col-md-2">
                             <label class="control-label" for="Id_TipoDocumento">Deporte:</label>
                         </div>
@@ -134,7 +149,22 @@
                             <select name="Id_Agrupacion" id="Id_Agrupacion" class="form-control">
                                 <option value="">Seleccionar</option>
                             </select>
-                        </div>                        
+                        </div> 
+
+                        <div id="DiscapacidadD" style="display: none;">
+                            <div class="form-group col-md-2">
+                                <label class="control-label" for="Id_TipoDocumento">Discapacidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Id_Discapacidad" id="Id_Discapacidad" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                     @foreach($discapacidad as $discapacidades)
+                                        <option value="{{ $discapacidades['Id'] }}">{{ $discapacidades['Nombre_Discapacidad'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group col-md-2">
                             <label class="control-label" for="Nom_Deporte">Nombre deporte:</label>
                         </div>

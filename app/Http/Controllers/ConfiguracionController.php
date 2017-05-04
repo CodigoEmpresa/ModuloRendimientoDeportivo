@@ -15,6 +15,8 @@ use App\Models\TipoEvaluacion;
 use App\Models\Division;
 use App\Models\ClasificacionFuncional;
 use App\Models\ModalidadClasificacionFuncional;
+use App\Models\Discapacidad;
+use App\Models\DeporteDiscapacidad;
 
 class ConfiguracionController extends Controller
 {
@@ -33,7 +35,6 @@ class ConfiguracionController extends Controller
 		$model_A = new Agrupacion;
 		return $this->crear_agrupacion($model_A, $input);
 	}
-
 
 	public function crear_agrupacion($model_A, $input)	{
 		$validator = Validator::make($input->all(),
@@ -105,11 +106,13 @@ class ConfiguracionController extends Controller
 		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->get();
         $Agrupacion = new Agrupacion;
         $clasificacion_deportista = new ClasificacionDeportista;
+        $Discapacidad = Discapacidad::all();
 
     	$datos = [
     		'deporte'=>$Deporte->all(),
             'agrupacion' => $Agrupacion->all(),
             'clasificacion_deportista' => $clasificacion_deportista->all(),
+            'discapacidad' => $Discapacidad,
 		];
 	    return view('TECNICO/deporte', $datos);
 	}
@@ -124,6 +127,7 @@ class ConfiguracionController extends Controller
 		$validator = Validator::make($input->all(),
 		    [
 				'Id_Agrupacion' => 'required',
+				'Id_Discapacidad' => array('required_if:Id_Clasificacion,2'),
 				'Nom_Deporte' => 'required'
         	]
         );
@@ -134,6 +138,13 @@ class ConfiguracionController extends Controller
 			$model_A['Agrupacion_Id'] = $input['Id_Agrupacion'];
 			$model_A['Nombre_Deporte'] = strtoupper($input['Nom_Deporte']);	
 			$model_A->save();
+
+			if($input->Id_Clasificacion == 2){
+				$DeporteDiscapacidad = new DeporteDiscapacidad;
+				$DeporteDiscapacidad->Deporte_Id = $model_A->Id;
+				$DeporteDiscapacidad->Discapacidad_Id = $input['Id_Discapacidad'];
+				$DeporteDiscapacidad->save();
+			}
 			return $model_A;
 		}
 	}
@@ -156,7 +167,7 @@ class ConfiguracionController extends Controller
 	}
 
 	public function ver_deporte(Request $input , $id){
-		$model_A = Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->find($id);
+		$model_A = Deporte::with('agrupacion','agrupacion.ClasificacionDeportista', 'deporteDiscapacidad')->find($id);
 		return $model_A;
 	}
 
@@ -171,7 +182,8 @@ class ConfiguracionController extends Controller
 		$validator = Validator::make($input->all(),
 		    [
 				'Id_Agrupa' => 'required',
-				'nom_depot' => 'required'
+				'nom_depot' => 'required',
+				'Id_DiscapacidadE' => array('required_if:Id_Clase,2'),
         	]
         );
 
@@ -181,6 +193,13 @@ class ConfiguracionController extends Controller
 			$modelo['Agrupacion_Id'] = $input['Id_Agrupa'];
 			$modelo['Nombre_Deporte'] = strtoupper($input['nom_depot']);	
 			$modelo->save();
+
+			if($input->Id_Clase == 2){
+				$DeporteDiscapacidad = DeporteDiscapacidad::where('Deporte_Id',($modelo['Id']))->get();
+				$DeporteDiscapacidad[0]->Deporte_Id = $modelo->Id;
+				$DeporteDiscapacidad[0]->Discapacidad_Id = $input['Id_DiscapacidadE'];
+				$DeporteDiscapacidad[0]->save();
+			}
 			return $modelo;
 		}
 	}

@@ -13,7 +13,12 @@ $(function(){
 	            'configuracion/ver_deporte/'+Id_Deporte,
 	            {},
 	            function(data){
+	            	$('#DiscapacidadDE').hide('slow');
 	                if(data){
+	                	if(data.deporte_discapacidad.length > 0){
+	                		$('#DiscapacidadDE').show('slow');
+	                		$('#Id_DiscapacidadE').val(data.deporte_discapacidad[0]['Id']).change();
+	                	}
 	                   $('#Id_Clase').val(data.agrupacion.clasificacion_deportista['Id']).change();
 	                   $('#Id_Agrupa').val(data.Agrupacion_Id);
 	                   $('#nom_depot').val(data.Nombre_Deporte);
@@ -76,9 +81,7 @@ $(function(){
 			return false;
 	});
 
-	$('#btn_crear_dpt').on('click', function(e)
-	{
-		
+	$('#btn_crear_dpt').on('click', function(e){		
 			$.ajax({
 	            type: 'POST',
 	            url: 'configuracion/crear_dpt',
@@ -149,9 +152,7 @@ $(function(){
 	});
 
 
-	$('#btn_editar').on('click', function(e)
-	{
-		
+	$('#btn_editar').on('click', function(e){		
 			$.ajax({
 	            type: 'POST',
 	            url: 'configuracion/modificar_dpt',
@@ -230,8 +231,7 @@ $(function(){
     	$('#Id_Agrupacion').empty();
     	$('#Id_Agrupacion').append("<option value=''>Seleccionar</option>");
     	var id = $("#Id_Clasificacion").val();
-		if(id != ''){
-			$.get("getAgrupacion/" + id, function (agrupacion) {
+    	$.get("getAgrupacion/" + id, function (agrupacion) {
 				$.each(agrupacion.agrupacion, function(i, e){
 					$("#Id_Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
@@ -239,6 +239,12 @@ $(function(){
 				$("#Id_Agrupacion").val(agrupacionT).change();
 				agrupacionT = '';
 			});
+		if(id != ''){
+			if(id == 1){
+				$("#DiscapacidadD").hide('slow');
+			}else if(id == 2){
+				$("#DiscapacidadD").show('slow');
+			}			
 		}	
     });
 
