@@ -221,9 +221,18 @@ $(function(e){
 		$("#Deporte").empty();
 		$("#Modalidad").empty();
 
-		$("#Agrupacion").append("<option value=''>Seleccionar</option>");
+		$("#AgrupacionP").empty();
+		$("#DeporteP").empty();
+		$("#ModalidadP").empty();
+		$("#ClasificacionFuncional").empty();
+
+		$("#Agrupacion").append("<option value=''>Seleccionar</option>");		
 		$("#Deporte").append("<option value=''>Seleccionar</option>");
 		$("#Modalidad").append("<option value=''>Seleccionar</option>");
+
+		$("#AgrupacionP").append("<option value=''>Seleccionar</option>");		
+		$("#DeporteP").append("<option value=''>Seleccionar</option>");
+		$("#ModalidadP").append("<option value=''>Seleccionar</option>");
 
 		var id = $("#ClasificacionDeportista").val();
 		if(id != ''){
@@ -245,35 +254,40 @@ $(function(e){
 				$("#EtapaNacional").val($("#EtapaNacionalT").val());
 				$("#EtapaInternacional").val($("#EtapaInternacionalT").val());
 			});
-		}
-		if($(this).val() == 2){
-			$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
-					$("#AgrupacionP").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
-				});				
-			}).done(function(){
-				$("#AgrupacionP").val(agrupacionT).change();
-				agrupacionT = '';
-			});
 
-			$("#SeccionSeisD").show('slow');
-			$("#CamposParalimpico").show('slow');
-			$("#CamposConvencional").hide('slow');
+			if($(this).val() == 2){
+				$.get("getAgrupacion/" + id, function (agrupacion) {
+					$.each(agrupacion.agrupacion, function(i, e){
+						$("#AgrupacionP").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
+					});				
+				}).done(function(){
+					$("#AgrupacionP").val(agrupacionT).change();
+					agrupacionT = '';
+				});
 
+				$("#SeccionSeisD").show('slow');
+				$("#CamposParalimpico").show('slow');
+				$("#CamposConvencional").hide('slow');
+
+			}else{
+				$.get("getAgrupacion/" + id, function (agrupacion) {
+					$.each(agrupacion.agrupacion, function(i, e){
+						$("#Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
+					});				
+				}).done(function(){
+					$("#Agrupacion").val(agrupacionT).change();
+					agrupacionT = '';
+				});
+
+				$("#SeccionSeisD").hide('slow');
+				$("#CamposParalimpico").hide('slow');
+				$("#CamposConvencional").show('slow');
+			}
 		}else{
-			$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
-					$("#Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
-				});				
-			}).done(function(){
-				$("#Agrupacion").val(agrupacionT).change();
-				agrupacionT = '';
-			});
-
-			$("#SeccionSeisD").hide('slow');
-			$("#CamposParalimpico").hide('slow');
-			$("#CamposConvencional").show('slow');
+			$("#Agrupacion").val('');
+			$("#AgrupacionP").val('');
 		}
+		
 	});
 
 	$("#Pertenece").on('change', function(){
@@ -305,7 +319,7 @@ $(function(e){
 		}		
 	});
 
-	$("#AgrupacionP").on('change',function (e){
+	$("#AgrupacionP").on('change',function (e){		
 		$("#DeporteP").empty();
 		$("#ModalidadP").empty();
 
@@ -391,17 +405,17 @@ $(function(e){
 		$("#ClasificacionFuncional").empty();
 		$("#ClasificacionFuncional").append("<option value=''>Seleccionar</option>");
 		var id = $("#ModalidadP").val();
+		if(id == null){id=modalidadT;}
 		if(id != ''){
 			$.get("getClasificacionFuncional/" + id, function (Modalidad) {
 				if(Modalidad != null){
 					$.each(Modalidad, function(i, e){
-						console.log(e);
 						$("#ClasificacionFuncional").append("<option value='" +e['Id'] + "'>" + e['Nombre_Clasificacion_Funcional'] + "</option>");
 					});
 				}
 			}).done(function(){
 				$("#ClasificacionFuncional").val(clasificacionT).change();
-				clasificacionT = '';
+				//clasificacionT = '';
 			});
 		}
 	});
@@ -571,6 +585,9 @@ function Buscar(e){
 		              			$("#Fotografia").hide();
 		              			$("#Modificar").hide();
 		              			$("#Registrar").show();
+		              			agrupacionT = '';
+		              			deporteT = '';
+		              			modalidadT = '';
 		              			
 		              		}
 		             	}).done(function (){             		
@@ -733,4 +750,8 @@ function Reset_campos(e){
 	deporteT = '';
 	modalidadT = '';
 	clasificacionT = '';
+
+	$("#CamposConvencional").hide('slow');
+	$("#CamposParalimpico").hide('slow');
+
 }

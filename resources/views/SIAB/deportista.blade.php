@@ -133,7 +133,7 @@
                         </div>
                         <br>
                     </li>
-                    <li class="list-group-item" id="CamposConvencional">
+                    <li class="list-group-item" id="CamposConvencional" style="display: none;">
                         <div class="row">
                             <div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
@@ -162,7 +162,7 @@
                         </div>
                         <br>
                     </li>
-                    <li class="list-group-item" id="CamposParalimpico">
+                    <li class="list-group-item" id="CamposParalimpico" style="display: none;">
                         <div class="row">
                             <div class="form-group col-md-2">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
