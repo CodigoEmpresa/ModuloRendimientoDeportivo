@@ -295,5 +295,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('DeleteAsignacionTestDeportista', 'GestorTestController@EliminarAsignacionTestDeportista');
 	/**********************************************************************************/
 
+
+	/**********************REPORTES *******************************************/
+	Route::get('total_deportistas','ReportesController@indexTotalDeportistas');
+	Route::get('getTotalDeportistas','ReportesController@GetTotalDeportistas');
 	
 });

@@ -200,14 +200,24 @@
                   <li><a href="#">Sub-Item 1</a></li>
                 </ul>
               </li>
+
+              <li>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">REPORTES <span class="caret"></span></a>
+                <ul class="dropdown-menu" aria-labelledby="themes">
+                  <li><a href="#" style="color:#1995dc">DEPORTISTAS</a></li>
+                        <li class=”{{ Request::is( 'total_deportistas') ? 'active' : '' }}”><a href="{{ URL::to( 'total_deportistas') }}">Total Deportistas</a></li>
+
+                      <li class="divider"></li>
+                </ul>
+              </li>
             </ul>
 
-            <form class="navbar-form navbar-left" role="search">
+            <!--<form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                   <input type="text" class="form-control" placeholder="Buscar">
                 </div>                
                 <button type="submit" class="btn btn-default">Ir</button>
-            </form>
+            </form>-->
 
             <ul class="nav navbar-nav navbar-right">
               <li><a href="http://www.idrd.gov.co/sitio/idrd/" target="_blank">I.D.R.D</a></li>
