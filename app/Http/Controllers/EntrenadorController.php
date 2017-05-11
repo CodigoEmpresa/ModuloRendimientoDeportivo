@@ -278,7 +278,17 @@ class EntrenadorController extends Controller
 
     public function BuscarTipoPersonaRUD(Request $request, $cedula){
 		if ($request->ajax()) {
-			$Persona = Persona:: with('tipo')->where('Cedula', $cedula)->get();
+			if(is_numeric($cedula)){
+				$Persona = Persona:: with('tipo')->where('Cedula', $cedula)->get();
+			}else{
+				$Persona = Persona:: with('tipo')
+									->where('Primer_Nombre', $cedula)
+									->orWhere('Segundo_Nombre', $cedula)
+									->orWhere('Primer_Apellido', $cedula)
+									->orWhere('Segundo_Apellido', $cedula)
+									->get();
+			}
+			
 			if(count($Persona) != 0){
 				foreach ($Persona[0]->tipo as $key => $tipo) {
 					if($tipo['Id_Tipo'] == 47 || $tipo['Id_Tipo'] == 49){

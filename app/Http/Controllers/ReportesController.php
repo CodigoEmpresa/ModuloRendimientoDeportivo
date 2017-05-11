@@ -27,17 +27,19 @@ class ReportesController extends Controller
 
     public function GetTotalDeportistas(Request $request){
 
-    	$Deportista = Deportista::with('persona', 'persona.genero', 'deportistaDeporte.agrupacion', 'deportistaDeporte.deporte', 'deportistaDeporte.modalidad')->get();
+    	$Deportista = Deportista::with('persona', 'persona.genero', 'deportistaDeporte.agrupacion', 'deportistaDeporte.deporte', 'deportistaDeporte.modalidad', 'ClasificacionDeportista')->get();
+    	//dd($Deportista);
 
     	$html = '<span>Número de deportistas <label>'.count($Deportista).'</label></span>';
     	$html .= '<table id="deportistasTabla" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
     	$html .= '<thead>';
     	$html .= '<th>Nombres</th>';
-    	$html .= '<th>Documento</th>';
+    	$html .= '<th style="display:none;">Documento</th>';
     	$html .= '<th style="display:none;">Correo</th>';
     	$html .= '<th style="display:none;">Genero</th>';
     	$html .= '<th style="display:none;">Eps</th>';
     	$html .= '<th style="display:none;">Celular</th>';
+    	$html .= '<th>Clasificación</th>';
     	$html .= '<th>Agrupacion</th>';
     	$html .= '<th>Deporte</th>';
     	$html .= '<th>Modalidad</th>';
@@ -48,11 +50,12 @@ class ReportesController extends Controller
     		$m = count($value->deportistaDeporte);
     		$html .= '<tr>';
     		$html .= '<td>'.$value->persona['Primer_Nombre'].' '.$value->persona['Segundo_Nombre'].' '.$value->persona['Primer_Apellido'].' '.$value->persona['Segundo_Apellido'].'</td>';
-    		$html .= '<td>'.$value->persona['Cedula'].'</td>';
+    		$html .= '<td style="display:none;">'.$value->persona['Cedula'].'</td>';
     		$html .= '<td style="display:none;">'.$value['Correo_Electronico'].'</td>';
     		$html .= '<td style="display:none;">'.$value->persona->genero['Nombre_Genero'].'</td>';
     		$html .= '<td style="display:none;">'.$value->Eps['Nombre_Eps'].'</td>';
     		$html .= '<td style="display:none;">'.$value['Celular_Localiza'].'</td>';
+    		$html .= '<td >'.$value->ClasificacionDeportista['Nombre_Clasificacion_Deportista'].'</td>';
     		if($m > 0){
     			$html .= '<td>'.$value->deportistaDeporte[$m-1]->agrupacion['Nombre_Agrupacion'].'</td>';
     			$html .= '<td>'.$value->deportistaDeporte[$m-1]->deporte['Nombre_Deporte'].'</td>';

@@ -39,11 +39,12 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
+                            <div class="col-xs-12" id="tablaPersonas"></div>
+                            <br>
+                            <div class="col-xs-12">
+                                <ul id="personas"></ul>
+                            </div>
+                            <div id="paginador" class="col-xs-12"></div>                            
                         </div>
                     </div>
                 </div>

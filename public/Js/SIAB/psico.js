@@ -329,8 +329,278 @@ $(function(e){
 	
 });
 
+function VerPersona(id_persona){
+
+  $("#loading").show('slow');
+  $("#tablaPersonas").hide('slow');   
+  $("#camposRegistro").hide("slow");
+
+  $.get('buscarPersona/'+id_persona,{}, function(Persona){  
+    $.each(Persona.tipo, function(i, e){
+      if(e.Id_Tipo == 59){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+              $('#buscar span').empty();
+              document.getElementById("buscar").disabled = false;
+              $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
+              $('#paginador').fadeOut();
+              $("#camposRegistro").hide("slow");
+              $("#loading").hide('slow');           
+              return false;
+      }else{
+        if(Persona.deportista){  //Cuando Hay deportista    
+          console.log('Hay deportistas');
+          Deportista(Persona.deportista, Persona);
+          if(((Persona.deportista.deportista_valoracion).length) != 0 ){//Existe valoración
+            Valoracion(Persona.deportista.deportista_valoracion[0]);
+            $("#camposRegistro").show('slow');
+            $("#Registrar").hide('slow');
+            $("#Modificar").show('slow');
+            VerCampos();
+          }else{
+            $("#camposRegistro").show('slow');
+            $("#Registrar").show('slow'); 
+            $("#Modificar").hide('slow');    
+            OcultarCampos(); 
+          }
+        }
+        $("#camposRegistro").show("slow");
+        $("#loading").hide('slow');           
+      }
+    });
+    /*$.each(data, function(i, e){
+          $.get("deportista/" + e['Id_Persona'] + "", function (responseDep) { 
+
+            if(responseDep.deportista){//Existe Deportista
+              Deportista(responseDep.deportista, data[0])
+
+              if(((responseDep.deportista.deportista_valoracion).length) != 0 ){//Existe valoración
+
+                Valoracion(responseDep.deportista.deportista_valoracion[0]);
+                $("#camposRegistro").show('slow');
+                $("#Registrar").hide('slow');
+                $("#Modificar").show('slow');
+                VerCampos();
+                
+              }else{        
+                $("#camposRegistro").show('slow');
+                $("#Registrar").show('slow'); 
+                $("#Modificar").hide('slow');    
+                OcultarCampos();                  
+              }
+            }else{
+              $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+              $('#buscar span').empty();
+              document.getElementById("buscar").disabled = false;
+              $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como deportista, registrela en el RUD, para continuar con el procedimiento.</h4></dvi><br>');
+              $('#paginador').fadeOut();
+            }
+          });
+        });*/
+/*    $("#persona").val(Persona['Id_Persona']);         
+      $("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);          
+    $("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+
+    $("#NombresCompromiso").empty();
+    $("#NombresCompromiso").append(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre'] +' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+    $("#TipoDocumento").val(Persona.tipo_documento['Descripcion_TipoDocumento']);
+    $("#NumeroDocumento").val(Persona['Cedula']);
+    $("#fechaNac").val(Persona['Fecha_Nacimiento']);
+    $("#PaisNac").val(Persona['Id_Pais']);
+    $("#MunicipioNac").val(Persona['Nombre_Ciudad']);
+    $("#Genero").val(Persona['Id_Genero']);
+
+    $("#Nombres").attr("disabled", "disabled");
+    $("#Apellidos").attr("disabled", "disabled");
+    $("#TipoDocumento").attr("disabled", "disabled");
+    $("#NumeroDocumento").attr("disabled", "disabled");
+    $("#fechaNac").attr("disabled", "disabled");
+    $("#PaisNac").attr("disabled", "disabled");
+    $("#MunicipioNac").attr("disabled", "disabled");
+    $("#Genero").attr("disabled", "disabled");
+
+    ShowRopa(Persona['Id_Genero'], 1);
+    ShowZapatos(Persona['Id_Genero'], 2);
+
+    document.getElementById("RUD").style.display = "block";
+
+    if(Persona.deportista){  //Cuando Hay deportista    
+      $.get("getDeportistaDeporte/" + Persona.deportista['Id'] + "", function (DeportistaDeporte) {     
+          agrupacionT = DeportistaDeporte['Agrupacion_Id'];
+          deporteT = DeportistaDeporte['Deporte_Id'];
+          modalidadT =DeportistaDeporte['Modalidad_Id'];
+
+          $("#Club").val(DeportistaDeporte['Club_Id']);   
+          $('#Club').selectpicker('refresh');                   
+        }).done(function(){
+          $("#ClasificacionDeportista").val(Persona.deportista['Clasificacion_Deportista_Id']).change();                      
+        });
+
+        if(Persona.deportista['Pertenece'] == 1){
+          $.get("getEtapasD/" + Persona.deportista['Id'] + "", function (DeportistaEtapa) {         
+          $("#EtapaNacionalT").val(DeportistaEtapa.Nacional.pivot['Etapa_Id']);
+          $("#EtapaInternacionalT").val(DeportistaEtapa.Internacional.pivot['Etapa_Id']);
+          $("#Smmlv").val(DeportistaEtapa.Internacional.pivot['Smmlv']);                
+          });
+        } 
+
+      ShowRopa(Persona['Id_Genero'], 1, Persona.deportista['Sudadera_Talla_Id'], Persona.deportista['Camiseta_Talla_Id'], Persona.deportista['Pantaloneta_Talla_Id']);
+      ShowZapatos(Persona['Id_Genero'], 2, Persona.deportista['Tenis_Talla_Id']);
+
+      $("#Resolucion").prop('checked', true);
+      $("#Deberes").prop('checked', true);
+      
+      if(Persona.deportista['Archivo1_Url'] != ''){
+        $("#SImagen").empty();
+        $("#SImagen").append("<img id='Fotografia' src='' alt='' class='img-thumbnail'>");
+          $("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/Fotografias/'+Persona.deportista['Archivo1_Url']+'?' + (new Date()).getTime());
+      }else{
+        $("#Fotografia").hide();
+      }
+      $("#Pertenece").val(Persona.deportista['Pertenece']).change();    
+      $("#deportista").val(Persona.deportista['Id']);           
+  
+      $("#LugarExpedicion").val(Persona.deportista['Lugar_Expedicion_Id']);
+      $("#FechaExpedicion").val(Persona.deportista['Fecha_Expedicion']);
+      $("#Pasaporte").val(Persona.deportista['Numero_Pasaporte']);
+      $("#FechaVigenciaPasaporte").val(Persona.deportista['Fecha_Pasaporte']);
+      $("#EstadoCivil").val(Persona.deportista['Estado_Civil_Id']);
+      $("#Estrato").val(Persona.deportista['Estrato_Id']);
+      $("#DepartamentoNac").val(Persona.deportista['Departamento_Id_Nac']);
+      $("#LibretaPreg").val(Persona.deportista['Libreta_Preg']).change();
+      $("#Libreta").val(Persona.deportista['Numero_Libreta_Mil']);
+      $("#Distrito").val(Persona.deportista['Distrito_Libreta_Mil']);
+      $("#NombreContacto").val(Persona.deportista['Nombre_Contacto']);
+      $("#Parentesco").val(Persona.deportista['Parentesco_Id']);
+      $("#FijoContacto").val(Persona.deportista['Fijo_Contacto']);
+      $("#CelularContacto").val(Persona.deportista['Celular_Contacto']);
+      $("#TipoCuenta").val(Persona.deportista['Tipo_Cuenta_Id']);
+      $("#Banco").val(Persona.deportista['Banco_Id']);
+      $("#NumeroCuenta").val(Persona.deportista['Numero_Cuenta']);
+      $("#NumeroHijos").val(Persona.deportista['Numero_Hijos']);
+      $("#DepartamentoLoc").val(Persona.deportista['Departamento_Id_Localiza']);
+      $("#MunicipioLoc").val(Persona.deportista['Ciudad_Id_Localiza']);
+      $("#Direccion").val(Persona.deportista['Direccion_Localiza']);
+      $("#Barrio").val(Persona.deportista['Barrio_Localiza']);
+      $("#Localidad").val(Persona.deportista['Localidad_Id_Localiza']);
+      $("#FijoLoc").val(Persona.deportista['Fijo_Localiza']);
+      $("#CelularLoc").val(Persona.deportista['Celular_Localiza']);
+      $("#Correo").val(Persona.deportista['Correo_Electronico']);
+      $("#Regimen").val(Persona.deportista['Regimen_Salud_Id']).change();
+      $("#FechaAfiliacion").val(Persona.deportista['Fecha_Afiliacion']);
+      $("#TipoAfiliacion").val(Persona.deportista['Tipo_Afiliacion_Id']);
+      $("#MedicinaPrepago").val(Persona.deportista['Medicina_Prepago']).change();
+      $("#NombreMedicinaPrepago").val(Persona.deportista['Nombre_MedicinaPrepago']);
+      $("#Eps").val(Persona.deportista['Eps_Id']);
+      $("#NivelRegimen").val(Persona.deportista['Nivel_Regimen_Sub_Id']);
+      $("#RiesgosLaborales").val(Persona.deportista['Riesgo_Laboral']);
+      $("#Arl").val(Persona.deportista['Arl_Id']);
+      $("#FondoPensionPreg").val(Persona.deportista['Fondo_PensionPreg_Id']).change();
+      $("#FondoPension").val(Persona.deportista['Fondo_Pension_Id']);
+      
+      $("#GrupoSanguineo").val(Persona.deportista['Grupo_Sanguineo_Id']);
+      $("#Medicamento").val(Persona.deportista['Uso_Medicamento']).change();
+      $("#CualMedicamento").val(Persona.deportista['Medicamento']);
+      $("#TiempoMedicamento").val(Persona.deportista['Tiempo_Medicamento']);    
+      $("#OtroMedicoPreg").val(Persona.deportista['Otro_Medico_Preg']).change();
+      $("#OtroMedico").val(Persona.deportista['Otro_Medico']);
+
+
+      if(Persona.deportista.deportista_paralimpico[0] != null){
+        $("#SeccionSeisD").show('slow');
+        $("#Discapacidad").val(Persona.deportista.deportista_paralimpico[0]['Discapacidad_Id']).change();
+        $("#Diagnostico").val(Persona.deportista.deportista_paralimpico[0]['Diagnostico_Id']).change();
+        //$("#ClasificacionFuncional").val(Persona.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id']).change();
+        clasificacionT =Persona.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id'];
+        $("#Silla").val(Persona.deportista.deportista_paralimpico[0]['Silla_Id']).change();
+        $("#Cuidador").val(Persona.deportista.deportista_paralimpico[0]['Uso_Silla_Id']).change();
+        $("#Auxiliar").val(Persona.deportista.deportista_paralimpico[0]['Auxiliar_Id']).change();
+        $("#ClasificadoNivelInternacional").val(Persona.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Internacional_Id']).change();
+        $("#DiagnosticoEdad").val(Persona.deportista.deportista_paralimpico[0]['EdadAdquirido']);
+        $("#FechaCI").val(Persona.deportista.deportista_paralimpico[0]['Fecha_Clasificacion']);
+        $("#EventoCI").val(Persona.deportista.deportista_paralimpico[0]['Evento_Clasificacion']);
+        $("#EdadDeportiva").val(Persona.deportista.deportista_paralimpico[0]['EdadDeportiva']).change();
+        $("#resultadoNacional").val(Persona.deportista.deportista_paralimpico[0]['Resultado_Nacional']).change();
+        $("#resultadoInternacional").val(Persona.deportista.deportista_paralimpico[0]['Resultado_Internacional']).change();
+      }else{
+        $("#SeccionSeisD").hide('slow');
+      }
+      
+      $("#seccion_uno").show("slow");
+      $("#seccion_dos").show("slow");
+      $("#seccion_tres").show("slow");
+      $("#seccion_cuatro").show("slow");
+      $("#seccion_cinco").show("slow");
+      $("#seccion_compromiso").show("slow");
+
+      $("#Modificar").show();
+        $("#Registrar").hide();
+
+    }else{                    
+        $("#Fotografia").hide();
+        $("#Modificar").hide();
+        $("#Registrar").show();
+        agrupacionT = '';
+        deporteT = '';
+        modalidadT = '';        
+      }*/
+  });
+}
+
 function Buscar(e){	
-	var key = $('input[name="buscador"]').val(); 
+  var key = $('input[name="buscador"]').val(); 
+    $.get('personaBuscarDeportista/'+key,{}, function(data){
+      if(data.length == 0){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+            $('#buscar span').empty();
+            document.getElementById("buscar").disabled = false;
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
+            $('#paginador').fadeOut();
+
+      }else if(data.length == 1){
+        VerPersona(data[0].Id_Persona);
+      }else if(data.length > 1){
+        $("#tablaPersonas").empty();
+        var html = '';
+        html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+        html += '<thead>';
+        html += '<th>Nombres</th>';
+        html += '<th>Opciones</th>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(data, function(i, e){
+          html += '<tr>';
+          html += '<td>'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</td>';
+          html += "<td><button type='button' class='btn btn-info' data-function='VerPersona' value='"+e.Id_Persona+"'>"+
+                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver"+
+                            "</button></td>";
+          html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        $("#tablaPersonas").append(html);
+        $('#tablaPersonasDatos').DataTable({
+            retrieve: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            dom: 'Bfrtip',
+            select: true,
+            "responsive": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 8,
+            "language": {
+                url: 'public/DataTables/Spanish.json',
+                searchPlaceholder: "Buscar"
+            }
+        });       
+    }
+  }).done(function(){
+    $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+      document.getElementById("buscar").disabled = false;     
+  });
+	/*var key = $('input[name="buscador"]').val(); 
   $.get('personaBuscarDeportista/'+key,{}, function(data){  
       if(data.length > 0){ //Existe la persona       	        
       	$.each(data, function(i, e){
@@ -375,7 +645,7 @@ function Buscar(e){
         $('#buscar span').empty();
         document.getElementById("buscar").disabled = false;   
       }, 1500);      
-    });           	
+    });  */         	
 }
 
 function Reset_campos(e){

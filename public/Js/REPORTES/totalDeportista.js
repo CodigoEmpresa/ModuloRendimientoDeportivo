@@ -5,7 +5,7 @@ $(function(){
 		$('#deportistasTabla').DataTable({
         retrieve: true,
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copy', 'csv', 'excel', 'print'
         ],
         dom: 'Bfrtip',
         select: true,

@@ -17,6 +17,11 @@ class Deportista extends Model
         return $this->belongsTo('App\Models\Persona', 'Persona_Id');
     }
 
+    public function ClasificacionDeportista()
+    {
+        return $this->belongsTo('App\Models\ClasificacionDeportista', 'Clasificacion_Deportista_Id');
+    }
+
     public function Eps()
     {
         return $this->belongsTo('App\Models\Eps', 'Eps_Id');

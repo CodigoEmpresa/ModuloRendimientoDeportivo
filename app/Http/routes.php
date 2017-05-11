@@ -62,6 +62,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('welcome', 'MainController@welcome');
 	Route::get('/personaDeportista/{id}','PersonaDeportistaController@obtener');
 	Route::get('/personaBuscarDeportista/{id}','PersonaDeportistaController@buscar');
+
+
 	/****RUD****/
 	Route::get('buscarTipoPersonaRUD/{cedula}', 'EntrenadorController@BuscarTipoPersonaRUD');  
 	Route::get('getTallas/{id_genero}/{id_tipo}', 'DeportistaController@Tallas');  
@@ -72,6 +74,8 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getDeporte/{id}', 'DeportistaController@Deportes');
 	Route::get('getModalidad/{id}', 'DeportistaController@Modalidades');
 	Route::get('getClasificacionFuncional/{id}', 'DeportistaController@ClasificacionesFuncionales');
+
+	Route::get('buscarPersona/{id_persona}','PersonaDeportistaController@buscarPersona');
 	
 	Route::get('getDeportistaDeporte/{id}', 'DeportistaController@DeportistaDeporte');
 	Route::get('getEtapas/{id}', 'DeportistaController@Etapas');

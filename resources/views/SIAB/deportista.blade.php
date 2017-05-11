@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1073155693" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -43,11 +43,12 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
+                            <div class="col-xs-12" id="tablaPersonas"></div>
+                            <br>
+                            <div class="col-xs-12">
+                                <ul id="personas"></ul>
+                            </div>
+                            <div id="paginador" class="col-xs-12"></div>                            
                         </div>
                     </div>
                 </div>
@@ -1116,7 +1117,7 @@
             </ul>
         </div>
         <!-- ------------------------------------------SECCION ACUERDOS---------------------------------------- -->
-        <div class="panel">
+        <div class="panel" id="seccion_seis_global">
             <div class="panel-heading">
                 <div class="bs-callout bs-callout-info">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
