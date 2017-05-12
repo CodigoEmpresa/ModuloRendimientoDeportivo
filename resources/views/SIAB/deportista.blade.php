@@ -15,7 +15,7 @@
         <div class="content">
             <br>
             <center>
-                <h4>Ingrese el número de cédula de la persona o deportista que va a registrar</h4>
+                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a registrar</h4>
             </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -43,6 +43,7 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
+                            <br><br><br>
                             <div class="col-xs-12" id="tablaPersonas"></div>
                             <br>
                             <div class="col-xs-12">

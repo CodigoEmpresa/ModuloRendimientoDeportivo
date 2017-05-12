@@ -13,6 +13,10 @@
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/> 
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
+            <br>
+            <center>
+                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a registrar</h4>
+            </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">Buscar persona</h3>
@@ -39,6 +43,7 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
+                            <br><br><br>
                             <div class="col-xs-12" id="tablaPersonas"></div>
                             <br>
                             <div class="col-xs-12">
@@ -52,6 +57,9 @@
         </div>
         <!-- ------------------------------------------------------------------------------------ -->
         <form id="psico" name="psico" >
+            <div class="container" id="loading" style="display:none;">
+                <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+            </div>
             <div id="camposRegistro" style="display:none;">
                 <input type="hidden" name="persona" id="persona" value=""/>
                 <input type="hidden" name="deportista" id="deportista" value=""/>

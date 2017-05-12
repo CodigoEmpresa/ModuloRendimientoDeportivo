@@ -432,6 +432,7 @@ function VerPersona(id_persona){
 	$("#loading").show('slow');
 	$("#tablaPersonas").hide('slow');  	
 	$("#camposRegistro").hide("slow");
+	$("#loading").show('slow');
 
 	$.get('buscarPersona/'+id_persona,{}, function(Persona){  
 		$.each(Persona.tipo, function(i, e){
@@ -606,11 +607,13 @@ function VerPersona(id_persona){
 
 	}).done(function (){                     
      	//$("#camposRegistro").show('slow');            	     	
-     	//$("#loading").hide('slow');          	
+     	//$("#loading").hide('slow');   
+     	$("#loading").hide('slow');       	
 	});
 }
 
 function Buscar(e){	
+	$("#loading").show('slow');
 	var key = $('input[name="buscador"]').val(); 
     $.get('personaBuscarDeportista/'+key,{}, function(data){
     	if(data.length == 0){
@@ -619,6 +622,7 @@ function Buscar(e){
             document.getElementById("buscar").disabled = false;
             $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
             $('#paginador').fadeOut();
+            $("#loading").hide('slow');
 
     	}else if(data.length == 1){
     		VerPersona(data[0].Id_Persona);
@@ -660,9 +664,14 @@ function Buscar(e){
 		    });		    
 		}
 	}).done(function(){
-		$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+		/*$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
         $('#buscar span').empty();
-     	document.getElementById("buscar").disabled = false;     
+     	document.getElementById("buscar").disabled = false;     */
+     	$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');
+        $("#loading").hide('slow');
 	});
 }
 
@@ -701,7 +710,11 @@ function ShowZapatos(id_genero, id_tipo, tenis){
 }
 
 function Reset_campos(e){
-	$("#seccion_seis_global").show('slow');			
+	var t = $('#TablaVisitas').DataTable();   
+	t.row.add( ['1','1','1'] ).clear().draw( false );
+	$("#tablaPersonas").empty();
+
+	$("#seccion_seis_global").show('slow');				
 	$('#personas').html( '');
 	$("#camposRegistro").hide('slow');
 	$("#seccion_uno").hide("slow");
