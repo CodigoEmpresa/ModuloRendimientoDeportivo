@@ -28,7 +28,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="80123800" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -39,11 +39,12 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
+                            <div class="col-xs-12" id="tablaPersonas"></div>
+                            <br>
+                            <div class="col-xs-12">
+                                <ul id="personas"></ul>
+                            </div>
+                            <div id="paginador" class="col-xs-12"></div> 
                         </div>
                     </div>
                 </div>
@@ -83,7 +84,7 @@
                              <div class="form-group col-md-12">
                                 <div class="form-group col-md-4"></div>
                                 <div class="col-md-4 text-center">
-                                    <label for="inputEmail" class="control-label">Fotografía del deportista</label>
+                                    <label for="inputEmail" class="control-label">Fotografía del entrenador</label>
                                     <br>
                                     <span id="SImagen">
                                         <img id="Fotografia" src="" alt="" class="img-thumbnail img-responsive"><br>         
@@ -96,6 +97,20 @@
                             </div>
                         </div>
                         <br>
+                    </li>   
+
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail" class="control-label" id="NombresL" >Clasificación del entrenador:</label>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <div class="radio">
+                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador1" value="Perfeccionamiento">Perfeccionamiento</label>
+                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador2" value="Rendimiento">Rendimiento</label>
+                                </div>
+                            </div> 
+                        </div>
                     </li>   
 
                     <li class="list-group-item">
@@ -119,7 +134,7 @@
                     <li class="list-group-item">
                         <div class="row">
                             <div class="form-group col-md-2">
-                                <label for="inputEmail" class="control-label"  id="ClasificacionDeportistaL" >Clasificación del deportista:</label>
+                                <label for="inputEmail" class="control-label"  id="ClasificacionDeportistaL" >Clasificación del entrenador:</label>
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="ClasificacionDeportista" id="ClasificacionDeportista" class="form-control">
@@ -653,9 +668,21 @@
                     <label><p>Seguridad Académica</p></label> 
                     <span data-role="ver" id="seccion_cuatro_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
                 </div>
-            </div>                
+            </div>                            
             <ul class="list-group" id="seccion_cuatro" name="seccion_cuatro" style="display: none">
                 <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="BachillerL" >¿Es usted bachiller?</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="Bachiller" id="Bachiller" class="form-control">
+                                <option value="">Seleccionar</option>                         
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label for="inputEmail" class="control-label" id="ProfesionalL" >¿Es usted profesional?</label>
@@ -667,11 +694,26 @@
                                 <option value="2">No</option>
                             </select>
                         </div>
-                    </div>
+                    </div>                    
                     <br>
                 </li>
 
                 <li class="list-group-item" id="perfil_profesional" style="display:none;">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="TituloTecnicoL" >Titulo de técnico:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input class="form-control" placeholder="Titulo de técnico" type="text" name="TituloTecnico" id="TituloTecnico">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="TituloTecnologoL" >Titulo de tecnólogo:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input class="form-control" placeholder="Titulo de tecnólogo" type="text" name="TituloTecnologo" id="TituloTecnologo">
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label for="inputEmail" class="control-label" id="TituloPregradoL" >Titulo de pre-grado:</label>
@@ -713,6 +755,16 @@
                         </div>
                     </div>
                     <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="LogrosL" >Descripción de logros obtenidos</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <textarea class="form-control" placeholder="Logros obtenidos" type="text" name="Logros" id="Logros"></textarea>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>        
@@ -816,7 +868,7 @@
             </div>                
             <ul class="list-group" id="seccion_seis" name="seccion_seis" style="display: none">
                 <div class="panel-body">
-                    <p>TALLAS ATLETA</p>
+                    <p>TALLAS ENTRENADOR</p>
                 </div> 
                 <li class="list-group-item">
                     <div class="row">

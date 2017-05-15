@@ -24,6 +24,7 @@ class RegistroEntrenador extends Request
     public function rules()
     {
         $validaciones = [                       
+             'ClasificacionEntrenador' => 'required',
              'persona' => 'required',
              'ClasificacionDeportista' => 'required',
              'Agrupacion' => 'required',
@@ -68,14 +69,17 @@ class RegistroEntrenador extends Request
              'TiempoMedicamento' => array('required_if:Medicamento,1'),
              'OtroMedicoPreg' => 'required',
              'OtroMedico' => array('required_if:OtroMedicoPreg,1'),
+             "Bachiller" => "required",
              "Profesional" => "required",
+             "TituloTecnico" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
+             "TituloTecnologo" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
              "TituloPregrado" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
              "TituloEspecializacion" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
              "TituloMaestria" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
              "TituloDoctorado" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
-             "EscalafonEntrenadores" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),
-            ];         
-       
+             "EscalafonEntrenadores" => array('required_if:Profesional,1', 'regex:/^[(a-zA-Z0-9\s\#\-\°)]+$/u'),             
+             "Logros" => "required",
+            ];
         return $validaciones;
     }
 }

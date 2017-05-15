@@ -120,12 +120,162 @@ $(function(e){
             error: function (xhr){              
             }
         });
+
+    });
+
+    $('body').delegate('button[data-function="VerPersona"]','click',function (e) {
+        VerPersona($(this).val());
     });
 });
 
+function VerPersona(id_persona){
+      $("#loading").show('slow');
+      $("#tablaPersonas").hide('slow');   
+      $("#camposRegistro").hide("slow");
+      $("#loading").show('slow');
+
+      $.get('buscarPersona/'+id_persona,{}, function(Persona){  
+        $.each(Persona.tipo, function(i, e){
+          if(e.Id_Tipo == 49){
+            $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+            $('#buscar span').empty();
+            document.getElementById("buscar").disabled = false;
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
+            $('#paginador').fadeOut();
+            $("#camposRegistro").hide("slow");
+            $("#loading").hide('slow');           
+            return false;
+          }else{
+            $("#camposRegistro").show("slow");
+            $("#loading").hide('slow');             
+          }
+        });
+        if(Persona.entrenador){  //Cuando Hay entrenador   
+            $("#Id_Persona").val(Persona['Id_Persona']);
+            $("#Nombres").append(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']+' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+            $("#Identificacion").append('IDENTIFICACIÓN '+Persona['Cedula']);
+            $("#GestorDeportistas").show('slow');                                          
+            //if(EntrenadorData.entrenador != null){
+            $("#deportistasEntrenadorD").empty();
+            $("#Id_Entrenador").val(Persona.entrenador['Id']);                            
+            var htmlTabla = '<table id="datosTabla" name="datosTabla" style="text-transform: uppercase;">';
+            htmlTabla += '<thead><th>NOMBRES</th><th>AGRUPACIÓN</th><th>DEPORTE</th><th>MODALIDAD</th><th>OPCIONES</th></thead>';
+
+            $.each(Persona.entrenador.entrenador_deportista, function(i, e){   
+                contador = ((e.deportista_deporte).length)-1;
+                htmlTabla += '<tr>';
+                htmlTabla += '<td>'+e.persona['Primer_Nombre']+' '+e.persona['Segundo_Nombre']+' '+e.persona['Primer_Apellido']+' '+e.persona['Segundo_Apellido']+'</td>';
+                htmlTabla += '<td>'+e.deportista_deporte[contador]['agrupacion']['Nombre_Agrupacion']+'</td>';
+                htmlTabla += '<td>'+e.deportista_deporte[contador]['deporte']['Nombre_Deporte']+'</td>';
+                htmlTabla += '<td>'+e.deportista_deporte[contador]['modalidad']['Nombre_Modalidad']+'</td>';
+                htmlTabla += '<td><button type="button" class="btn-sm btn-danger"  data-funcion="eliminarVinculo" value="'+e.Id+'"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Eliminar</button></td>';
+                htmlTabla += '</tr>';
+            });
+            htmlTabla += '</table>';
+            $("#deportistasEntrenadorD").html(htmlTabla);
+            $("#deportistasEntrenadorD").show('slow');
+            $('#datosTabla').DataTable({
+              retrieve: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                dom: 'Bfrtip',
+                select: true,
+                "responsive": true,
+                "ordering": true,
+                "info": true,
+                "pageLength": 10,
+                "language": {
+                    url: 'public/DataTables/Spanish.json',
+                    searchPlaceholder: "Buscar"
+                }
+            });
+            /*}else{
+                $("#deportistasEntrenadorD").hide('slow');
+            }  */ 
+          /*Deportista(Persona.deportista, Persona);
+          if(((Persona.deportista.deportista_visita).length) != 0 ){//Existe visita
+              VisitaCamposLista(Persona.deportista.deportista_visita);
+            $("#camposRegistro").show('slow');
+          }else{        
+            $("#camposRegistro").show('slow');
+          }*/
+        }else{
+          $('#buscar span').empty();
+          document.getElementById("buscar").disabled = false;
+          $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
+          $('#paginador').fadeOut();
+          $("#camposRegistro").hide("slow");
+          $("#loading").hide('slow');           
+          return false;
+        }
+      }).done(function (){
+        $("#loading").hide('slow');         
+      });
+    }
+
 
 function Buscar(e){ 
-    var t = $('#personaTipoTabla').DataTable();
+  $("#loading").show('slow');
+  var key = $('input[name="buscador"]').val(); 
+    $.get('personaBuscarDeportista/'+key,{}, function(data){
+      if(data.length == 0){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+            $('#buscar span').empty();
+            document.getElementById("buscar").disabled = false;
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
+            $('#paginador').fadeOut();
+
+      }else if(data.length == 1){
+        VerPersona(data[0].Id_Persona);
+      }else if(data.length > 1){
+        var html = '';
+        html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+        html += '<thead>';
+        html += '<th>Nombres</th>';
+        html += '<th>Opciones</th>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(data, function(i, e){
+          html += '<tr>';
+          html += '<td>'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</td>';
+          html += "<td><button type='button' class='btn btn-primary' data-function='VerPersona' value='"+e.Id_Persona+"'>"+
+                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver Entrenador"+
+                            "</button></td>";
+          html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        $("#tablaPersonas").append(html);
+        $('#tablaPersonasDatos').DataTable({
+            retrieve: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            dom: 'Bfrtip',
+            select: true,
+            "responsive": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 8,
+            "language": {
+                url: 'public/DataTables/Spanish.json',
+                searchPlaceholder: "Buscar"
+            }
+        });    
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');   
+    }
+  }).done(function(){
+      $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');
+        $("#loading").hide('slow');
+  });
+    /*var t = $('#personaTipoTabla').DataTable();
     t.row.add( ['1','1', '1'] ).clear().draw( false );  
 
     var key = $('input[name="buscador"]').val(); 
@@ -198,10 +348,16 @@ function Buscar(e){
 			 });
 
 		}
-	});   
+	});   */
 }
 
 function Reset_campos(e){    
+
+    var t = $('#TablaVisitas').DataTable();   
+    t.row.add( ['1','1','1'] ).clear().draw( false );
+    $("#tablaPersonas").empty();
+    $("#personas").empty();
+
 
     $("#Nombres").empty();
     $("#Identificacion").empty();

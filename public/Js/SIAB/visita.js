@@ -331,6 +331,7 @@ function VerPersona(id_persona){
   $("#loading").show('slow');
   $("#tablaPersonas").hide('slow');   
   $("#camposRegistro").hide("slow");
+  $("#loading").show('slow');
 
   $.get('buscarPersona/'+id_persona,{}, function(Persona){  
     $.each(Persona.tipo, function(i, e){
@@ -363,15 +364,13 @@ function VerPersona(id_persona){
       return false;
     }
   }).done(function (){
-    $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-    $('#buscar span').empty();
-    document.getElementById("buscar").disabled = false;    
-    $("#tablaPersonas").show('slow');
+    $("#loading").hide('slow');         
   });
 }
 
 
-function Buscar(e){	
+function Buscar(e){
+  $("#loading").show('slow');
   var key = $('input[name="buscador"]').val(); 
     $.get('personaBuscarDeportista/'+key,{}, function(data){
       if(data.length == 0){
@@ -423,43 +422,13 @@ function Buscar(e){
         document.getElementById("buscar").disabled = false;    
         $("#tablaPersonas").show('slow');   
     }
+  }).done(function(){
+      $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');
+        $("#loading").hide('slow');
   }); 
-	/*var key = $('input[name="buscador"]').val(); 
-  $.get('personaBuscarDeportista/'+key,{}, function(data){  
-      if(data.length > 0){ //Existe la persona       	        
-      	$.each(data, function(i, e){
-        	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) { 
-            if(responseDep.deportista){//Existe Deportista
-              Deportista(responseDep.deportista, data[0]);
-              if(((responseDep.deportista.deportista_visita).length) != 0 ){//Existe visita
-                  VisitaCamposLista(responseDep.deportista.deportista_visita);
-                $("#camposRegistro").show('slow');
-              }else{        
-                $("#camposRegistro").show('slow');
-              }
-            }else{
-              $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-              $('#buscar span').empty();
-              document.getElementById("buscar").disabled = false;
-              $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como deportista, registrela en el RUD, para continuar con el procedimiento.</h4></dvi><br>');
-              $('#paginador').fadeOut();
-            }
-          });
-        });
-      }else{
-        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-        $('#buscar span').empty();
-        document.getElementById("buscar").disabled = false;
-        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos</h4></dvi><br>');
-        $('#paginador').fadeOut();
-      }
-    }).done(function(){
-      setTimeout(function(){ 
-        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-        $('#buscar span').empty();
-        document.getElementById("buscar").disabled = false;   
-      }, 1500);      
-    });*/           	
 }
 
 function Deportista (Deportista, Persona){

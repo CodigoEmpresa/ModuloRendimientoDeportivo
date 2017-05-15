@@ -79,7 +79,6 @@ $(function(e){
 			$("#MedicinaPrepagoE").show("slow");
 		}
 	});
-
 	
 	$("#LibretaPreg").on('change',function (e){
 		var id = $("#LibretaPreg").val();
@@ -89,7 +88,6 @@ $(function(e){
 			$("#militares").hide("slow");
 		}
 	});
-
 
 	$("#ClasificacionDeportista").on('change',function (e){
 		$("#Agrupacion").empty();
@@ -231,155 +229,212 @@ $(function(e){
 			$("#"+i).closest('.form-group').addClass('has-error');
       	});
 	}
+
+	$('body').delegate('button[data-function="VerPersona"]','click',function (e) {
+    	VerPersona($(this).val());
+  	});
+	
 });
 
+
+
+function VerPersona(id_persona){
+  $("#loading").show('slow');
+  $("#tablaPersonas").hide('slow');   
+  $("#camposRegistro").hide("slow");
+  $("#loading").show('slow');
+
+  $.get('buscarPersona/'+id_persona,{}, function(Persona){  
+
+  	$.each(Persona.tipo, function(i, e){
+      if(e.Id_Tipo == 49){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;
+        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
+        $('#paginador').fadeOut();
+        $("#camposRegistro").hide("slow");
+        $("#loading").hide('slow');           
+        return false;
+      }else{
+		$("#camposRegistro").show("slow");
+		$("#loading").hide('slow');          	
+	  }
+  	});
+
+	$("#persona").val(Persona['Id_Persona']);        	
+	$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
+	$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+
+	$("#NombresCompromiso").empty();
+	$("#NombresCompromiso").append(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre'] +' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+	$("#TipoDocumento").val(Persona.tipo_documento['Descripcion_TipoDocumento']);
+	$("#NumeroDocumento").val(Persona['Cedula']);
+	$("#fechaNac").val(Persona['Fecha_Nacimiento']);
+	$("#PaisNac").val(Persona['Id_Pais']);
+	$("#MunicipioNac").val(Persona['Nombre_Ciudad']);
+	$("#Genero").val(Persona['Id_Genero']);
+
+	$("#Nombres").attr("disabled", "disabled");
+	$("#Apellidos").attr("disabled", "disabled");
+	$("#TipoDocumento").attr("disabled", "disabled");
+	$("#NumeroDocumento").attr("disabled", "disabled");
+	$("#fechaNac").attr("disabled", "disabled");
+	$("#PaisNac").attr("disabled", "disabled");
+	$("#MunicipioNac").attr("disabled", "disabled");
+	$("#Genero").attr("disabled", "disabled");
+
+	ShowRopa(Persona['Id_Genero'], 1);
+	ShowZapatos(Persona['Id_Genero'], 2);			
+  	document.getElementById("RUD").style.display = "block";
+
+	if(Persona.entrenador){  //Cuando Hay entrenador  	          			
+		if(Persona.entrenador['Archivo1_Url'] != ''){
+		$("#SImagen").empty();
+		$("#SImagen").append("<img id='Fotografia' src='' alt='' class='img-thumbnail'>");
+		$("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/EntrenadorFotografias/'+Persona.entrenador['Archivo1_Url']+'?' + (new Date()).getTime());
+	}else{
+		$("#Fotografia").hide();
+	}
+		$("#entrenador").val(Persona.entrenador['Id']);						
+		$("#LugarExpedicion").val(Persona.entrenador['Lugar_Expedicion_Id']);
+		$("#FechaExpedicion").val(Persona.entrenador['Fecha_Expedicion']);
+		$("#Pasaporte").val(Persona.entrenador['Numero_Pasaporte']);
+		$("#FechaVigenciaPasaporte").val(Persona.entrenador['Fecha_Pasaporte']);
+		$("#EstadoCivil").val(Persona.entrenador['Estado_Civil_Id']);
+		$("#Estrato").val(Persona.entrenador['Estrato_Id']);
+		$("#DepartamentoNac").val(Persona.entrenador['Departamento_Id_Nac']);
+		$("#LibretaPreg").val(Persona.entrenador['Libreta_Preg']).change();
+		$("#Libreta").val(Persona.entrenador['Numero_Libreta_Mil']);
+		$("#Distrito").val(Persona.entrenador['Distrito_Libreta_Mil']);
+		$("#NombreContacto").val(Persona.entrenador['Nombre_Contacto']);
+		$("#Parentesco").val(Persona.entrenador['Parentesco_Id']);
+		$("#FijoContacto").val(Persona.entrenador['Fijo_Contacto']);
+		$("#CelularContacto").val(Persona.entrenador['Celular_Contacto']);
+		$("#TipoCuenta").val(Persona.entrenador['Tipo_Cuenta_Id']);
+		$("#Banco").val(Persona.entrenador['Banco_Id']);
+		$("#NumeroCuenta").val(Persona.entrenador['Numero_Cuenta']);
+		$("#NumeroHijos").val(Persona.entrenador['Numero_Hijos']);
+		$("#DepartamentoLoc").val(Persona.entrenador['Departamento_Id_Localiza']);
+		$("#MunicipioLoc").val(Persona.entrenador['Ciudad_Id_Localiza']);
+		$("#Direccion").val(Persona.entrenador['Direccion_Localiza']);
+		$("#Barrio").val(Persona.entrenador['Barrio_Localiza']);
+		$("#Localidad").val(Persona.entrenador['Localidad_Id_Localiza']);
+		$("#FijoLoc").val(Persona.entrenador['Fijo_Localiza']);
+		$("#CelularLoc").val(Persona.entrenador['Celular_Localiza']);
+		$("#Correo").val(Persona.entrenador['Correo_Electronico']);
+		$("#Regimen").val(Persona.entrenador['Regimen_Salud_Id']).change();
+		$("#FechaAfiliacion").val(Persona.entrenador['Fecha_Afiliacion']);
+		$("#TipoAfiliacion").val(Persona.entrenador['Tipo_Afiliacion_Id']);
+		$("#MedicinaPrepago").val(Persona.entrenador['Medicina_Prepago']).change();
+		$("#NombreMedicinaPrepago").val(Persona.entrenador['Nombre_MedicinaPrepago']);
+		$("#Eps").val(Persona.entrenador['Eps_Id']);
+		$("#NivelRegimen").val(Persona.entrenador['Nivel_Regimen_Sub_Id']);
+		$("#RiesgosLaborales").val(Persona.entrenador['Riesgo_Laboral']);
+		$("#Arl").val(Persona.entrenador['Arl_Id']);
+		$("#FondoPensionPreg").val(Persona.entrenador['Fondo_PensionPreg_Id']).change();
+		$("#FondoPension").val(Persona.entrenador['Fondo_Pension_Id']);
+		
+		$("#GrupoSanguineo").val(Persona.entrenador['Grupo_Sanguineo_Id']);
+		$("#Medicamento").val(Persona.entrenador['Uso_Medicamento']).change();
+		$("#CualMedicamento").val(Persona.entrenador['Medicamento']);
+		$("#TiempoMedicamento").val(Persona.entrenador['Tiempo_Medicamento']);		
+		$("#OtroMedicoPreg").val(Persona.entrenador['Otro_Medico_Preg']).change();
+		$("#OtroMedico").val(Persona.entrenador['Otro_Medico']);  
+
+		$("#Profesional").val(Persona.entrenador['Profesional_Preg']).change();
+	    $("#TituloPregrado").val(Persona.entrenador['Titulo_Pregrado']);
+	    $("#TituloEspecializacion").val(Persona.entrenador['Titulo_Especializacion']);
+	    $("#TituloMaestria").val(Persona.entrenador['Titulo_Maestria']);
+	    $("#TituloDoctorado").val(Persona.entrenador['Titulo_Doctorado']);
+	    $("#EscalafonEntrenadores").val(Persona.entrenador['Curso_Entrenadores']);
+
+		agrupacionT = Persona.entrenador['Agrupacion_Id'];
+		deporteT = Persona.entrenador['Deporte_Id'];
+		modalidadT = Persona.entrenador['Modalidad_Id'];
+
+		$("#ClasificacionDeportista").val(Persona.entrenador['Clasificacion_Deportista_Id']).change(); 
+
+		ShowRopa(Persona['Id_Genero'], 1, Persona.entrenador['Sudadera_Talla_Id'], Persona.entrenador['Camiseta_Talla_Id'], Persona.entrenador['Pantaloneta_Talla_Id']);
+		ShowZapatos(Persona['Id_Genero'], 2, Persona.entrenador['Tenis_Talla_Id']);    
+		
+		$("#seccion_uno").show("slow");
+		$("#seccion_dos").show("slow");
+		$("#seccion_tres").show("slow");
+		$("#seccion_cuatro").show("slow");
+		$("#seccion_cinco").show("slow");
+		$("#seccion_seis").show("slow");
+
+		$("#Modificar").show();
+		$("#Registrar").hide();
+
+	}else{              			
+		$("#Fotografia").hide();
+		$("#Modificar").hide();
+		$("#Registrar").show();
+	}
+  }).done(function (){
+    $("#loading").hide('slow');         
+  });
+}
+
 function Buscar(e){	
-	var key = $('input[name="buscador"]').val(); 
-	$.get('buscarTipoPersona/'+key,{}, function(TipoPersona){  
-		if(TipoPersona.Respuesta == 1){
-			$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+	$("#loading").show('slow');
+  	var key = $('input[name="buscador"]').val(); 
+    $.get('personaBuscarDeportista/'+key,{}, function(data){
+      if(data.length == 0){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
             $('#buscar span').empty();
             document.getElementById("buscar").disabled = false;
-            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">'+TipoPersona.Mensaje+'</h4></dvi><br>');
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
             $('#paginador').fadeOut();
-		}else if(TipoPersona.Respuesta== 2){
-			$.get('personaBuscarDeportista/'+key,{}, function(PersonaData){  				
-				$("#persona").val(PersonaData[0]['Id_Persona']);        	
-	        	$("#Nombres").val(PersonaData[0]['Primer_Nombre']+' '+PersonaData[0]['Segundo_Nombre']);        	
-				$("#Apellidos").val(PersonaData[0]['Primer_Apellido']+' '+PersonaData[0]['Segundo_Apellido']);
 
-				$("#NombresCompromiso").empty();
-				$("#NombresCompromiso").append(PersonaData[0]['Primer_Nombre']+' '+PersonaData[0]['Segundo_Nombre'] +' '+PersonaData[0]['Primer_Apellido']+' '+PersonaData[0]['Segundo_Apellido']);
-				$("#TipoDocumento").val(PersonaData[0].tipo_documento['Descripcion_TipoDocumento']);
-				$("#NumeroDocumento").val(PersonaData[0]['Cedula']);
-				$("#fechaNac").val(PersonaData[0]['Fecha_Nacimiento']);
-				$("#PaisNac").val(PersonaData[0]['Id_Pais']);
-				$("#MunicipioNac").val(PersonaData[0]['Nombre_Ciudad']);
-				$("#Genero").val(PersonaData[0]['Id_Genero']);
-
-				$("#Nombres").attr("disabled", "disabled");
-				$("#Apellidos").attr("disabled", "disabled");
-				$("#TipoDocumento").attr("disabled", "disabled");
-				$("#NumeroDocumento").attr("disabled", "disabled");
-				$("#fechaNac").attr("disabled", "disabled");
-				$("#PaisNac").attr("disabled", "disabled");
-				$("#MunicipioNac").attr("disabled", "disabled");
-				$("#Genero").attr("disabled", "disabled");
-
-				ShowRopa(PersonaData[0]['Id_Genero'], 1);
-				ShowZapatos(PersonaData[0]['Id_Genero'], 2);			
-	          	document.getElementById("RUD").style.display = "block";
-
-	          	$.get("entrenador/" + PersonaData[0]['Id_Persona'] + "", function (EntrenadorData) {
-
-	          		if(EntrenadorData.entrenador){  //Cuando Hay entrenador  	          			
-	          			if(EntrenadorData.entrenador['Archivo1_Url'] != ''){
-							$("#SImagen").empty();
-							$("#SImagen").append("<img id='Fotografia' src='' alt='' class='img-thumbnail'>");
-                			$("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/EntrenadorFotografias/'+EntrenadorData.entrenador['Archivo1_Url']+'?' + (new Date()).getTime());
-						}else{
-							$("#Fotografia").hide();
-						}
-
-          				$("#entrenador").val(EntrenadorData.entrenador['Id']);						
-						$("#LugarExpedicion").val(EntrenadorData.entrenador['Lugar_Expedicion_Id']);
-						$("#FechaExpedicion").val(EntrenadorData.entrenador['Fecha_Expedicion']);
-						$("#Pasaporte").val(EntrenadorData.entrenador['Numero_Pasaporte']);
-						$("#FechaVigenciaPasaporte").val(EntrenadorData.entrenador['Fecha_Pasaporte']);
-						$("#EstadoCivil").val(EntrenadorData.entrenador['Estado_Civil_Id']);
-						$("#Estrato").val(EntrenadorData.entrenador['Estrato_Id']);
-						$("#DepartamentoNac").val(EntrenadorData.entrenador['Departamento_Id_Nac']);
-						$("#LibretaPreg").val(EntrenadorData.entrenador['Libreta_Preg']).change();
-						$("#Libreta").val(EntrenadorData.entrenador['Numero_Libreta_Mil']);
-						$("#Distrito").val(EntrenadorData.entrenador['Distrito_Libreta_Mil']);
-						$("#NombreContacto").val(EntrenadorData.entrenador['Nombre_Contacto']);
-						$("#Parentesco").val(EntrenadorData.entrenador['Parentesco_Id']);
-						$("#FijoContacto").val(EntrenadorData.entrenador['Fijo_Contacto']);
-						$("#CelularContacto").val(EntrenadorData.entrenador['Celular_Contacto']);
-						$("#TipoCuenta").val(EntrenadorData.entrenador['Tipo_Cuenta_Id']);
-						$("#Banco").val(EntrenadorData.entrenador['Banco_Id']);
-						$("#NumeroCuenta").val(EntrenadorData.entrenador['Numero_Cuenta']);
-						$("#NumeroHijos").val(EntrenadorData.entrenador['Numero_Hijos']);
-						$("#DepartamentoLoc").val(EntrenadorData.entrenador['Departamento_Id_Localiza']);
-						$("#MunicipioLoc").val(EntrenadorData.entrenador['Ciudad_Id_Localiza']);
-						$("#Direccion").val(EntrenadorData.entrenador['Direccion_Localiza']);
-						$("#Barrio").val(EntrenadorData.entrenador['Barrio_Localiza']);
-						$("#Localidad").val(EntrenadorData.entrenador['Localidad_Id_Localiza']);
-						$("#FijoLoc").val(EntrenadorData.entrenador['Fijo_Localiza']);
-						$("#CelularLoc").val(EntrenadorData.entrenador['Celular_Localiza']);
-						$("#Correo").val(EntrenadorData.entrenador['Correo_Electronico']);
-						$("#Regimen").val(EntrenadorData.entrenador['Regimen_Salud_Id']).change();
-						$("#FechaAfiliacion").val(EntrenadorData.entrenador['Fecha_Afiliacion']);
-						$("#TipoAfiliacion").val(EntrenadorData.entrenador['Tipo_Afiliacion_Id']);
-						$("#MedicinaPrepago").val(EntrenadorData.entrenador['Medicina_Prepago']).change();
-						$("#NombreMedicinaPrepago").val(EntrenadorData.entrenador['Nombre_MedicinaPrepago']);
-						$("#Eps").val(EntrenadorData.entrenador['Eps_Id']);
-						$("#NivelRegimen").val(EntrenadorData.entrenador['Nivel_Regimen_Sub_Id']);
-						$("#RiesgosLaborales").val(EntrenadorData.entrenador['Riesgo_Laboral']);
-						$("#Arl").val(EntrenadorData.entrenador['Arl_Id']);
-						$("#FondoPensionPreg").val(EntrenadorData.entrenador['Fondo_PensionPreg_Id']).change();
-						$("#FondoPension").val(EntrenadorData.entrenador['Fondo_Pension_Id']);
-						
-						$("#GrupoSanguineo").val(EntrenadorData.entrenador['Grupo_Sanguineo_Id']);
-						$("#Medicamento").val(EntrenadorData.entrenador['Uso_Medicamento']).change();
-						$("#CualMedicamento").val(EntrenadorData.entrenador['Medicamento']);
-						$("#TiempoMedicamento").val(EntrenadorData.entrenador['Tiempo_Medicamento']);		
-						$("#OtroMedicoPreg").val(EntrenadorData.entrenador['Otro_Medico_Preg']).change();
-						$("#OtroMedico").val(EntrenadorData.entrenador['Otro_Medico']);  
-
-						$("#Profesional").val(EntrenadorData.entrenador['Profesional_Preg']).change();
-			            $("#TituloPregrado").val(EntrenadorData.entrenador['Titulo_Pregrado']);
-			            $("#TituloEspecializacion").val(EntrenadorData.entrenador['Titulo_Especializacion']);
-			            $("#TituloMaestria").val(EntrenadorData.entrenador['Titulo_Maestria']);
-			            $("#TituloDoctorado").val(EntrenadorData.entrenador['Titulo_Doctorado']);
-			            $("#EscalafonEntrenadores").val(EntrenadorData.entrenador['Curso_Entrenadores']);
-
-						agrupacionT = EntrenadorData.entrenador['Agrupacion_Id'];
-          				deporteT = EntrenadorData.entrenador['Deporte_Id'];
-          				modalidadT = EntrenadorData.entrenador['Modalidad_Id'];
-
-						$("#ClasificacionDeportista").val(EntrenadorData.entrenador['Clasificacion_Deportista_Id']).change(); 
-
-						ShowRopa(PersonaData[0]['Id_Genero'], 1, EntrenadorData.entrenador['Sudadera_Talla_Id'], EntrenadorData.entrenador['Camiseta_Talla_Id'], EntrenadorData.entrenador['Pantaloneta_Talla_Id']);
-						ShowZapatos(PersonaData[0]['Id_Genero'], 2, EntrenadorData.entrenador['Tenis_Talla_Id']);    
-						
-						$("#seccion_uno").show("slow");
-						$("#seccion_dos").show("slow");
-						$("#seccion_tres").show("slow");
-						$("#seccion_cuatro").show("slow");
-						$("#seccion_cinco").show("slow");
-						$("#seccion_seis").show("slow");
-
-						$("#Modificar").show();
-              			$("#Registrar").hide();
-
-
-              		}else{              			
-              			$("#Fotografia").hide();
-              			$("#Modificar").hide();
-              			$("#Registrar").show();
-              			
-              		}
-	          	}).done(function (){             		
-	                $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-	                $('#buscar span').empty();
-	             	document.getElementById("buscar").disabled = false;     
-	             	$("#camposRegistro").show('slow');            	
-	  			});
-
-	          	/*$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) {       
-
-              		
-             	}).done(function (){             		
-                    $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-                    $('#buscar span').empty();
-                 	document.getElementById("buscar").disabled = false;     
-                 	$("#camposRegistro").show('slow');            	
-      			});
-          	});*/
-			});
-		}
-	});
+      }else if(data.length == 1){
+        VerPersona(data[0].Id_Persona);
+      }else if(data.length > 1){
+      	$("#tablaPersonas").empty();
+        var html = '';
+        html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+        html += '<thead>';
+        html += '<th>Nombres</th>';
+        html += '<th>Opciones</th>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(data, function(i, e){
+          html += '<tr>';
+          html += '<td>'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</td>';
+          html += "<td><button type='button' class='btn btn-primary' data-function='VerPersona' value='"+e.Id_Persona+"'>"+
+                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver Entrenador"+
+                            "</button></td>";
+          html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        $("#tablaPersonas").append(html);
+        $('#tablaPersonasDatos').DataTable({
+            retrieve: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            dom: 'Bfrtip',
+            select: true,
+            "responsive": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 8,
+            "language": {
+                url: 'public/DataTables/Spanish.json',
+                searchPlaceholder: "Buscar"
+            }
+        }); 
+     }
+  	}).done(function(){
+		$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+		$('#buscar span').empty();
+		document.getElementById("buscar").disabled = false;    
+		$("#tablaPersonas").show('slow');
+		$("#loading").hide('slow');
+  });
 }
 
 
@@ -418,6 +473,11 @@ function ShowZapatos(id_genero, id_tipo, tenis){
 }
 
 function Reset_campos(e){
+
+	var t = $('#TablaVisitas').DataTable();   
+	  t.row.add( ['1','1','1'] ).clear().draw( false );
+	  $("#tablaPersonas").empty();
+
 	$('#personas').html('');
 	$("#camposRegistro").hide('slow');
 	$("#seccion_uno").hide("slow");

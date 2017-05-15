@@ -25,7 +25,15 @@ class PersonaDeportistaController extends MPersonaController
         						 'deportista.deportistaVisita',
         						 'deportista.deportistaVisita.preguntaA',
         						 'deportista.deportistaVisita.miembros',
-        						 'deportista.deportistaParalimpico')->find($id_persona);
+        						 'deportista.deportistaParalimpico',
+        						 'entrenador', 
+        						 'entrenador.entrenadorDeportista', 
+        						 'entrenador.entrenadorDeportista.persona', 
+        						 'entrenador.entrenadorDeportista.deportistaDeporte', 
+        						 'entrenador.entrenadorDeportista.deportistaDeporte.agrupacion', 
+        						 'entrenador.entrenadorDeportista.deportistaDeporte.deporte', 
+        						 'entrenador.entrenadorDeportista.deportistaDeporte.modalidad')
+							->find($id_persona);
 		return $Persona;
 	}
 }

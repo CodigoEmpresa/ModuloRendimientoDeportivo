@@ -336,6 +336,7 @@ function VerPersona(id_persona){
   $("#loading").show('slow');
   $("#tablaPersonas").hide('slow');   
   $("#camposRegistro").hide("slow");
+  $("#loading").show('slow');
 
   $.get('buscarPersona/'+id_persona,{}, function(Persona){  
     $.each(Persona.tipo, function(i, e){
@@ -374,10 +375,10 @@ function VerPersona(id_persona){
             return false;
       }   
   }).done(function (){
-    $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+    /*$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
     $('#buscar span').empty();
     document.getElementById("buscar").disabled = false;    
-    $("#tablaPersonas").show('slow');
+    $("#tablaPersonas").show('slow');*/
     $("#loading").hide('slow');
   });
 }
@@ -397,6 +398,7 @@ function Buscar(e){
       }else if(data.length == 1){
         VerPersona(data[0].Id_Persona);
       }else if(data.length > 1){
+        $("#tablaPersonas").empty();
         var html = '';
         html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
         html += '<thead>';

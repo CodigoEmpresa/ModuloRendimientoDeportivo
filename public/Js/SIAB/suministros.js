@@ -234,62 +234,130 @@ $(function(e){
   $("#Agregar_Apoyo").on('click', function(){
     $("#Agregar_ApoyoD").show('slow');
   });
+
   $("#Agregar_Alimentacion").on('click', function(){
     $("#Agregar_AlimentacionD").show('slow');
   });
 
+  $('body').delegate('button[data-function="VerPersona"]','click',function (e) {
+    VerPersona($(this).val());
+  });
+
 });
 
+function VerPersona(id_persona){
+  $("#loading").show('slow');
+  $("#tablaPersonas").hide('slow');   
+  $("#camposRegistro").hide("slow");
+  $("#loading").show('slow');
+
+  $.get('buscarPersona/'+id_persona,{}, function(Persona){
+        $.each(Persona.tipo, function(i, e){
+          if(e.Id_Tipo == 59){
+            $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+            $('#buscar span').empty();
+            document.getElementById("buscar").disabled = false;
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
+            $('#paginador').fadeOut();
+            $("#camposRegistro").hide("slow");
+            $("#loading").hide('slow');           
+            return false;
+          }
+        });
+        if(Persona.deportista){  //Cuando Hay deportista   
+          $("#Nombres").append(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']+' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+          $("#Identificacion").append('IDENTIFICACIÓN '+Persona['Cedula']);    
+          $("#deportista1").val(Persona.deportista['Id']);
+          $("#deportista2").val(Persona.deportista['Id']);
+          $("#deportista3").val(Persona.deportista['Id']);
+          $("#BotoneraAcciones").show('slow');
+          $("#camposRegistro").show('slow');
+        }else{        
+           $('#buscar span').empty();
+          document.getElementById("buscar").disabled = false;
+          $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
+          $('#paginador').fadeOut();
+          $("#camposRegistro").hide("slow");
+          $("#loading").hide('slow');           
+          return false;
+        }
+    }).done(function(){
+      $("#loading").hide('slow');
+    });
+}
 
 function Buscar(e){	
-	var key = $('input[name="buscador"]').val(); 
-  $.get('personaBuscarDeportista/'+key,{}, function(data){  
-      if(data.length > 0){ //Existe la persona       	        
+  $("#loading").show('slow');  
+  var key = $('input[name="buscador"]').val(); 
+    $.get('personaBuscarDeportista/'+key,{}, function(data){
+      if(data.length == 0){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+            $('#buscar span').empty();
+            document.getElementById("buscar").disabled = false;
+            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
+            $('#paginador').fadeOut();
 
-        $("#Nombres").append(data[0]['Primer_Nombre']+' '+data[0]['Segundo_Nombre']+' '+data[0]['Primer_Apellido']+' '+data[0]['Segundo_Apellido']);
-        $("#Identificacion").append('IDENTIFICACIÓN '+data[0]['Cedula']);           
-
-      	$.each(data, function(i, e){
-        	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) { 
-
-            if(responseDep.deportista){//Existe Deportista
-
-              $("#deportista1").val(responseDep.deportista['Id']);
-              $("#deportista2").val(responseDep.deportista['Id']);
-              $("#deportista3").val(responseDep.deportista['Id']);
-
-              $("#BotoneraAcciones").show('slow');
-            }else{
-              $("#BotoneraAcciones").hide('slow');
-              $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-              $('#buscar span').empty();
-              document.getElementById("buscar").disabled = false;
-              $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como deportista, registrela en el RUD, para continuar con el procedimiento.</h4></dvi><br>');
-              $('#paginador').fadeOut();
-            }
-          });
+      }else if(data.length == 1){
+        VerPersona(data[0].Id_Persona);
+      }else if(data.length > 1){
+        var html = '';
+        html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+        html += '<thead>';
+        html += '<th>Nombres</th>';
+        html += '<th>Opciones</th>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(data, function(i, e){
+          html += '<tr>';
+          html += '<td>'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</td>';
+          html += "<td><button type='button' class='btn btn-info' data-function='VerPersona' value='"+e.Id_Persona+"'>"+
+                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver"+
+                            "</button></td>";
+          html += '</tr>';
         });
-      }else{
+        html += '</tbody>';
+        html += '</table>';
+        $("#tablaPersonas").append(html);
+        $('#tablaPersonasDatos').DataTable({
+            retrieve: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            dom: 'Bfrtip',
+            select: true,
+            "responsive": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 8,
+            "language": {
+                url: 'public/DataTables/Spanish.json',
+                searchPlaceholder: "Buscar"
+            }
+        });    
         $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
         $('#buscar span').empty();
-        document.getElementById("buscar").disabled = false;
-        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos</h4></dvi><br>');
-        $('#paginador').fadeOut();
-      }
-    }).done(function(){
-      setTimeout(function(){ 
-        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');   
+    }
+  }).done(function(){
+      $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
         $('#buscar span').empty();
-        document.getElementById("buscar").disabled = false;   
-      }, 1500);   
-    });           	
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow');
+        $("#loading").hide('slow');
+  });       	
 }
 
 function Reset_campos(e){   
-    $("#BotoneraAcciones").hide('slow');
-    $("#SuministrosComplementosF").hide('slow');
-    $("#SuministrosAlimentacionF").hide('slow');
-    $("#ApoyoServiciosF").hide('slow');
-    $("#Nombres").empty();
-    $("#Identificacion").empty();      
+  var t = $('#TablaVisitas').DataTable();   
+  t.row.add( ['1','1','1'] ).clear().draw( false );
+  $("#tablaPersonas").empty();
+  $("#personas").empty();
+
+  $("#BotoneraAcciones").hide('slow');
+  $("#SuministrosComplementosF").hide('slow');
+  $("#SuministrosAlimentacionF").hide('slow');
+  $("#ApoyoServiciosF").hide('slow');
+  $("#Nombres").empty();
+  $("#Identificacion").empty();      
 }

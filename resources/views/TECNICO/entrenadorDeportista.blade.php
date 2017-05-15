@@ -42,8 +42,12 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
+                            <div class="container" id="loading" style="display:none;">
+                                <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+                            </div>
                             <form id="registro" name="registro">
-                                <div class="col-xs-12"><br></div>
+                                <div class="col-xs-12" id="tablaPersonas"></div>
+                                <br>
                                 <div class="col-xs-12">
                                     <ul id="personas"></ul>
                                     <li class="list-group-item" id="GestorDeportistas" style="display:none;">

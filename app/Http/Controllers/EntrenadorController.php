@@ -106,6 +106,7 @@ class EntrenadorController extends Controller
     }
 
     public function RegistrarEntrenador(RegistroEntrenador $request){     	
+    	dd($request->all());
     	if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), ['FotografiaDep' => 'mimes:jpeg,jpg,png,bmp',]);
 
@@ -160,12 +161,19 @@ class EntrenadorController extends Controller
 			 	$Entrenador->Otro_Medico = $request->OtroMedico;			 	
 			 	$Entrenador->Arl_Id = $request->Arl;
 
+			 	$Entrenador->Bachiller_Preg = $request->Bachiller;
 			 	$Entrenador->Profesional_Preg = $request->Profesional;
+
+	            $Entrenador->Titulo_Tecnico = $request->TituloTecnico;
+	            $Entrenador->Titulo_Tecnologo = $request->TituloTecnologo;
+
 	            $Entrenador->Titulo_Pregrado = $request->TituloPregrado;
 	            $Entrenador->Titulo_Especializacion = $request->TituloEspecializacion;
 	            $Entrenador->Titulo_Maestria = $request->TituloMaestria;
 	            $Entrenador->Titulo_Doctorado = $request->TituloDoctorado;
 	            $Entrenador->Curso_Entrenadores = $request->EscalafonEntrenadores;
+	            $Entrenador->Logros = $request->Logros;
+	            
 
 			 	if(isset($request->FotografiaDep)){
 				 	$file1=$request->file('FotografiaDep');
@@ -245,12 +253,18 @@ class EntrenadorController extends Controller
 			 	$Entrenador->Otro_Medico = $request->OtroMedico;			 	
 			 	$Entrenador->Arl_Id = $request->Arl;
 
+			 	$Entrenador->Bachiller_Preg = $request->Bachiller;
 			 	$Entrenador->Profesional_Preg = $request->Profesional;
+
+	            $Entrenador->Titulo_Tecnico = $request->TituloTecnico;
+	            $Entrenador->Titulo_Tecnologo = $request->TituloTecnologo;
+
 	            $Entrenador->Titulo_Pregrado = $request->TituloPregrado;
 	            $Entrenador->Titulo_Especializacion = $request->TituloEspecializacion;
 	            $Entrenador->Titulo_Maestria = $request->TituloMaestria;
 	            $Entrenador->Titulo_Doctorado = $request->TituloDoctorado;
 	            $Entrenador->Curso_Entrenadores = $request->EscalafonEntrenadores;
+	            $Entrenador->Logros = $request->Logros;
 
 			 	if(isset($request->FotografiaDep)){
 				 	$file1=$request->file('FotografiaDep');

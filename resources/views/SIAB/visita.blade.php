@@ -14,7 +14,7 @@
         <div class="content">
             <br>
             <center>
-                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a registrar</h4>
+                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a buscar</h4>
             </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -56,6 +56,9 @@
         </div>
 <!-- ------------------------------------------------------------------------------------ -->
         <form id="visitaF" name="visitaF" >            
+            <div class="container" id="loading" style="display:none;">
+                <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+            </div>
             <div id="camposRegistro" style="display:none;" >                
                 <input type="hidden" name="persona" id="persona" value=""/>
                 <input type="hidden" name="deportista" id="deportista" value=""/>
