@@ -106,15 +106,24 @@ class EntrenadorController extends Controller
     }
 
     public function RegistrarEntrenador(RegistroEntrenador $request){     	
-    	dd($request->all());
+    	//dd($request->all());
     	if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), ['FotografiaDep' => 'mimes:jpeg,jpg,png,bmp',]);
 
 	        if ($validator->fails()){
 	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
 	        }else{
+	        	$Perfeccionamiento = 0;
+	        	$Rendimiento = 0;
 	        	$Entrenador = new Entrenador;
+	        	foreach ($request->ClasificacionEntrenador as $key => $value) {
+	        		if($value == "Perfeccionamiento"){ $Perfeccionamiento = 1;}
+	        		if($value == "Rendimiento"){ $Rendimiento = 1;}
+	        	}
+
 	        	$Entrenador->Persona_Id = $request->persona;
+	        	$Entrenador->Perfeccionamiento = $Perfeccionamiento;
+	        	$Entrenador->Rendimiento = $Rendimiento;
 	    		$Entrenador->Lugar_Expedicion_Id = $request->LugarExpedicion;
 	    		$Entrenador->Clasificacion_Deportista_Id = $request->ClasificacionDeportista;
 	    		$Entrenador->Agrupacion_Id = $request->Agrupacion;
@@ -184,6 +193,8 @@ class EntrenadorController extends Controller
 		        }else{
 		        	$Entrenador->Archivo1_Url = '';
 		        }
+
+		       // dd($Entrenador);
 		        if($Entrenador->save()){
 		        	$PersonaTipo = new PersonaTipo;
 			 		$PersonaTipo->Id_Tipo = 59;
@@ -198,7 +209,8 @@ class EntrenadorController extends Controller
     	}
     }
 
-    public function ModificarEntrenador(RegistroEntrenador $request){     	
+    public function ModificarEntrenador(RegistroEntrenador $request){    
+    //dd($request->all()) 	;
     	if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), ['FotografiaDep' => 'mimes:jpeg,jpg,png,bmp',]);
 
@@ -206,7 +218,15 @@ class EntrenadorController extends Controller
 	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
 	        }else{
 	        	$Entrenador = Entrenador::find($request->entrenador);
+	        	$Perfeccionamiento = 0;
+	        	$Rendimiento = 0;	        	
+	        	foreach ($request->ClasificacionEntrenador as $key => $value) {
+	        		if($value == "Perfeccionamiento"){ $Perfeccionamiento = 1;}
+	        		if($value == "Rendimiento"){ $Rendimiento = 1;}
+	        	}
 	        	$Entrenador->Persona_Id = $request->persona;
+	        	$Entrenador->Perfeccionamiento = $Perfeccionamiento;
+	        	$Entrenador->Rendimiento = $Rendimiento;
 	    		$Entrenador->Lugar_Expedicion_Id = $request->LugarExpedicion;
 	    		$Entrenador->Clasificacion_Deportista_Id = $request->ClasificacionDeportista;
 	    		$Entrenador->Agrupacion_Id = $request->Agrupacion;
@@ -275,8 +295,9 @@ class EntrenadorController extends Controller
 		        }else{
 		        	$Entrenador->Archivo1_Url = '';
 		        }
+		        //dd($Entrenador);
 		        if($Entrenador->save()){
-		        	return response()->json(["Mensaje" => "Entrenador registrado con éxito."]);                	
+		        	return response()->json(["Mensaje" => "Entrenador modificado con éxito."]);                	
 			 	}else{
 			 		return response()->json(["Mensaje" => "Se presento una falla, intentelo de nuevo."]);                	
 			 	}	        

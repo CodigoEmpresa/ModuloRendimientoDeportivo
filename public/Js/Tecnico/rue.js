@@ -191,24 +191,25 @@ $(function(e){
             success: function (xhr) {       
             	$("#loading").hide('slow');
             	$('#FotografiaDep').removeClass('imagen-error');
-            	if(xhr.status == 'error')
-				{
+            	if(xhr.status == 'error'){
 					$("#camposRegistro").show('slow');
 	            	$("#loading").hide('slow');
 					validador_errores(xhr.errors);
 					$('#FotografiaDep').addClass('imagen-error');
 					return false;
-				}
-				else 
-				{
+				}else{
 					$('#alert_actividad').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
 					$('#mensaje_actividad').show(60);
 					$('#mensaje_actividad').delay(2000).hide(600);				
 					Reset_campos();
-				}
-            	
+				}            	
             },
-            error: function (xhr){            	
+            error: function (xhr){ 
+            	if(xhr.responseJSON['ClasificacionEntrenador']){
+            		$("#Checks").addClass('has-error');
+            	}else{
+            		$("#Checks").removeClass('has-error');
+            	}
             	$("#camposRegistro").show('slow');
             	$("#loading").hide('slow');
 				validador_errores(xhr.responseJSON);
@@ -235,8 +236,6 @@ $(function(e){
   	});
 	
 });
-
-
 
 function VerPersona(id_persona){
   $("#loading").show('slow');
@@ -296,6 +295,18 @@ function VerPersona(id_persona){
 	}else{
 		$("#Fotografia").hide();
 	}
+		if(Persona.entrenador['Perfeccionamiento'] == 1){ 
+			$('input[data-function="Perfeccionamiento"]').prop('checked', true);
+		}else{
+			$('input[data-function="Perfeccionamiento"]').prop('checked', false);
+		}
+		if(Persona.entrenador['Rendimiento'] == 1){ 
+			//$('#ClasificacionEntrenador2').prop('checked', true);
+			$('input[data-function="Rendimiento"]').prop('checked', true);
+		}else{
+			$('input[data-function="Rendimiento"]').prop('checked', false);
+		}
+
 		$("#entrenador").val(Persona.entrenador['Id']);						
 		$("#LugarExpedicion").val(Persona.entrenador['Lugar_Expedicion_Id']);
 		$("#FechaExpedicion").val(Persona.entrenador['Fecha_Expedicion']);
@@ -342,12 +353,19 @@ function VerPersona(id_persona){
 		$("#OtroMedicoPreg").val(Persona.entrenador['Otro_Medico_Preg']).change();
 		$("#OtroMedico").val(Persona.entrenador['Otro_Medico']);  
 
+		$("#Bachiller").val(Persona.entrenador['Bachiller_Preg']).change();
 		$("#Profesional").val(Persona.entrenador['Profesional_Preg']).change();
+
+	    $("#TituloTecnico").val(Persona.entrenador['Titulo_Tecnico']);
+	    $("#TituloTecnologo").val(Persona.entrenador['Titulo_Tecnologo']);
+
 	    $("#TituloPregrado").val(Persona.entrenador['Titulo_Pregrado']);
 	    $("#TituloEspecializacion").val(Persona.entrenador['Titulo_Especializacion']);
 	    $("#TituloMaestria").val(Persona.entrenador['Titulo_Maestria']);
 	    $("#TituloDoctorado").val(Persona.entrenador['Titulo_Doctorado']);
 	    $("#EscalafonEntrenadores").val(Persona.entrenador['Curso_Entrenadores']);
+
+	    $("#Logros").val(Persona.entrenador['Logros']);
 
 		agrupacionT = Persona.entrenador['Agrupacion_Id'];
 		deporteT = Persona.entrenador['Deporte_Id'];
@@ -437,7 +455,6 @@ function Buscar(e){
   });
 }
 
-
 function ShowRopa(id_genero, id_tipo, sudadera, camiseta,pantaloneta){
     $.get("getTallas/"+id_genero+"/"+id_tipo, function (tallasRopa) {        
         $("#Sudadera").empty();
@@ -487,6 +504,9 @@ function Reset_campos(e){
 	$("#seccion_cinco").hide("slow");
 	$("#seccion_seis").hide("slow");
 
+	$('#ClasificacionEntrenador1').prop('checked', false);
+	$('#ClasificacionEntrenador2').prop('checked', false);
+
 	$("#LugarExpedicion").val('');
 	$("#FechaExpedicion").val('');
 	$("#Pasaporte").val('');
@@ -533,11 +553,15 @@ function Reset_campos(e){
 	$("#OtroMedico").val('');  
 
 	$("#Profesional").val('').change();
+	$("#Bachiller").val('').change();
+    $("#TituloTecnico").val('');
+    $("#TituloTecnologo").val('');
     $("#TituloPregrado").val('');
     $("#TituloEspecializacion").val('');
     $("#TituloMaestria").val('');
     $("#TituloDoctorado").val('');
     $("#EscalafonEntrenadores").val('');
+    $("#Logros").val('');
 
 	$("#Modificar").hide();
 	$("#Registrar").hide();

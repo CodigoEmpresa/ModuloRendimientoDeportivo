@@ -105,9 +105,9 @@
                                 <label for="inputEmail" class="control-label" id="NombresL" >Clasificación del entrenador:</label>
                             </div>
                             <div class="form-group col-md-12">
-                                <div class="radio">
-                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador1" value="Perfeccionamiento">Perfeccionamiento</label>
-                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador2" value="Rendimiento">Rendimiento</label>
+                                <div class="radio" id="Checks">
+                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador1" data-function="Perfeccionamiento" value="Perfeccionamiento">Perfeccionamiento</label>
+                                    <label class=" col-md-3"><input type="checkbox" name="ClasificacionEntrenador[]" id="ClasificacionEntrenador2" data-function="Rendimiento" value="Rendimiento">Rendimiento</label>
                                 </div>
                             </div> 
                         </div>
