@@ -19,6 +19,6 @@ class PlanEntrenamiento extends Model
     }
 
     public function versionPlanEntrenamiento(){
-        return $this->hasMany('App\Models\versionPlanEntrenamiento', 'Plan_Entrenamiento_Id');
+        return $this->hasMany('App\Models\VersionPlanEntrenamiento', 'Plan_Entrenamiento_Id');
     }
 }

@@ -333,6 +333,9 @@ $(function(e){
 });
 
 function VerPersona(id_persona){
+  $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+  $('#buscar span').empty();
+  document.getElementById("buscar").disabled = false;
   $("#loading").show('slow');
   $("#tablaPersonas").hide('slow');   
   $("#camposRegistro").hide("slow");
@@ -366,19 +369,15 @@ function VerPersona(id_persona){
           OcultarCampos(); 
         }
       }else{          
-          $('#buscar span').empty();
-            document.getElementById("buscar").disabled = false;
-            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
-            $('#paginador').fadeOut();
-            $("#camposRegistro").hide("slow");
-            $("#loading").hide('slow');           
-            return false;
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;
+        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
+        $('#paginador').fadeOut();
+        $("#camposRegistro").hide("slow");
+        $("#loading").hide('slow');           
+        return false;
       }   
   }).done(function (){
-    /*$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-    $('#buscar span').empty();
-    document.getElementById("buscar").disabled = false;    
-    $("#tablaPersonas").show('slow');*/
     $("#loading").hide('slow');
   });
 }

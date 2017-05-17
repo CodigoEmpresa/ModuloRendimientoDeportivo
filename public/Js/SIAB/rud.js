@@ -435,21 +435,26 @@ function VerPersona(id_persona){
 	$("#loading").show('slow');
 
 	$.get('buscarPersona/'+id_persona,{}, function(Persona){  
-		$.each(Persona.tipo, function(i, e){
-			if(e.Id_Tipo == 59){
-				$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
-	            $('#buscar span').empty();
-	            document.getElementById("buscar").disabled = false;
-	            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
-	            $('#paginador').fadeOut();
-	            $("#camposRegistro").hide("slow");
-	            $("#loading").hide('slow');          	
-	            return false;
-			}else{
-				$("#camposRegistro").show("slow");
-	            $("#loading").hide('slow');          	
-			}
-		});
+		if(Persona.tipo.length > 0){
+			$.each(Persona.tipo, function(i, e){
+				if(e.Id_Tipo == 59){
+					$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+		            $('#buscar span').empty();
+		            document.getElementById("buscar").disabled = false;
+		            $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
+		            $('#paginador').fadeOut();
+		            $("#camposRegistro").hide("slow");
+		            $("#loading").hide('slow');
+		            return false;
+				}else{
+					$("#camposRegistro").show("slow");
+		            $("#loading").hide('slow');
+				}
+			});
+		}else{
+			$("#camposRegistro").show("slow");
+            $("#loading").hide('slow');
+		}
 		$("#persona").val(Persona['Id_Persona']);        	
     	$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
 		$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
