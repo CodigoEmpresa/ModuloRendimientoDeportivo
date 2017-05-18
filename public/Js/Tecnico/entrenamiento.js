@@ -577,4 +577,15 @@ $(function(){
 	      }
       	});
     });
+
+    $("#TablaConvenciones").on('click', function(){
+    	$("#TablaConvencionesT").show('slow');
+    	$("#TablaConvenciones").hide('fast');
+    	$("#TablaConvencionesN").show('fast');
+    });
+    $("#TablaConvencionesN").on('click', function(){
+    	$("#TablaConvencionesT").hide('slow');
+    	$("#TablaConvenciones").show('fast');
+    	$("#TablaConvencionesN").hide('fast');
+    });
 });

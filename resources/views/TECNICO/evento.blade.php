@@ -36,7 +36,6 @@
                             <td>
                                 <center>
                                     <button type="button" class="btn btn-info ver VerModificar" value="{{$Evento['Id']}}" name="VerModificar" id="VerModificar" ><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>Ver Evento</button>
-                                    <!--<button type="button" class="btn btn-danger ver VerEliminar" value="{{$Evento['Id']}}" name="VerEliminar" id="VerEliminar" ><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Eliminar evento</button>-->
                                 </center>
                             </td>
                         </tr>
@@ -193,7 +192,10 @@
                                             </div>
                                             <div class="panel-body">
                                                 <ul class="list-group" id="seccion_uno" name="seccion_uno">
-                                                   <li class="list-group-item">
+                                                <!-- Listado de deportes -->
+                                                <div id="ListadoDeportes"></div>
+
+                                                   <!--<li class="list-group-item">
                                                         <div class="row">
                                                             <div class="form-group col-md-2">
                                                                 <label for="inputEmail" class="control-label">Deporte</label>
@@ -207,7 +209,7 @@
                                                                 <button type="button" class="btn btn-success ver" value="" name="AgregarDeporte" id="AgregarDeporte">Agregar Deporte</button>
                                                             </div>
                                                         </div>
-                                                    </li>
+                                                    </li>-->
                                                 </ul>        
 
                                             </div>
@@ -219,7 +221,7 @@
                                         </div>
                                     </div>
                                     <div class="panel">  
-                                    <div class="content">
+                                   <!-- <div class="content">
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
                                               <h3 class="panel-title">Lista de deportes relacionados a este evento</h3>
@@ -238,7 +240,7 @@
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>         
+                                    </div>         -->
                                                                                                         
                                     <!--<ul class="list-group" id="seccion_uno" name="seccion_uno">
                                        <li class="list-group-item">

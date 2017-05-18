@@ -301,8 +301,27 @@
                         <div class="modal-content">
                             <div class="modal-header" style="text-transform: uppercase;">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4><label id="DescripcionPlanilla"></label></h4>
-                                <!--<h5 class="modal-title" id="myModalLabel">Planilla de entrenamiernto ()</h5>                                -->
+                                <div class="form-group col-md-10">
+                                    <h4><label id="DescripcionPlanilla"></label></h4>
+                                </div>
+                                <div class="form-group col-md-2" style="font-size: 10px;">
+                                    <h4 id="TablaConvenciones">Tabla de convenciones <span class="glyphicon glyphicon-arrow-down"></span></h4>
+                                    <h4 id="TablaConvencionesN" style="display: none;">Tabla de convenciones <span class="glyphicon glyphicon-arrow-up"></h4>
+                                    <table id="TablaConvencionesT" width="100%" border="1" style="display: none;" >
+                                        <thead>
+                                            <th align="center">Nombre Convención</th>
+                                            <th align="center">Abreviatura</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($ConvencionAsistencia as $Convenciones)
+                                                <tr align="center">
+                                                    <td>{{ $Convenciones['Nombre_Convencion_asistencia']}}</td>
+                                                    <td>{{ $Convenciones['Abreviatura'] }}</td>
+                                                </tr>
+                                            @endforeach  
+                                        </tbody>
+                                    </table>
+                                </div>
                              </div>
                              <div class="panel panel-primary">
                                 <div class="content" >

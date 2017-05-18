@@ -45,6 +45,35 @@ $(function(){
     	$("#DeportesEventoLi").removeClass('active');
 
     	$.get("getEvento/"+$(this).val(), function (evento) {
+
+        /*var t = 0;
+        var html2 = '';*/
+        $("#ListadoDeportes").empty();
+        $("#ListadoDeportes").append('<div class="row">');
+        $.each(evento.clasificacion_deportiva.agrupacion, function(i, e){          
+          /*if((t%2) == 0){
+            $("#ListadoDeportes").append('<div class="form-group col-md-2">111111111111111112345678');
+            html2 = '</div>';
+          }else{
+            html2 = '';
+          }*/*
+          $.each(e.deporte, function(i, e){
+            var html =   '';
+            html +=   '<div class="radio"><label><input type="checkbox"';
+            $.each(evento.deporte, function(i, f){                              
+              if(e.Id == f.Id){
+                html +=' checked="true" ';
+              }              
+            });
+            html +=' name="DeportesCheck[]" id="deportes1" value="'+e.Id+'">'+e.Nombre_Deporte+'</label></div>';
+            $("#ListadoDeportes").append(html);                        
+          });            
+          /*$("#ListadoDeportes").append(html2);
+          t = t + 1; */                
+        });
+        $("#ListadoDeportes").append('</div>');
+        $("#ListadoDeportes").append('<button type="button" class="btn btn-success" onclick="GuardarDeporte('+evento['Id']+')">Guardar</button>');
+
     		$("#TituloE").empty();
     		$("#TituloE").append('<strong>Evento:</strong> '+evento['Nombre_Evento']);
     		$("#Clasificacion_IdDatos").val(evento.clasificacion_deportiva['Id']).change();
@@ -55,7 +84,11 @@ $(function(){
             $("#Id_EventoDep").val(evento['Id']);            
     	});
 
-    	$.get("getDeportesNoEvento/"+$("#Id_EventoDatos").val(), function (Deportes) {
+      $("#GuardarDeporte").on('click', function(){
+        alert($(this),val());
+      });
+
+    	/*$.get("getDeportesNoEvento/"+$("#Id_EventoDatos").val(), function (Deportes) {
     		$("#Deporte_Id").empty();
     		var html = '<option value="">Seleccionar</option>';
     		$.each(Deportes, function(i, e){
@@ -76,7 +109,7 @@ $(function(){
 			        ] ).draw( false );
 	    		});
 	    	}
-    	});
+    	});*/
     });
 
 
@@ -138,7 +171,6 @@ $(function(){
 	      processData: false,
 	      dataType: "json",
 	      success: function (xhr) {
-	      	console.log(xhr);
 	        if(xhr.status == 'error'){
 	          validador_errores(xhr.errors);
 	        }
@@ -226,7 +258,6 @@ $(function(){
 	      processData: false,
 	      dataType: "json",
 	      success: function (xhr) {
-	      	console.log(xhr);
 	        if(xhr.status == 'error'){
 	          validador_errores(xhr.errors);
 	        }
@@ -247,7 +278,7 @@ $(function(){
 
 });
 
-    function EliminarDeporte(id_dep){
+   /* function EliminarDeporte(id_dep){
         var token = $("#token").val();   
         $.ajax({
           url: 'DeleteDeporteEvento/'+id_dep+'/'+$("#Id_Evento").val(),  
@@ -256,7 +287,6 @@ $(function(){
           processData: false,
           dataType: "json",
           success: function (xhr) {
-            console.log(xhr);
             if(xhr.status == 'error'){
               //validador_errores(xhr.errors);
               $('#alert_evento3').html('<div class="alert alert-dismissible alert-danger" ><strong>Error!</strong>'+xhr.Mensaje+'</div>');
@@ -276,4 +306,4 @@ $(function(){
             validador_errores(xhr.responseJSON);
           }
         });
-    }
+    }*/

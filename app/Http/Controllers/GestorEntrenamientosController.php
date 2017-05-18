@@ -21,6 +21,7 @@ use App\Models\EntrenadorDeportista;
 use App\Models\AsistenciaEntrenamiento;
 use App\Models\VerificacionEntrenamiento;
 use App\Models\EntrenamientoNoConformidad;
+use App\Models\ConvencionAsistencia;
 
 class GestorEntrenamientosController extends Controller
 {
@@ -41,10 +42,12 @@ class GestorEntrenamientosController extends Controller
 		}
 		
 		$Persona = $_SESSION['Usuario']['Persona'];
+		$ConvencionAsistencia = ConvencionAsistencia::all();
 
 		return view('TECNICO/entrenamiento')
 					->with(compact('Entrenador'))
 					->with(compact('Persona'))
+					->with(compact('ConvencionAsistencia'))
 					;
 	}
 

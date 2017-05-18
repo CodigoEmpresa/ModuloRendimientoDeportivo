@@ -40,7 +40,7 @@ class EventoController extends Controller
 	}
 
 	public function GetEvento(Request $request, $id){
-		$Evento = Evento::with('clasificacionDeportiva', 'tipoNivel')->find($id);
+		$Evento = Evento::with('clasificacionDeportiva.agrupacion.deporte', 'tipoNivel', 'deporte')->find($id);
 		return $Evento;
 	}
 
