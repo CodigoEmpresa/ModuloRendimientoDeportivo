@@ -89,4 +89,8 @@ class Deportista extends Model
         return $this->hasMany('App\Models\DeportistaTest', 'Deportista_Id');
     }
 
+    public function deportistaHistoriaInicial(){
+        return $this->hasMany('App\Models\HistoriaInicial', 'Deportista_Id');
+    }
+
 }

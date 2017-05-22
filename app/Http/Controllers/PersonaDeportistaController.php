@@ -17,23 +17,25 @@ class PersonaDeportistaController extends MPersonaController
                 			 'genero', 
                 			 'etnia', 
                 			 'deportista', 
-                        		 'deportista.deportistaValoracion', 
-                        		 'deportista.deportistaValoracion.idioma', 
-                        		 'deportista.deportistaValoracion.quien', 
-                        		 'deportista.deportistaValoracion.preguntaA',
-                        		 'deportista.deportistaValoracion.valoracionRiesgo', 
-                        		 'deportista.deportistaVisita',
-                        		 'deportista.deportistaVisita.preguntaA',
-                        		 'deportista.deportistaVisita.miembros',
-                        		 'deportista.deportistaParalimpico',
-                        		 'entrenador', 
-                        		 'entrenador.entrenadorDeportista', 
-                        		 'entrenador.entrenadorDeportista.persona', 
-                        		 'entrenador.entrenadorDeportista.deportistaDeporte', 
-                        		 'entrenador.entrenadorDeportista.deportistaDeporte.agrupacion', 
-                        		 'entrenador.entrenadorDeportista.deportistaDeporte.deporte', 
-                        		 'entrenador.entrenadorDeportista.deportistaDeporte.modalidad')
-                        		->find($id_persona);
+                    		 'deportista.deportistaValoracion', 
+                    		 'deportista.deportistaValoracion.idioma', 
+                    		 'deportista.deportistaValoracion.quien', 
+                    		 'deportista.deportistaValoracion.preguntaA',
+                    		 'deportista.deportistaValoracion.valoracionRiesgo', 
+                    		 'deportista.deportistaVisita',
+                    		 'deportista.deportistaVisita.preguntaA',
+                    		 'deportista.deportistaVisita.miembros',
+                    		 'deportista.deportistaParalimpico',
+                             'deportista.deportistaEntrenador.persona',
+                             'deportista.deportistaHistoriaInicial',
+                    		 'entrenador', 
+                    		 'entrenador.entrenadorDeportista', 
+                    		 'entrenador.entrenadorDeportista.persona', 
+                    		 'entrenador.entrenadorDeportista.deportistaDeporte', 
+                    		 'entrenador.entrenadorDeportista.deportistaDeporte.agrupacion', 
+                    		 'entrenador.entrenadorDeportista.deportistaDeporte.deporte', 
+                    		 'entrenador.entrenadorDeportista.deportistaDeporte.modalidad')
+                    		->find($id_persona);
 		return $Persona;
 	}
 }

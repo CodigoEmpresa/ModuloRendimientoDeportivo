@@ -45,18 +45,9 @@ $(function(){
     	$("#DeportesEventoLi").removeClass('active');
 
     	$.get("getEvento/"+$(this).val(), function (evento) {
-
-        /*var t = 0;
-        var html2 = '';*/
         $("#ListadoDeportes").empty();
         $("#ListadoDeportes").append('<div class="row">');
-        $.each(evento.clasificacion_deportiva.agrupacion, function(i, e){          
-          /*if((t%2) == 0){
-            $("#ListadoDeportes").append('<div class="form-group col-md-2">111111111111111112345678');
-            html2 = '</div>';
-          }else{
-            html2 = '';
-          }*/*
+        $.each(evento.clasificacion_deportiva.agrupacion, function(i, e){
           $.each(e.deporte, function(i, e){
             var html =   '';
             html +=   '<div class="radio"><label><input type="checkbox"';
@@ -68,11 +59,8 @@ $(function(){
             html +=' name="DeportesCheck[]" id="deportes1" value="'+e.Id+'">'+e.Nombre_Deporte+'</label></div>';
             $("#ListadoDeportes").append(html);                        
           });            
-          /*$("#ListadoDeportes").append(html2);
-          t = t + 1; */                
         });
-        $("#ListadoDeportes").append('</div>');
-        $("#ListadoDeportes").append('<button type="button" class="btn btn-success" onclick="GuardarDeporte('+evento['Id']+')">Guardar</button>');
+        $("#ListadoDeportes").append('<div align="center"><button type="button" class="btn btn-success" data-function="GuardarDeporte" value="'+evento['Id']+'">Guardar</button></div>');
 
     		$("#TituloE").empty();
     		$("#TituloE").append('<strong>Evento:</strong> '+evento['Nombre_Evento']);
@@ -84,8 +72,39 @@ $(function(){
             $("#Id_EventoDep").val(evento['Id']);            
     	});
 
-      $("#GuardarDeporte").on('click', function(){
-        alert($(this),val());
+      $('body').delegate('button[data-function="GuardarDeporte"]','click',function (e) {
+        //alert($(this).val());
+        var token = $("#token").val();
+        var formData = new FormData($("#")[0]);       
+        var formData = new FormData($("#deporteEventoF")[0]);       
+      
+        $.ajax({
+          url: 'AddDeporteEvento',  
+          type: 'POST',
+          data: formData,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (xhr) {
+            if(xhr.status == 'error'){
+              validador_errores(xhr.errors);
+              $('#alert_evento3').html('<div class="alert alert-dismissible alert-danger" ><strong>Error!</strong>Debe seleccionar al menos un deporte para este evento.</div>');
+              $('#mensaje_evento3').show(60);
+              $('#mensaje_evento3').delay(1500).hide(600);                                    
+            }
+            else 
+            {
+              $('#alert_evento3').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>'+xhr.Mensaje+'</div>');
+              $('#mensaje_evento3').show(60);
+              $('#mensaje_evento3').delay(1500).hide(600);                      
+              setTimeout(function(){ $("#verEventoD").modal('hide');  }, 1500);
+              Reset_campos();
+            }
+          },
+          error: function (xhr){
+            validador_errores(xhr.responseJSON);
+          }
+        });
       });
 
     	/*$.get("getDeportesNoEvento/"+$("#Id_EventoDatos").val(), function (Deportes) {
@@ -114,7 +133,7 @@ $(function(){
 
 
 
-    $("#AgregarDeporte").on('click', function(){
+    /*$("#AgregarDeporte").on('click', function(){
         var token = $("#token").val();
         var formData = new FormData($("#")[0]);       
         var formData = new FormData($("#deporteEventoF")[0]);       
@@ -143,7 +162,7 @@ $(function(){
             validador_errores(xhr.responseJSON);
           }
         });
-    });
+    });*/
 
     $("#InicioEvento").on('click', function(e){
     	$("#verEventoF").show('slow');

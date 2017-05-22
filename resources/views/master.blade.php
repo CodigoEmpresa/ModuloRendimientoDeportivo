@@ -195,9 +195,9 @@
               <li>
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">UCAD <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
-                  <li><a href="#">Default</a></li>
+                  <li><a href="#" style="color:#1995dc">HISTORIA CLINICA</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Sub-Item 1</a></li>
+                  <li class=”{{ Request::is( 'historia_inicial') ? 'active' : '' }}”><a href="{{ URL::to( 'historia_inicial') }}">Registro Historia Incial</a></li>
                 </ul>
               </li>
 

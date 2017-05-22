@@ -37,5 +37,8 @@ class DatabaseSeeder extends Seeder
          $this->call(TratamientoConformidad::class);
          $this->call(ConvencionAsistencia::class);
          $this->call(TipoTest::class);         
+         $this->call(Ocupacion::class);         
+         $this->call(NivelEstudio::class);
+         $this->call(Aptitud::class);                  
     }
 }

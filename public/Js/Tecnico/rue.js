@@ -238,12 +238,20 @@ $(function(e){
 });
 
 function VerPersona(id_persona){
-  $("#loading").show('slow');
-  $("#tablaPersonas").hide('slow');   
-  $("#camposRegistro").hide("slow");
+  
+
   $("#loading").show('slow');
 
-  if(Persona.tipo.length > 0){
+  $("#tablaPersonas").hide('slow');   
+
+  $("#camposRegistro").hide("slow");
+
+  $("#loading").show('slow');
+
+
+
+  $.get('buscarPersona/'+id_persona,{}, function(Persona){  
+  	if(Persona.tipo.length > 0){
   		$.each(Persona.tipo, function(i, e){
 	      if(e.Id_Tipo == 47){
 	        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
@@ -264,138 +272,271 @@ function VerPersona(id_persona){
 		$("#loading").hide('slow');       
   	}
 
+
 	$("#persona").val(Persona['Id_Persona']);        	
+
 	$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
+
 	$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
 
+
+
 	$("#NombresCompromiso").empty();
+
 	$("#NombresCompromiso").append(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre'] +' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+
 	$("#TipoDocumento").val(Persona.tipo_documento['Descripcion_TipoDocumento']);
+
 	$("#NumeroDocumento").val(Persona['Cedula']);
+
 	$("#fechaNac").val(Persona['Fecha_Nacimiento']);
+
 	$("#PaisNac").val(Persona['Id_Pais']);
+
 	$("#MunicipioNac").val(Persona['Nombre_Ciudad']);
+
 	$("#Genero").val(Persona['Id_Genero']);
 
+
+
 	$("#Nombres").attr("disabled", "disabled");
+
 	$("#Apellidos").attr("disabled", "disabled");
+
 	$("#TipoDocumento").attr("disabled", "disabled");
+
 	$("#NumeroDocumento").attr("disabled", "disabled");
+
 	$("#fechaNac").attr("disabled", "disabled");
+
 	$("#PaisNac").attr("disabled", "disabled");
+
 	$("#MunicipioNac").attr("disabled", "disabled");
+
 	$("#Genero").attr("disabled", "disabled");
 
+
+
 	ShowRopa(Persona['Id_Genero'], 1);
+
 	ShowZapatos(Persona['Id_Genero'], 2);			
+
   	document.getElementById("RUD").style.display = "block";
 
+
+
 	if(Persona.entrenador){  //Cuando Hay entrenador  	          			
+
 		if(Persona.entrenador['Archivo1_Url'] != ''){
+
 		$("#SImagen").empty();
+
 		$("#SImagen").append("<img id='Fotografia' src='' alt='' class='img-thumbnail'>");
+
 		$("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/EntrenadorFotografias/'+Persona.entrenador['Archivo1_Url']+'?' + (new Date()).getTime());
+
 	}else{
+
 		$("#Fotografia").hide();
+
 	}
+
 		if(Persona.entrenador['Perfeccionamiento'] == 1){ 
+
 			$('input[data-function="Perfeccionamiento"]').prop('checked', true);
+
 		}else{
+
 			$('input[data-function="Perfeccionamiento"]').prop('checked', false);
+
 		}
+
 		if(Persona.entrenador['Rendimiento'] == 1){ 
+
 			//$('#ClasificacionEntrenador2').prop('checked', true);
+
 			$('input[data-function="Rendimiento"]').prop('checked', true);
+
 		}else{
+
 			$('input[data-function="Rendimiento"]').prop('checked', false);
+
 		}
+
+
 
 		$("#entrenador").val(Persona.entrenador['Id']);						
+
 		$("#LugarExpedicion").val(Persona.entrenador['Lugar_Expedicion_Id']);
+
 		$("#FechaExpedicion").val(Persona.entrenador['Fecha_Expedicion']);
+
 		$("#Pasaporte").val(Persona.entrenador['Numero_Pasaporte']);
+
 		$("#FechaVigenciaPasaporte").val(Persona.entrenador['Fecha_Pasaporte']);
+
 		$("#EstadoCivil").val(Persona.entrenador['Estado_Civil_Id']);
+
 		$("#Estrato").val(Persona.entrenador['Estrato_Id']);
+
 		$("#DepartamentoNac").val(Persona.entrenador['Departamento_Id_Nac']);
+
 		$("#LibretaPreg").val(Persona.entrenador['Libreta_Preg']).change();
+
 		$("#Libreta").val(Persona.entrenador['Numero_Libreta_Mil']);
+
 		$("#Distrito").val(Persona.entrenador['Distrito_Libreta_Mil']);
+
 		$("#NombreContacto").val(Persona.entrenador['Nombre_Contacto']);
+
 		$("#Parentesco").val(Persona.entrenador['Parentesco_Id']);
+
 		$("#FijoContacto").val(Persona.entrenador['Fijo_Contacto']);
+
 		$("#CelularContacto").val(Persona.entrenador['Celular_Contacto']);
+
 		$("#TipoCuenta").val(Persona.entrenador['Tipo_Cuenta_Id']);
+
 		$("#Banco").val(Persona.entrenador['Banco_Id']);
+
 		$("#NumeroCuenta").val(Persona.entrenador['Numero_Cuenta']);
+
 		$("#NumeroHijos").val(Persona.entrenador['Numero_Hijos']);
+
 		$("#DepartamentoLoc").val(Persona.entrenador['Departamento_Id_Localiza']);
+
 		$("#MunicipioLoc").val(Persona.entrenador['Ciudad_Id_Localiza']);
+
 		$("#Direccion").val(Persona.entrenador['Direccion_Localiza']);
+
 		$("#Barrio").val(Persona.entrenador['Barrio_Localiza']);
+
 		$("#Localidad").val(Persona.entrenador['Localidad_Id_Localiza']);
+
 		$("#FijoLoc").val(Persona.entrenador['Fijo_Localiza']);
+
 		$("#CelularLoc").val(Persona.entrenador['Celular_Localiza']);
+
 		$("#Correo").val(Persona.entrenador['Correo_Electronico']);
+
 		$("#Regimen").val(Persona.entrenador['Regimen_Salud_Id']).change();
+
 		$("#FechaAfiliacion").val(Persona.entrenador['Fecha_Afiliacion']);
+
 		$("#TipoAfiliacion").val(Persona.entrenador['Tipo_Afiliacion_Id']);
+
 		$("#MedicinaPrepago").val(Persona.entrenador['Medicina_Prepago']).change();
+
 		$("#NombreMedicinaPrepago").val(Persona.entrenador['Nombre_MedicinaPrepago']);
+
 		$("#Eps").val(Persona.entrenador['Eps_Id']);
+
 		$("#NivelRegimen").val(Persona.entrenador['Nivel_Regimen_Sub_Id']);
+
 		$("#RiesgosLaborales").val(Persona.entrenador['Riesgo_Laboral']);
+
 		$("#Arl").val(Persona.entrenador['Arl_Id']);
+
 		$("#FondoPensionPreg").val(Persona.entrenador['Fondo_PensionPreg_Id']).change();
+
 		$("#FondoPension").val(Persona.entrenador['Fondo_Pension_Id']);
+
 		
+
 		$("#GrupoSanguineo").val(Persona.entrenador['Grupo_Sanguineo_Id']);
+
 		$("#Medicamento").val(Persona.entrenador['Uso_Medicamento']).change();
+
 		$("#CualMedicamento").val(Persona.entrenador['Medicamento']);
+
 		$("#TiempoMedicamento").val(Persona.entrenador['Tiempo_Medicamento']);		
+
 		$("#OtroMedicoPreg").val(Persona.entrenador['Otro_Medico_Preg']).change();
+
 		$("#OtroMedico").val(Persona.entrenador['Otro_Medico']);  
 
+
+
 		$("#Bachiller").val(Persona.entrenador['Bachiller_Preg']).change();
+
 		$("#Profesional").val(Persona.entrenador['Profesional_Preg']).change();
 
+
+
 	    $("#TituloTecnico").val(Persona.entrenador['Titulo_Tecnico']);
+
 	    $("#TituloTecnologo").val(Persona.entrenador['Titulo_Tecnologo']);
 
+
+
 	    $("#TituloPregrado").val(Persona.entrenador['Titulo_Pregrado']);
+
 	    $("#TituloEspecializacion").val(Persona.entrenador['Titulo_Especializacion']);
+
 	    $("#TituloMaestria").val(Persona.entrenador['Titulo_Maestria']);
+
 	    $("#TituloDoctorado").val(Persona.entrenador['Titulo_Doctorado']);
+
 	    $("#EscalafonEntrenadores").val(Persona.entrenador['Curso_Entrenadores']);
+
+
 
 	    $("#Logros").val(Persona.entrenador['Logros']);
 
+
+
 		agrupacionT = Persona.entrenador['Agrupacion_Id'];
+
 		deporteT = Persona.entrenador['Deporte_Id'];
+
 		modalidadT = Persona.entrenador['Modalidad_Id'];
+
+
 
 		$("#ClasificacionDeportista").val(Persona.entrenador['Clasificacion_Deportista_Id']).change(); 
 
+
+
 		ShowRopa(Persona['Id_Genero'], 1, Persona.entrenador['Sudadera_Talla_Id'], Persona.entrenador['Camiseta_Talla_Id'], Persona.entrenador['Pantaloneta_Talla_Id']);
+
 		ShowZapatos(Persona['Id_Genero'], 2, Persona.entrenador['Tenis_Talla_Id']);    
+
 		
+
 		$("#seccion_uno").show("slow");
+
 		$("#seccion_dos").show("slow");
+
 		$("#seccion_tres").show("slow");
+
 		$("#seccion_cuatro").show("slow");
+
 		$("#seccion_cinco").show("slow");
+
 		$("#seccion_seis").show("slow");
 
+
+
 		$("#Modificar").show();
+
 		$("#Registrar").hide();
 
+
+
 	}else{              			
+
 		$("#Fotografia").hide();
+
 		$("#Modificar").hide();
+
 		$("#Registrar").show();
+
 	}
+
   }).done(function (){
+
     $("#loading").hide('slow');         
+
   });
 }
 

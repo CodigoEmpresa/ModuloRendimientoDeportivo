@@ -111,17 +111,15 @@ class EventoController extends Controller
 		if ($request->ajax()) { 
     		$validator = Validator::make($request->all(), [
     			'Id_EventoDep' => 'required',
-    			'Deporte_Id' => 'required',
+    			'DeportesCheck' => 'required',
     			]);
 
 	        if ($validator->fails()){
 	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
 	        }else{
-	        	$EventoDeporte = new EventoDeporte;
-	        	$EventoDeporte->Evento_Id = $request->Id_EventoDep;
-	        	$EventoDeporte->Deporte_Id = $request->Deporte_Id;
-	        	$EventoDeporte->save();
-
+	        	$Evento = Evento::find($request->Id_EventoDep);
+	        	$Evento->deporte()->detach($request->DeportesCheck);
+	        	$Evento->deporte()->attach($request->DeportesCheck);
 				return response()->json(["Mensaje" => "El deporte ha sido agregado al evento con éxito!"]);			
 			}
 		}else{
