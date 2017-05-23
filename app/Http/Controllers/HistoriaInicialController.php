@@ -8,6 +8,7 @@ use Idrd\Usuarios\Repo\PersonaInterface;
 use Validator;
 use Exception;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\RegistroHistoriaInicial;
 
 use App\Models\Persona;
@@ -31,6 +32,8 @@ use App\Models\Discapacidad;
 use App\Models\Ocupacion;
 use App\Models\NivelEstudio;
 use App\Models\Dominancia;
+use App\Models\Aptitud;
+use App\Models\HistoriaInicial;
 
 class HistoriaInicialController extends Controller
 {
@@ -57,6 +60,7 @@ class HistoriaInicialController extends Controller
 		$Ocupacion = Ocupacion::all();
 		$NivelEstudio = NivelEstudio::all();
 		$Dominancia = Dominancia::all();
+		$Aptitud = Aptitud::all();
 
 		return view('UCAD/historia_inicial',['deportista' => $deportista])
 		->with(compact('Ciudad'))
@@ -73,7 +77,14 @@ class HistoriaInicialController extends Controller
 		->with(compact('Ocupacion'))
 		->with(compact('NivelEstudio'))
 		->with(compact('Dominancia'))
+		->with(compact('Aptitud'))
 		;
+	}
+
+	public function GetHistoriaUnica(Request $request, $id_historia_inicial){
+		$HistoriaInicial = HistoriaInicial::find($id_historia_inicial);
+		return $HistoriaInicial;
+
 	}
 
 	public function AgregarHistoriaInicial(RegistroHistoriaInicial $request){

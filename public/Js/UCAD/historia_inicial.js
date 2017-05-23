@@ -1,34 +1,4 @@
 $(function(e){ 
-	/*$("#Diagnostico").on('change', function(){
-		if($(this).val() != ''){
-			if($(this).val() == 1){
-				 $("#OtroDiagnostico").show('slow');
-			}else{
-				$("#OtroDiagnostico").hide('slow')
-			}
-		}
-	});
-
-	$("#Silla").on('change', function(){
-		if($(this).val() != ''){
-				if($(this).val() == 1){
-					 $("#OtroSilla").show('slow');
-				}else{
-					$("#OtroSilla").hide('slow')
-				}
-			}
-	});
-
-	$("#ClasificadoNivelInternacional").on('change', function(){
-		if($(this).val() != ''){
-			if($(this).val() == 1){
-				 $("#OtroClasificadoNivelInternacional").show('slow');
-			}else{
-				$("#OtroClasificadoNivelInternacional").hide('slow')
-			}
-		}
-	});*/
-
 	$("#Registrar").on('click', function(){				
 		registro('AddHistoriaInicial');
 	});
@@ -97,12 +67,6 @@ $(function(e){
 
 	$.datepicker.setDefaults($.datepicker.regional["es"]);
 	
-	/*$('#FechaExpedicionDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
-	$('#FechaVigenciaPasaporteDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
-	$('#fechaNacDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
-	$('#FechaAfiliacionDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
-	$('#FechaCI').datepicker({format: 'yyyy-mm-dd', autoclose: true,});*/
-
 	var validador_errores = function(data){
 		$('#registro .form-group').removeClass('has-error');
 		$("#seccion_uno").show("slow");
@@ -116,81 +80,7 @@ $(function(e){
 			$("#"+i).closest('.form-group').addClass('has-error');
       	});
 	}
-
-	/*$("#seccion_compromiso_ver").on('click', function(e){
-		var role = $(this).data('role');               
-		if(role == 'ver'){
-			$("#seccion_compromiso").show("slow");
-			$(this).data('role', 'ocultar');
-			$('#seccion_compromiso_ver').removeClass('glyphicon-resize-full').addClass('glyphicon-resize-small');
-		}else if(role == 'ocultar'){
-			$("#seccion_compromiso").hide("slow");
-			$(this).data('role', 'ver');
-			$('#seccion_compromiso_ver').removeClass('glyphicon-resize-small').addClass('glyphicon-resize-full');
-		}				
-	});
-
-	$("#Tenis").on('change',function (e){
-		if($("#Tenis").val() != ''){			
-			$.get("TallaTenis/"+$("#Tenis").val(), function (tallaTenis) { 
-				$("#TallaTenis").show('slow');
-				$("#TUK").empty();
-				$("#TUSA").empty();
-				$("#TUK").append(tallaTenis['Uk']);	        
-				$("#TUSA").append(tallaTenis['Usa']);	        
-		    });
-		}else{
-			$("#TallaTenis").hide('slow');
-			$("#TUK").empty();
-			$("#TUSA").empty();
-		}
-	});
-
-	$("#RiesgosLaborales").on('change',function (e){
-		var id = $("#RiesgosLaborales").val();
-		if(id==1){			
-			$("#ArlD").show("slow");
-		}else if(id == 2){
-			$("#ArlD").hide("slow");
-		}
-	});
-
-	$("#FondoPensionPreg").on('change',function (e){
-		var id = $("#FondoPensionPreg").val();
-		if(id==1){			
-			$("#FondoPensionD").show("slow");
-		}else if(id == 2){
-			$("#FondoPensionD").hide("slow");
-		}
-	});
-
-	$("#Regimen").on('change',function (e){
-		var id = $("#Regimen").val();
-		if(id==2){			
-			$("#NivelRegimenD").show("slow");
-		}else{
-			$("#NivelRegimenD").hide("slow");
-		}
-	});
-
-	$("#Medicamento").on('change',function (e){
-		var id = $("#Medicamento").val();
-		if(id==1){			
-			$("#MedicamentoD").show("slow");
-		}else if(id == 2){
-			$("#MedicamentoD").hide("slow");
-		}
-	});
 	
-	$("#OtroMedicoPreg").on('change',function (e){
-		var id = $("#OtroMedicoPreg").val();
-		if(id==1){			
-			$("#OtroMedicoD").show("slow");
-		}else if(id == 2){
-			$("#OtroMedicoD").hide("slow");
-		}
-	});*/
-
 	$("#MedicinaPrepago").on('change',function (e){
 		var id = $("#MedicinaPrepago").val();
 		if(id==1){			
@@ -201,15 +91,6 @@ $(function(e){
 			$("#MedicinaPrepagoE").show("slow");
 		}
 	});
-	
-	/*$("#LibretaPreg").on('change',function (e){
-		var id = $("#LibretaPreg").val();
-		if(id==1){			
-			$("#militares").show("slow");
-		}else if(id == 2){
-			$("#militares").hide("slow");
-		}
-	});*/
 
 	$("#ClasificacionDeportista").on('change',function (e){
 		$("#Agrupacion").empty();
@@ -283,17 +164,6 @@ $(function(e){
 			$("#AgrupacionP").val('');
 		}
 	});
-
-	/*$("#Pertenece").on('change', function(){
-		id = $("#Pertenece").val();
-		if(id == 1){
-			$("#DeportistaEtapas").show('slow');
-			$("#seccion_seis_global").show('slow');			
-		}else if(id == 2){
-			$("#DeportistaEtapas").hide('slow');
-			$("#seccion_seis_global").hide('slow');			
-		}
-	});*/
 
 	$("#Agrupacion").on('change',function (e){
 		$("#Deporte").empty();
@@ -419,6 +289,10 @@ $(function(e){
 	$('body').delegate('button[data-function="VerPersona"]','click',function (e) {
 		VerPersona($(this).val());
 	});
+
+	$('body').delegate('button[data-function="VerHistoria"]','click',function (e) {
+		VerHistoria($(this).val());
+	});
 });
 
 function VerPersona(id_persona){
@@ -432,7 +306,6 @@ function VerPersona(id_persona){
 	$("#loading").show('slow');
 
 	$.get('buscarPersona/'+id_persona,{}, function(Persona){  
-		console.log(Persona);
 		$.each(Persona.tipo, function(i, e){
 			if(e.Id_Tipo == 59){
 				$('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
@@ -445,131 +318,56 @@ function VerPersona(id_persona){
 				return false;
 			}
 		});
-	    if(Persona.deportista){  //Cuando Hay deportista  
-	    	$("#persona").val(Persona['Id_Persona']);        	
-	    	$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
-			$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
-			$("#TipoDocumento").val(Persona.tipo_documento['Descripcion_TipoDocumento']);
-			$("#NumeroDocumento").val(Persona['Cedula']);
-			$("#fechaNac").val(Persona['Fecha_Nacimiento']);
-			$("#PaisNac").val(Persona['Id_Pais']);
-			$("#MunicipioNac").val(Persona['Nombre_Ciudad']);
-			$("#Genero").val(Persona['Id_Genero']);
-
-			document.getElementById("RHCI").style.display = "block";  
-
-			$.get("getDeportistaDeporte/" + Persona.deportista['Id'] + "", function (DeportistaDeporte) {     
-				agrupacionT = DeportistaDeporte['Agrupacion_Id'];
-				deporteT = DeportistaDeporte['Deporte_Id'];
-				modalidadT =DeportistaDeporte['Modalidad_Id'];
-
-				$("#Club").val(DeportistaDeporte['Club_Id']);   
-				$('#Club').selectpicker('refresh');           				
-			}).done(function(){
-				$("#ClasificacionDeportista").val(Persona.deportista['Clasificacion_Deportista_Id']).change();              				
-			});
-
-			if(Persona.deportista['Archivo1_Url'] != ''){
-				var HtmlFoto = '<li class="list-group-item">'+
-	                                '<div class="row" id="FotografiaRegistro">'+
-	                                     '<div class="form-group col-md-12">'+
-	                                        '<div class="form-group col-md-4"></div>'+
-	                                        '<div class="col-md-4 text-center">'+
-	                                        	'<label for="inputEmail" class="control-label">Fotografía del deportista</label>'+                                        	
-	                                            '<br>'+
-	                                            '<span id="SImagen">'+
-	                                                '<img id="Fotografia" src="" alt="" class="img-thumbnail img-responsive"><br>'+
-	                                            '</span>'+
-	                                        '</div>'+
-	                                        '<div class="form-group col-md-4 "></div>'+
-	                                    '</div>'+
-	                                '</div>'+
-	                            '</li>';
-				$("#SImagenLi").empty();
-				$("#SImagenLi").append(HtmlFoto);
-				$("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/Fotografias/'+Persona.deportista['Archivo1_Url']+'?' + (new Date()).getTime());
-			}else{
-				$("#Fotografia").hide();
-			}
-
-			$("#deportista").val(Persona.deportista['Id']);						
-			$("#EstadoCivil").val(Persona.deportista['Estado_Civil_Id']);
-			$("#Estrato").val(Persona.deportista['Estrato_Id']);
-			$("#DepartamentoNac").val(Persona.deportista['Departamento_Id_Nac']);
-			$("#DepartamentoLoc").val(Persona.deportista['Departamento_Id_Localiza']);
-			$("#MunicipioLoc").val(Persona.deportista['Ciudad_Id_Localiza']);
-			$("#Direccion").val(Persona.deportista['Direccion_Localiza']);
-			$("#Localidad").val(Persona.deportista['Localidad_Id_Localiza']);
-			$("#FijoLoc").val(Persona.deportista['Fijo_Localiza']);
-			$("#CelularLoc").val(Persona.deportista['Celular_Localiza']);
-			$("#MedicinaPrepago").val(Persona.deportista['Medicina_Prepago']).change();
-			$("#Eps").val(Persona.deportista['Eps_Id']);
-
-
-			if(Persona.deportista.deportista_paralimpico[0] != null){			
-				$("#Discapacidad").val(Persona.deportista.deportista_paralimpico[0]['Discapacidad_Id']).change();
-				clasificacionT =Persona.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id'];			
-				$("#EdadDeportiva").val(Persona.deportista.deportista_paralimpico[0]['EdadDeportiva']);
-			}
-
-			$("#TablaEntrenadores").empty();
-
-			if(Persona.deportista.deportista_entrenador.length > 0){			
-				var htmlEntrenadores = '';			
-				htmlEntrenadores += '<table id="tablaEntrenadorDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
-				htmlEntrenadores += '<thead>';
-				htmlEntrenadores += '<th>NOMBRE ENTRENADOR</th>';
-				htmlEntrenadores += '</thead>';
-				htmlEntrenadores += '<tbody>';
-				$.each(Persona.deportista.deportista_entrenador, function(i, e){
-					htmlEntrenadores += '<tr>';
-					htmlEntrenadores += '<td>'+e.persona['Primer_Nombre']+' '+e.persona['Segundo_Nombre']+' '+e.persona['Primer_Apellido']+' ' +e.persona['Segundo_Apellido']+'</td>';
-					htmlEntrenadores += '</tr>';
-				});
-				htmlEntrenadores += '</tbody>';
-				htmlEntrenadores += '</table>';
-				$("#TablaEntrenadores").append(htmlEntrenadores);			
-				$('#tablaEntrenadorDatos').DataTable({
-			        retrieve: true,
-			        buttons: [],
-			        dom: 'Bfrtip',
-			        select: true,
-			        "responsive": true,
-			        "ordering": true,
-			        "info": true,
-			        "pageLength": 8,
-			        "language": {
-			            url: 'public/DataTables/Spanish.json',
-			            searchPlaceholder: "Buscar"
-			        }
-			    });	
-			}else{
-				$("#TablaEntrenadores").append('<div class="alert alert-dismissible alert-warning" ><strong>Atención!</strong>Este deportista aún no cuenta con entrenadores relacionados</div>');
-			}
-
-			if(Persona.deportista.deportista_historia_inicial.length > 0){
-				$("#Ocupacion").val(Persona.deportista.deportista_historia_inicial[0].Ocupacion_Id).change();
-				$("#NivelEstudio").val(Persona.deportista.deportista_historia_inicial[0].NivelEstudio_Id).change();
-				$("#Dominancia").val(Persona.deportista.deportista_historia_inicial[0].Dominancia_Id).change();
-				$("#NombreMadre").val(Persona.deportista.deportista_historia_inicial[0].Nombre_Madre);
-				$("#NombrePadre").val(Persona.deportista.deportista_historia_inicial[0].Nombre_Padre);
-				$("#EntrenamientoContinuoPreg").val(Persona.deportista.deportista_historia_inicial[0].Entrenamiento_Continuo_Preg).change();
-				//$("#PlanEntrenamientoPreg").val(Persona.deportista.deportista_historia_inicial[0].);
-				/*$("#NombreAcudiente").val(Persona.deportista.deportista_historia_inicial[0].Nombre_Acudiente);
-				$("#TelefonoAcudiente").val(Persona.deportista.deportista_historia_inicial[0].Telefono_Acudiente);
-				$("#NombreResponsable").val(Persona.deportista.deportista_historia_inicial[0].Nombre_Responsable);
-				$("#TelefonoResponsable").val(Persona.deportista.deportista_historia_inicial[0].Telefono_Responsable);*/				
-	        	$("#Registrar").hide('slow');
-	        	$("#Modificar").show('slow');
-			}else{
-				//alert('NO hay historia');
-				$("#Registrar").show('slow');
-	        	$("#Modificar").hide('slow');
-			}
-	        $("#seccion_uno").show("slow");
-	        $("#camposRegistro").show('slow');
-	      	
-	    }else{          
+	    if(Persona.deportista){  //Cuando Hay deportista 
+	    	$('#personas').html('<div><h3>Datos del deportista</h3><br><h5 class="list-group-item-heading" style="text-transform: uppercase;" >'+Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']+' '+Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']+'</h5><div class="row"><div class="col-xs-12 col-md-12"><div class="row"><div class="col-xs-12 col-sm-6 col-md-3"><small>IDENTIFICACIÓN '+Persona['Cedula']+'</small></div></div></div><br></div><br><br');
+	    	$("#persona").val(Persona['Id_Persona']);        
+	    	$("#tablaHistorias").empty();
+				var html = '';
+				html += "<div class='list-group-item'>";
+				html += "<div align='right'>";
+				html += "<button type='button' class='btn btn-primary' data-function='AgregarHistoria' value='"+Persona.deportista.Id+"'>"+
+                         "<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Agregar Nueva Consulta"+
+                      	"</button>";
+              	html += '</div><br><br>';
+				html += '<h4>Tabla de Consultas </h4>';
+				html += '<table id="tablaHistoriasDatos" class="display nowrap" cellspacing="0" width="90%" style="text-transform: uppercase;">';
+				html += '<thead>';
+				html += '<th>Fecha</th>';
+				html += '<th>Medico</th>';
+				html += '<th>Opciones</th>';
+				html += '</thead>';
+				html += '<tbody>';
+	    	if(Persona.deportista.deportista_historia_inicial.length > 0){	    		
+	    		$.each(Persona.deportista.deportista_historia_inicial, function(i, e){
+	    			html += '<tr>';
+	    			html += '<td>'+e.created_at+'</td>';
+	    			html += '<td>Nombre del Medico</td>';
+	    			html += "<td><button type='button' class='btn btn-success' data-function='VerHistoria' value='"+e.Id+"'>"+
+	                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver"+
+	                          	"</button></td>";
+	    			html += '</tr>';
+	    		});	    		
+	    	}
+	    	html += '</tbody>';
+    		html += '</table></div>';
+    		$("#tablaHistorias").append(html);
+    		$('#tablaHistoriasDatos').DataTable({
+		        retrieve: true,
+		        buttons: [
+		        ],
+		        dom: 'Bfrtip',
+		        select: true,
+		        "responsive": true,
+		        "ordering": true,
+		        "info": true,
+		        "pageLength": 5,
+		        "language": {
+		            url: 'public/DataTables/Spanish.json',
+		            searchPlaceholder: "Buscar"
+		        }
+		    });
+	    }else{   
+	    	$("#persona").val();
 	        $('#buscar span').empty();
 	        document.getElementById("buscar").disabled = false;
 	        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
@@ -581,6 +379,144 @@ function VerPersona(id_persona){
 	}).done(function (){
     	$("#loading").hide('slow');
   	});
+}
+
+function VerHistoria(id_historia){
+	$("#loading").show('slow');
+	$.get('buscarPersona/'+$("#persona").val(),{}, function(Persona){
+		$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
+		$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);
+		$("#TipoDocumento").val(Persona.tipo_documento['Descripcion_TipoDocumento']);
+		$("#NumeroDocumento").val(Persona['Cedula']);
+		$("#fechaNac").val(Persona['Fecha_Nacimiento']);
+		$("#PaisNac").val(Persona['Id_Pais']);
+		$("#MunicipioNac").val(Persona['Nombre_Ciudad']);
+		$("#Genero").val(Persona['Id_Genero']);
+
+		document.getElementById("RHCI").style.display = "block";  
+
+		$.get("getDeportistaDeporte/" + Persona.deportista['Id'] + "", function (DeportistaDeporte) {     
+			agrupacionT = DeportistaDeporte['Agrupacion_Id'];
+			deporteT = DeportistaDeporte['Deporte_Id'];
+			modalidadT =DeportistaDeporte['Modalidad_Id'];
+
+			$("#Club").val(DeportistaDeporte['Club_Id']);   
+			$('#Club').selectpicker('refresh');           				
+		}).done(function(){
+			$("#ClasificacionDeportista").val(Persona.deportista['Clasificacion_Deportista_Id']).change();              				
+		});
+
+		if(Persona.deportista['Archivo1_Url'] != ''){
+			var HtmlFoto = '<li class="list-group-item">'+
+                                '<div class="row" id="FotografiaRegistro">'+
+                                     '<div class="form-group col-md-12">'+
+                                        '<div class="form-group col-md-4"></div>'+
+                                        '<div class="col-md-4 text-center">'+
+                                        	'<label for="inputEmail" class="control-label">Fotografía del deportista</label>'+                                        	
+                                            '<br>'+
+                                            '<span id="SImagen">'+
+                                                '<img id="Fotografia" src="" alt="" class="img-thumbnail img-responsive"><br>'+
+                                            '</span>'+
+                                        '</div>'+
+                                        '<div class="form-group col-md-4 "></div>'+
+                                    '</div>'+
+                                '</div>'+
+                            '</li>';
+			$("#SImagenLi").empty();
+			$("#SImagenLi").append(HtmlFoto);
+			$("#Fotografia").attr('src',$("#Fotografia").attr('src')+'public/Img/Fotografias/'+Persona.deportista['Archivo1_Url']+'?' + (new Date()).getTime());
+		}else{
+			$("#Fotografia").hide();
+		}
+
+		$("#deportista").val(Persona.deportista['Id']);						
+		$("#EstadoCivil").val(Persona.deportista['Estado_Civil_Id']);
+		$("#Estrato").val(Persona.deportista['Estrato_Id']);
+		$("#DepartamentoNac").val(Persona.deportista['Departamento_Id_Nac']);
+		$("#DepartamentoLoc").val(Persona.deportista['Departamento_Id_Localiza']);
+		$("#MunicipioLoc").val(Persona.deportista['Ciudad_Id_Localiza']);
+		$("#Direccion").val(Persona.deportista['Direccion_Localiza']);
+		$("#Localidad").val(Persona.deportista['Localidad_Id_Localiza']);
+		$("#FijoLoc").val(Persona.deportista['Fijo_Localiza']);
+		$("#CelularLoc").val(Persona.deportista['Celular_Localiza']);
+		$("#MedicinaPrepago").val(Persona.deportista['Medicina_Prepago']).change();
+		$("#Eps").val(Persona.deportista['Eps_Id']);
+
+
+		if(Persona.deportista.deportista_paralimpico[0] != null){			
+			$("#Discapacidad").val(Persona.deportista.deportista_paralimpico[0]['Discapacidad_Id']).change();
+			clasificacionT =Persona.deportista.deportista_paralimpico[0]['Clasificacion_Funcional_Id'];			
+			$("#EdadDeportiva").val(Persona.deportista.deportista_paralimpico[0]['EdadDeportiva']);
+		}
+
+		$("#TablaEntrenadores").empty();
+
+		if(Persona.deportista.deportista_entrenador.length > 0){			
+			var htmlEntrenadores = '';			
+			htmlEntrenadores += '<table id="tablaEntrenadorDatos" class="display nowrap" cellspacing="0" width="90%" style="text-transform: uppercase;">';
+			htmlEntrenadores += '<thead>';
+			htmlEntrenadores += '<th>NOMBRE ENTRENADOR</th>';
+			htmlEntrenadores += '</thead>';
+			htmlEntrenadores += '<tbody>';
+			$.each(Persona.deportista.deportista_entrenador, function(i, e){
+				htmlEntrenadores += '<tr>';
+				htmlEntrenadores += '<td>'+e.persona['Primer_Nombre']+' '+e.persona['Segundo_Nombre']+' '+e.persona['Primer_Apellido']+' ' +e.persona['Segundo_Apellido']+'</td>';
+				htmlEntrenadores += '</tr>';
+			});
+			htmlEntrenadores += '</tbody>';
+			htmlEntrenadores += '</table>';
+			$("#TablaEntrenadores").append(htmlEntrenadores);			
+			$('#tablaEntrenadorDatos').DataTable({
+		        retrieve: true,
+		        buttons: [],
+		        dom: 'Bfrtip',
+		        select: true,
+		        "responsive": true,
+		        "ordering": true,
+		        "info": true,
+		        "pageLength": 8,
+		        "language": {
+		            url: 'public/DataTables/Spanish.json',
+		            searchPlaceholder: "Buscar"
+		        }
+		    });	
+		}else{
+			$("#TablaEntrenadores").append('<div class="alert alert-dismissible alert-warning" ><strong>Atención!</strong>Este deportista aún no cuenta con entrenadores relacionados</div>');
+		}
+		
+		$.get("getHistoriaUnica/" + id_historia, function (HistoriaUnica) {     
+			$("#Ocupacion").val(HistoriaUnica.Ocupacion_Id).change();
+			$("#NivelEstudio").val(HistoriaUnica.NivelEstudio_Id).change();
+			$("#Dominancia").val(HistoriaUnica.Dominancia_Id).change();
+			$("#NombreMadre").val(HistoriaUnica.Nombre_Madre);
+			$("#NombrePadre").val(HistoriaUnica.Nombre_Padre);
+			$("#EntrenamientoContinuoPreg").val(HistoriaUnica.Entrenamiento_Continuo_Preg).change();
+			//$("#PlanEntrenamientoPreg").val(HistoriaUnica.);
+			$("#NombreAcudiente").val(HistoriaUnica.Nombre_Acudiente);
+			$("#TelefonoAcudiente").val(HistoriaUnica.Telefono_Acudiente);
+			$("#NombreResponsable").val(HistoriaUnica.Nombre_Responsable);
+			$("#TelefonoResponsable").val(HistoriaUnica.Telefono_Responsable);
+			
+        });
+	}).done(function(){
+		//$("#Registrar").hide('slow');
+    	$("#Modificar").show('slow');
+    	$("#seccion_uno").show("slow");
+    	$("#seccion_dos").show("slow");
+    	$("#seccion_tres").show("slow");
+    	$("#seccion_cuatro").show("slow");
+    	$("#seccion_cinco").show("slow");
+    	$("#seccion_seis").show("slow");
+    	$("#seccion_siete").show("slow");
+    	$("#seccion_ocho").show("slow");
+    	$("#seccion_nueve").show("slow");
+    	$("#seccion_diez").show("slow");
+    	$("#seccion_once").show("slow");
+    	$("#camposRegistro").show('slow');
+		$("#verHistoriaD").modal('show');
+		$("#loading").hide('slow');
+
+	});
 }
 
 function Buscar(e){	
@@ -600,7 +536,7 @@ function Buscar(e){
     	}else if(data.length > 1){
     		$("#tablaPersonas").empty();
     		var html = '';
-    		html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+    		html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="90%" style="text-transform: uppercase;">';
     		html += '<thead>';
     		html += '<th>Nombres</th>';
     		html += '<th>Opciones</th>';
@@ -654,6 +590,7 @@ function Reset_campos(e){
 	var t = $('#TablaVisitas').DataTable();   
 	t.row.add( ['1','1','1'] ).clear().draw( false );
 	$("#tablaPersonas").empty();
+	$("#tablaHistorias").empty();
 
 	$("#seccion_seis_global").show('slow');				
 	$('#personas').html( '');
