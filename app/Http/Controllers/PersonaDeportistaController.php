@@ -28,6 +28,12 @@ class PersonaDeportistaController extends MPersonaController
                     		 'deportista.deportistaParalimpico',
                              'deportista.deportistaEntrenador.persona',
                              'deportista.deportistaHistoriaInicial',
+                             /*'deportista.deportistaHistoriaInicial.historiaInicialConsulta',
+                             'deportista.deportistaHistoriaInicial.historiaInicialExamenFisico',
+                             'deportista.deportistaHistoriaInicial.historiaInicialGinecologico',
+                             'deportista.deportistaHistoriaInicial.historiaInicialOsteomuscular',
+                             'deportista.deportistaHistoriaInicial.historiaInicialPatologico',
+                             'deportista.deportistaHistoriaInicial.historiaInicialResultado',*/
                     		 'entrenador', 
                     		 'entrenador.entrenadorDeportista', 
                     		 'entrenador.entrenadorDeportista.persona', 

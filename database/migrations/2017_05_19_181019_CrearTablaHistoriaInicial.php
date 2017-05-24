@@ -19,9 +19,11 @@ class CrearTablaHistoriaInicial extends Migration
             $table->integer('NivelEstudio_Id')->unsigned();
             $table->integer('Dominancia_Id')->unsigned();
             $table->integer('Medico_Id')->unsigned();
+            $table->string('Edad_Deportiva');            
             $table->string('Nombre_Padre');
             $table->string('Nombre_Madre');
             $table->string('Entrenamiento_Continuo_Preg');
+            $table->string('Plan_Entrenamiento_Preg');            
             $table->string('Nombre_Acudiente');
             $table->string('Telefono_Acudiente');
             $table->string('Nombre_Responsable');

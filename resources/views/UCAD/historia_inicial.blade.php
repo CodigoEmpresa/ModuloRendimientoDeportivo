@@ -59,20 +59,26 @@
         </div>
 <!-- ------------------------------------------------------------------------------------ -->
         <div class="modal fade bs-example-modal-lg" id="verHistoriaD" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-lg" style="width: 70%">
                 <div class="modal-content">
-                    <!--<div class="modal-header">
+                    <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Crear Nuevo Certamen</h4>
-                    </div>-->
+                        <h4 class="modal-title" id="myModalLabel">Consultas Medicas</h4>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" id="InicioConsultaLi" class="active"><a id="InicioCertamen">Datos</a></li>
+                        <li role="presentation" id="PruebasCertamenLi" ><a id="PruebasCertamen" >Pruebas</a></li>
+                        <li role="presentation" id="DeportistasCertamenLi" ><a id="DeportistasCertamen" >Deportistas</a></li>
+                    </ul>
                     <form id="registro" name="registro">   
                         <input type="hidden" name="persona" id="persona" value=""/>
                         <input type="hidden" name="deportista" id="deportista" value=""/>
+                        <input type="hidden" name="historia" id="historia" value=""/>
                         <div id="camposRegistro" style="display:none;">
                             <div class="content" id="RHCI" style="display: none;">
                                 <div class="content">
                                     <div style="text-align:center;">
-                                        <h3>Registro Inicial de Historia Clínica</h3>
+                                        <h3 id="Titulo"></h3>
                                     </div>  
                                     <div class="panel">
                                         <!-- Default panel contents -->
@@ -526,7 +532,7 @@
                                                         <label for="inputEmail" class="control-label"  id="TelefonoAcudienteL" >Teléfono del acudiente:</label>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <input class="form-control" placeholder="Teléfono del acudiente" type="text" name="TelefonoAcudiente" id="TelefonoAcudienteL">
+                                                        <input class="form-control" placeholder="Teléfono del acudiente" type="text" name="TelefonoAcudiente" id="TelefonoAcudiente">
                                                     </div>
                                                 </div>
                                             </li>
@@ -665,7 +671,7 @@
                                                         <input class="form-control" placeholder="Dismenorrea" type="text" name="Dismenorrea" id="Dismenorrea">
                                                     </div>
                                                     <div class="form-group col-md-1">
-                                                        <label for="inputEmail" class="control-label" id="FumL"> Ciclo:</label>
+                                                        <label for="inputEmail" class="control-label" id="FumL"> FUM:</label>
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <input class="form-control" placeholder="FUM" type="text" name="Fum" id="Fum">
@@ -721,11 +727,13 @@
                                                             <option value=2>No</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-1">
-                                                        <label for="inputEmail" class="control-label" id="FupL"> Metodo de planificación:</label>
-                                                    </div>
-                                                    <div class="form-group col-md-3">
-                                                        <input class="form-control" placeholder="Metodo de planificación" type="text" name="Metodo" id="Metodo">
+                                                    <div name="MetodoPreg" id="MetodoPreg" style="display: none;">
+                                                        <div class="form-group col-md-1">
+                                                            <label for="inputEmail" class="control-label" id="FupL"> Metodo de planificación:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-3">
+                                                            <input class="form-control" placeholder="Metodo de planificación" type="text" name="Metodo" id="Metodo">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -755,7 +763,7 @@
                                                         <input class="form-control" placeholder="Datos de la presión arterial de pie" type="text" name="DatoPaPie" id="DatoPaPie">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la presión arterial de pie" type="text" name="ObservacionPaPie" id="ObservacionPaPie"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la presión arterial de pie" type="text" name="ObservacionPaPie" style="display:none;" id="ObservacionPaPie"></textarea>
                                                     </div>
                                                 </div>
 
@@ -767,7 +775,7 @@
                                                         <input class="form-control" placeholder="Datos de la presión arterial supino" type="text" name="DatoPaSupino" id="DatoPaSupino">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la presión arterial supino" type="text" name="ObservacionPaSupino" id="ObservacionPaSupino"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la presión arterial supino" type="text" name="ObservacionPaSupino" style="display:none;" id="ObservacionPaSupino"></textarea>
                                                     </div>
                                                 </div>
 
@@ -779,7 +787,7 @@
                                                         <input class="form-control" placeholder="Datos de la frecuencia cardiaca en reposo" type="text" name="DatoFCReposo" id="DatoFCReposo">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la frecuencia cardiaca en reposo" type="text" name="ObservacionFCReposo" id="ObservacionFCReposo"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la frecuencia cardiaca en reposo" type="text" name="ObservacionFCReposo" style="display:none;" id="ObservacionFCReposo"></textarea>
                                                     </div>
                                                 </div>
 
@@ -791,7 +799,7 @@
                                                         <input class="form-control" placeholder="Datos FR" type="text" name="DatoFR" id="DatoFR">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación FR" type="text" name="ObservacionFR" id="ObservacionFR"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación FR" type="text" name="ObservacionFR" style="display:none;" id="ObservacionFR"></textarea>
                                                     </div>
                                                 </div>
 
@@ -803,7 +811,7 @@
                                                         <input class="form-control" placeholder="Datos Temperatura" type="text" name="DatoTemperatura" id="DatoTemperatura">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Temperatura" type="text" name="ObservacionTemperatura" id="ObservacionTemperatura"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Temperatura" type="text" name="ObservacionTemperatura" style="display:none;" id="ObservacionTemperatura"></textarea>
                                                     </div>
                                                 </div>
 
@@ -815,7 +823,7 @@
                                                         <input class="form-control" placeholder="Datos Peso" type="text" name="DatoPeso" id="DatoPeso">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Peso" type="text" name="ObservacionPeso" id="ObservacionPeso"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Peso" type="text" name="ObservacionPeso" style="display:none;" id="ObservacionPeso"></textarea>
                                                     </div>
                                                 </div>
 
@@ -827,7 +835,7 @@
                                                         <input class="form-control" placeholder="Datos Estatura" type="text" name="DatoEstatura" id="DatoEstatura">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Estatura" type="text" name="ObservacionEstatura" id="ObservacionEstatura"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Estatura" type="text" name="ObservacionEstatura" style="display:none;" id="ObservacionEstatura"></textarea>
                                                     </div>
                                                 </div>
 
@@ -847,7 +855,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Cabeza" type="text" name="ObservacionCabeza" id="ObservacionCabeza"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Cabeza" type="text" name="ObservacionCabeza" style="display:none;" id="ObservacionCabeza"></textarea>
                                                     </div>
                                                 </div>
 
@@ -863,7 +871,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Cuello" type="text" name="ObservacionCuello" id="ObservacionCuello"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Cuello" type="text" name="ObservacionCuello" style="display:none;" id="ObservacionCuello"></textarea>
                                                     </div>
                                                 </div>
 
@@ -878,23 +886,25 @@
                                                             <option value="2">A</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-1">
-                                                        <label for="inputEmail" class="control-label" id="OIL" >OI:</label>
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <input class="form-control" placeholder="OI" type="text" name="OI" id="OI">
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <label for="inputEmail" class="control-label" id="ODL" >OD:</label>
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <input class="form-control" placeholder="OD" type="text" name="OD" id="OD">
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <label for="inputEmail" class="control-label" id="FDEOL" >F. de O:</label>
-                                                    </div>
-                                                    <div class="form-group col-md-1">
-                                                        <input class="form-control" placeholder="FDEO" type="text" name="FDEO" id="FDEO">
+                                                    <div id="AgudezaDiv" style="display: none;">
+                                                        <div class="form-group col-md-1">
+                                                            <label for="inputEmail" class="control-label" id="OIL" >OI:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-1">
+                                                            <input class="form-control" placeholder="OI" type="text" name="OI" id="OI">
+                                                        </div>
+                                                        <div class="form-group col-md-1">
+                                                            <label for="inputEmail" class="control-label" id="ODL" >OD:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-1">
+                                                            <input class="form-control" placeholder="OD" type="text" name="OD" id="OD">
+                                                        </div>
+                                                        <div class="form-group col-md-1">
+                                                            <label for="inputEmail" class="control-label" id="FDEOL" >F. de O:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-1">
+                                                            <input class="form-control" placeholder="FDEO" type="text" name="FDEO" id="FDEO">
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -910,7 +920,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Audición" type="text" name="ObservacionAudicion" id="ObservacionAudicion"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Audición" type="text" name="ObservacionAudicion" style="display:none;" id="ObservacionAudicion"></textarea>
                                                     </div>
                                                 </div>
 
@@ -926,7 +936,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación ORL" type="text" name="ObservacionOrl" id="ObservacionOrl"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación ORL" type="text" name="ObservacionOrl" style="display:none;" id="ObservacionOrl"></textarea>
                                                     </div>
                                                 </div>
 
@@ -942,7 +952,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Cavidad Oral" type="text" name="ObservacionCavidadOral" id="ObservacionCavidadOral"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Cavidad Oral" type="text" name="ObservacionCavidadOral" style="display:none;" id="ObservacionCavidadOral"></textarea>
                                                     </div>
                                                 </div>
 
@@ -958,7 +968,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Pulmonar" type="text" name="ObservacionPulmonar" id="ObservacionPulmonar"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Pulmonar" type="text" name="ObservacionPulmonar" style="display:none;" id="ObservacionPulmonar"></textarea>
                                                     </div>
                                                 </div>
 
@@ -974,7 +984,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Cardiaco" type="text" name="ObservacionCardiaco" id="ObservacionCardiaco"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Cardiaco" type="text" name="ObservacionCardiaco" style="display:none;" id="ObservacionCardiaco"></textarea>
                                                     </div>
                                                 </div>
 
@@ -990,7 +1000,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Vascular Periferico" type="text" name="ObservacionVascularPeriferico" id="ObservacionVascularPeriferico"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Vascular Periferico" type="text" name="ObservacionVascularPeriferico" style="display:none;" id="ObservacionVascularPeriferico"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1006,7 +1016,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Abdomen" type="text" name="ObservacionAbdomen" id="ObservacionAbdomen"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Abdomen" type="text" name="ObservacionAbdomen" style="display:none;" id="ObservacionAbdomen"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1022,7 +1032,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Genitourinario" type="text" name="ObservacionGenitourinario" id="ObservacionGenitourinario"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Genitourinario" type="text" name="ObservacionGenitourinario" style="display:none;" id="ObservacionGenitourinario"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1038,7 +1048,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Neurologico" type="text" name="ObservacionNeurologico" id="ObservacionNeurologico"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Neurologico" type="text" name="ObservacionNeurologico" style="display:none;" id="ObservacionNeurologico"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1054,7 +1064,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Piel y Faneras" type="text" name="ObservacionPielFaneras" id="ObservacionPielFaneras"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Piel y Faneras" type="text" name="ObservacionPielFaneras" style="display:none;" id="ObservacionPielFaneras"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1085,7 +1095,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación A-P" type="text" name="ObservacionAP" id="ObservacionAP"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación A-P" type="text" name="ObservacionAP" style="display:none;" id="ObservacionAP"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1100,7 +1110,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación P-A" type="text" name="ObservacionPA" id="ObservacionAP"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación P-A" type="text" name="ObservacionPA" style="display:none;" id="ObservacionPA"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1115,7 +1125,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Lateral" type="text" name="ObservacionLateral" id="ObservacionLateral"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Lateral" type="text" name="ObservacionLateral" style="display:none;" id="ObservacionLateral"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -1135,7 +1145,7 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group col-md-6">
-                                                                            <textarea class="form-control" placeholder="Observación Cuello" type="text" name="ObservacionCuello2" id="ObservacionCuello2"></textarea>
+                                                                            <textarea class="form-control" placeholder="Observación Cuello" type="text" name="ObservacionCuello2" style="display:none;" id="ObservacionCuello2"></textarea>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1158,7 +1168,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Hombro" type="text" name="ObservacionHombro" id="ObservacionHombro"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Hombro" type="text" name="ObservacionHombro" style="display:none;" id="ObservacionHombro"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1173,7 +1183,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Codo" type="text" name="ObservacionCodo" id="ObservacionCodo"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Codo" type="text" name="ObservacionCodo" style="display:none;" id="ObservacionCodo"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1188,7 +1198,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Muñeca" type="text" name="ObservacionMuneca" id="ObservacionMuneca"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Muñeca" type="text" name="ObservacionMuneca" style="display:none;" id="ObservacionMuneca"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1203,7 +1213,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Mano" type="text" name="ObservacionMano" id="ObservacionMano"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Mano" type="text" name="ObservacionMano" style="display:none;" id="ObservacionMano"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -1229,7 +1239,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Cervical" type="text" name="ObservacionCervical" id="ObservacionCervical"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Cervical" type="text" name="ObservacionCervical" style="display:none;" id="ObservacionCervical"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1244,7 +1254,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Dorsal" type="text" name="ObservacionDorsal" id="ObservacionDorsal"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Dorsal" type="text" name="ObservacionDorsal" style="display:none;" id="ObservacionDorsal"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1259,7 +1269,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Lumbosaca" type="text" name="ObservacionLumbosaca" id="ObservacionLumbosaca"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Lumbosaca" type="text" name="ObservacionLumbosaca" style="display:none;" id="ObservacionLumbosaca"></textarea>
                                                                                     </td>
                                                                                 </tr>    
                                                                             </tbody>
@@ -1285,7 +1295,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Cadera" type="text" name="ObservacionCadera" id="ObservacionCadera"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Cadera" type="text" name="ObservacionCadera" style="display:none;" id="ObservacionCadera"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1300,7 +1310,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Rodilla" type="text" name="ObservacionRodilla" id="ObservacionRodilla"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Rodilla" type="text" name="ObservacionRodilla" style="display:none;" id="ObservacionRodilla"></textarea>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
@@ -1315,7 +1325,7 @@
                                                                                         </select>
                                                                                     </td>
                                                                                     <td class="form-group col-md-8">
-                                                                                        <textarea class="form-control" placeholder="Observación Tobillo Pie" type="text" name="ObservacionTobillo" id="ObservacionTobillo"></textarea>
+                                                                                        <textarea class="form-control" placeholder="Observación Tobillo Pie" type="text" name="ObservacionTobillo" style="display:none;" id="ObservacionTobillo"></textarea>
                                                                                     </td>
                                                                                 </tr>    
                                                                             </tbody>
@@ -1471,7 +1481,7 @@
                                 </div>        
                                 <div id="Botonera" >
                                     <center>
-                                        <!--<button type="button" class="btn btn-primary" name="Enviar" id="Registrar">Registrar</button>-->
+                                        <button type="button" class="btn btn-primary" name="Enviar" id="Registrar">Registrar</button>
                                         <button type="button" class="btn btn-info" name="Reenviar" id="Modificar">Modificar</button>
                                     </center>
                                 </div>

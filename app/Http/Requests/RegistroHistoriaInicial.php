@@ -23,59 +23,114 @@ class RegistroHistoriaInicial extends Request
      */
     public function rules()
     {
-        $validaciones = [        
-            /* 'Resolucion' => array('required_if:Pertenece,1'),
-             'Deberes' => array('required_if:Pertenece,1'),
-             'persona' => 'required',
-             'Pertenece' => 'required',
+        $validaciones = [       
+                        "persona" => "required",
+                        "deportista" => "required",
+                        "Ocupacion" => "required",
+                        "NivelEstudio" => "required",
+                        "Dominancia" => "required",
+                        "NombreMadre" => "required",
+                        "NombrePadre" => "required",
+                        "EdadDeportiva" => "required",
+                        "EntrenamientoContinuoPreg" => "required",
+                        "PlanEntrenamientoPreg" => "required",
+                        "NombreAcudiente" => "required",
+                        "TelefonoAcudiente" => "required",
+                        "NombreResponsable" => "required",
+                        "TelefonoResponsable" => "required",
+                        "MotivoConsulta" => "required",
+                        "AntecedentePatologico" => "required",
+                        "AntecedenteOsteomusculares" => "required",
+                        "Menarquia" => "required",
+                        "Ciclo" => "required",
+                        "Regular" => "required",
+                        "Dismenorrea" => "required",
+                        "Fum" => "required",
+                        "Fup" => "required",
+                        "G" => "required",
+                        "P" => "required",
+                        "V" => "required",
+                        "A" => "required",
+                        "Amenorrea" => "required",
+                        "Planifica" => "required",
+                        "Metodo" => array('required_if:Planifica,1'),
+                        "DatoPaPie" => "required",
+                        "ObservacionPaPie" => "required",
+                        "DatoPaSupino" => "required",
+                        "ObservacionPaSupino" => "required",
+                        "DatoFCReposo" => "required",
+                        "ObservacionFCReposo" => "required",
+                        "DatoFR" => "required",
+                        "ObservacionFR" => "required",
+                        "DatoTemperatura" => "required",
+                        "ObservacionTemperatura" => "required",
+                        "DatoPeso" => "required",
+                        "ObservacionPeso" => "required",
+                        "DatoEstatura" => "required",
+                        "ObservacionEstatura" => "required",
 
+                        "DatoCabeza" => "required",
+                        "ObservacionCabeza" => array('required_if:DatoCabeza,2'),
+                        "DatoCuello" => "required",
+                        "ObservacionCuello" => array('required_if:DatoCuello,2'),
+                        "DatoAgudezaVisual" => "required",
+                        "OI" => array('required_if:DatoAgudezaVisual,2'),
+                        "OD" => array('required_if:DatoAgudezaVisual,2'),
+                        "FDEO" => array('required_if:DatoAgudezaVisual,2'),
+                        "DatoAudicion" => "required",
+                        "ObservacionAudicion" => array('required_if:DatoAudicion,2'),
+                        "DatoOrl" => "required",
+                        "ObservacionOrl" => array('required_if:DatoOrl,2'),
+                        "DatoCavidadOral" => "required",
+                        "ObservacionCavidadOral" => array('required_if:DatoCavidadOral,2'),
+                        "DatoPulmonar" => "required",
+                        "ObservacionPulmonar" => array('required_if:DatoPulmonar,2'),
+                        "DatoCardiaco" => "required",
+                        "ObservacionCardiaco" => array('required_if:DatoCardiaco,2'),
+                        "DatoVascularPeriferico" => "required",
+                        "ObservacionVascularPeriferico" => array('required_if:DatoVascularPeriferico,2'),
+                        "DatoAbdomen" => "required",
+                        "ObservacionAbdomen" => array('required_if:DatoAbdomen,2'),
+                        "DatoGenitourinario" => "required",
+                        "ObservacionGenitourinario" => array('required_if:DatoGenitourinario,2'),
+                        "DatoNeurologico" => "required",
+                        "ObservacionNeurologico" => array('required_if:DatoNeurologico,2'),
+                        "DatoPielFaneras" => "required",
+                        "ObservacionPielFaneras" => array('required_if:DatoPielFaneras,2'),
+                        "DatoAP" => "required",
+                        "ObservacionAP" => array('required_if:DatoAP,2'),
+                        "DatoPA" => "required",
+                        "ObservacionPA" => array('required_if:DatoPA,2'),
+                        "DatoLateral" => "required",
+                        "ObservacionLateral" => array('required_if:DatoLateral,2'),
+                        "DatoCuello2" => "required",
+                        "ObservacionCuello2" => array('required_if:DatoCuello2,2'),
+                        "DatoHombro" => "required",
+                        "ObservacionHombro" => array('required_if:DatoHombro,2'),
+                        "DatoCodo" => "required",
+                        "ObservacionCodo" => array('required_if:DatoCodo,2'),
+                        "DatoMuneca" => "required",
+                        "ObservacionMuneca" => array('required_if:DatoMuneca,2'),
+                        "DatoMano" => "required",
+                        "ObservacionMano" => array('required_if:DatoMano,2'),
+                        "DatoCervical" => "required",
+                        "ObservacionCervical" => array('required_if:DatoCervical,2'),
+                        "DatoDorsal" => "required",
+                        "ObservacionDorsal" => array('required_if:DatoDorsal,2'),
+                        "DatoLumbosaca" => "required",
+                        "ObservacionLumbosaca" => array('required_if:DatoLumbosaca,2'),
+                        "DatoCadera" => "required",
+                        "ObservacionCadera" => array('required_if:DatoCadera,2'),
+                        "DatoRodilla" => "required",
+                        "ObservacionRodilla" => array('required_if:DatoRodilla,2'),
+                        "DatoTobillo" => "required",
+                        "ObservacionTobillo" => array('required_if:DatoTobillo,2'),
 
-             'Ocupacion' => 'required',
-             'NivelEstudio' => 'required',
-             'Dominancia' => 'required',
-             'NombreMadre' => 'required',
-             'NombrePadre' => 'required',
-
-             
-
-
-             'Agrupacion' => array('required_if:ClasificacionDeportista,1'),
-             'Deporte' => array('required_if:ClasificacionDeportista,1'),
-             'Club' => 'required',
-             'Modalidad' => array('required_if:ClasificacionDeportista,1'),
-             'AgrupacionP' => array('required_if:ClasificacionDeportista,2'),
-             'DeporteP' => array('required_if:ClasificacionDeportista,2'),
-             'ModalidadP' => array('required_if:ClasificacionDeportista,2'),
-             'Pasaporte' => '',
-             'DepartamentoNac' => 'required',
-             'Libreta' => array('required_if:LibretaPreg,1', 'numeric'),
-             'Distrito' => array('required_if:LibretaPreg,1', 'numeric'),
-             'NumeroHijos' => 'required|numeric|digits_between:1,3',
-             'Correo' => 'required|email|min:7|max:40',
-             'NombreMedicinaPrepago' => array('required_if:MedicinaPrepago,1'),
-             'Eps' => array('required_if:MedicinaPrepago,2'),
-             'NivelRegimen' => array('required_if:Regimen,2'),
-             'Arl' => array('required_if:RiesgosLaborales,1'),
-             'CualMedicamento' => array('required_if:Medicamento,1'),
-             'TiempoMedicamento' => array('required_if:Medicamento,1'),
-             'OtroMedico' => array('required_if:OtroMedicoPreg,1'),*/
-            ];
-
-            if($this->ClasificacionDeportista == 2){
-               /* $validaciones['Discapacidad'] = 'required';
-                $validaciones['Diagnostico'] = 'required';
-                $validaciones['DiagnosticoEdad'] = array('required_if:Diagnostico,1');
-                $validaciones['ClasificacionFuncional'] = 'required';
-                $validaciones['Silla'] = 'required';
-                $validaciones['Cuidador'] = array('required_if:Silla,1');
-                $validaciones['Auxiliar'] = array('required_if:Silla,1');
-                $validaciones['ClasificadoNivelInternacional'] = 'required';
-                $validaciones['FechaCI'] = array('required_if:ClasificadoNivelInternacional,1|date');
-                $validaciones['EventoCI'] = array('required_if:ClasificadoNivelInternacional,1');
-                $validaciones['EdadDeportiva'] = 'required|numeric';
-                $validaciones['resultadoNacional'] = 'required';
-                $validaciones['resultadoInternacional'] = 'required';*/
-            }
+                        "Diagnostico" => "required",
+                        "IncapacidadProvisional" => "required",
+                        "Aptitud" => "required",
+                        "Recomendaciones" => "required" ,
+                        ];
        
         return $validaciones;
     }
