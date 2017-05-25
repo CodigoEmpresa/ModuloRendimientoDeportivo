@@ -310,7 +310,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddHistoriaInicial', 'HistoriaInicialController@AgregarHistoriaInicial');
 	Route::post('EditHistoriaInicial', 'HistoriaInicialController@ModificarHistoriaInicial');
 	Route::get('getHistoriaUnica/{id_historia}','HistoriaInicialController@GetHistoriaUnica');
-	
-
-	
+	Route::get('getEvolucion/{id_historia}','HistoriaInicialController@GetEvolucion');
+	Route::post('AddEvolucion', 'HistoriaInicialController@AgregarEvolucion');	
 });

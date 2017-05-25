@@ -65,21 +65,20 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Consultas Medicas</h4>
                     </div>
-                    <ul class="nav nav-tabs">
-                        <li role="presentation" id="InicioConsultaLi" class="active"><a id="InicioCertamen">Datos</a></li>
-                        <li role="presentation" id="PruebasCertamenLi" ><a id="PruebasCertamen" >Pruebas</a></li>
-                        <li role="presentation" id="DeportistasCertamenLi" ><a id="DeportistasCertamen" >Deportistas</a></li>
+                    <ul class="nav nav-tabs" id="Menu" style="display: none;">
+                        <li role="presentation" id="InicioConsultaLi" class="active"><a id="InicioConsulta">Consulta Medica</a></li>
+                        <li role="presentation" id="EvolucionConsultaLi" ><a id="EvolucionConsulta" >Evolución de consulta</a></li>
                     </ul>
+                    <div style="text-align:center;">
+                        <h3 id="Titulo"></h3>
+                    </div>
                     <form id="registro" name="registro">   
                         <input type="hidden" name="persona" id="persona" value=""/>
                         <input type="hidden" name="deportista" id="deportista" value=""/>
                         <input type="hidden" name="historia" id="historia" value=""/>
                         <div id="camposRegistro" style="display:none;">
                             <div class="content" id="RHCI" style="display: none;">
-                                <div class="content">
-                                    <div style="text-align:center;">
-                                        <h3 id="Titulo"></h3>
-                                    </div>  
+                                <div class="content">                                      
                                     <div class="panel">
                                         <!-- Default panel contents -->
                                         <div class="panel-heading">                
@@ -98,20 +97,20 @@
                                                 <div class="panel-body">
                                                     <p>DATOS BÁSICOS</p>
                                                 </div>
-                                                <div class="row">
+                                                <!--<div class="row">
                                                     <div class="form-group col-md-2">
                                                         <label for="inputEmail" class="control-label" id="FechaRegistro" >Fecha:</label>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <!--<input class="form-control" placeholder="HoraRegistro" type="text" name="Nombres" id="Nombres"> -->
+                                                        <input class="form-control" placeholder="HoraRegistro" type="text" name="Nombres" id="Nombres">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="inputEmail" class="control-label" id="HoraRegistro">Hora:</label>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <!--<input class="form-control" placeholder="Apellidos" type="text" name="Apellidos" id="Apellidos">-->
+                                                        <input class="form-control" placeholder="Apellidos" type="text" name="Apellidos" id="Apellidos"
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 <div class="row">
                                                     <div class="form-group col-md-2">
                                                         <label for="inputEmail" class="control-label" id="NombresL" >Nombres:</label>
@@ -763,7 +762,7 @@
                                                         <input class="form-control" placeholder="Datos de la presión arterial de pie" type="text" name="DatoPaPie" id="DatoPaPie">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la presión arterial de pie" type="text" name="ObservacionPaPie" style="display:none;" id="ObservacionPaPie"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la presión arterial de pie" type="text" name="ObservacionPaPie" id="ObservacionPaPie"></textarea>
                                                     </div>
                                                 </div>
 
@@ -775,7 +774,7 @@
                                                         <input class="form-control" placeholder="Datos de la presión arterial supino" type="text" name="DatoPaSupino" id="DatoPaSupino">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la presión arterial supino" type="text" name="ObservacionPaSupino" style="display:none;" id="ObservacionPaSupino"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la presión arterial supino" type="text" name="ObservacionPaSupino"  id="ObservacionPaSupino"></textarea>
                                                     </div>
                                                 </div>
 
@@ -787,7 +786,7 @@
                                                         <input class="form-control" placeholder="Datos de la frecuencia cardiaca en reposo" type="text" name="DatoFCReposo" id="DatoFCReposo">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación de la frecuencia cardiaca en reposo" type="text" name="ObservacionFCReposo" style="display:none;" id="ObservacionFCReposo"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación de la frecuencia cardiaca en reposo" type="text" name="ObservacionFCReposo" id="ObservacionFCReposo"></textarea>
                                                     </div>
                                                 </div>
 
@@ -799,7 +798,7 @@
                                                         <input class="form-control" placeholder="Datos FR" type="text" name="DatoFR" id="DatoFR">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación FR" type="text" name="ObservacionFR" style="display:none;" id="ObservacionFR"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación FR" type="text" name="ObservacionFR" id="ObservacionFR"></textarea>
                                                     </div>
                                                 </div>
 
@@ -811,7 +810,7 @@
                                                         <input class="form-control" placeholder="Datos Temperatura" type="text" name="DatoTemperatura" id="DatoTemperatura">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Temperatura" type="text" name="ObservacionTemperatura" style="display:none;" id="ObservacionTemperatura"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Temperatura" type="text" name="ObservacionTemperatura" id="ObservacionTemperatura"></textarea>
                                                     </div>
                                                 </div>
 
@@ -823,7 +822,7 @@
                                                         <input class="form-control" placeholder="Datos Peso" type="text" name="DatoPeso" id="DatoPeso">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Peso" type="text" name="ObservacionPeso" style="display:none;" id="ObservacionPeso"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Peso" type="text" name="ObservacionPeso" id="ObservacionPeso"></textarea>
                                                     </div>
                                                 </div>
 
@@ -835,7 +834,7 @@
                                                         <input class="form-control" placeholder="Datos Estatura" type="text" name="DatoEstatura" id="DatoEstatura">
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <textarea class="form-control" placeholder="Observación Estatura" type="text" name="ObservacionEstatura" style="display:none;" id="ObservacionEstatura"></textarea>
+                                                        <textarea class="form-control" placeholder="Observación Estatura" type="text" name="ObservacionEstatura" id="ObservacionEstatura"></textarea>
                                                     </div>
                                                 </div>
 
@@ -1492,6 +1491,45 @@
                         <div class="form-group"  id="mensaje_actividad" style="display: none;">
                             <div id="alert_actividad"></div>
                         </div> 
+                    </form>
+
+                    <form id="registroEvolucionF" name="registroEvolucionF" style="display: none;">
+                        <div class="content">
+                            <div style="text-align:center;">
+                                <h3 id="Titulo"></h3>
+                            </div>  
+                            <div class="panel">
+                                <div class="panel-heading">                
+                                    <div class="bs-callout bs-callout-info">
+                                        <div id="TablaEvolucionD" style="display: none;"></div>
+                                        <div id="RegistroEvolucionD" style="display: none;">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <center><h3>Registro de evolución de la consulta</h3></center>
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <label for="inputEmail" class="control-label" id="ObservacionEvolucionL" >Observacion de la evolución:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <textarea class="form-control" placeholder="Observacion de la evolución" type="text" name="ObservacionEvolucion" id="ObservacionEvolucion"></textarea>
+                                                        </div>
+                                                        <div class="form-group col-md-12" align="center">
+                                                            <button type="button" class="btn btn-info" name="AddEvolucion" id="AddEvolucion">Agregar</button>
+                                                        </div>                                                        
+                                                    </div>
+                                                </li>
+                                            </ul>                                            
+                                        </div>
+                                        <div  class="form-group col-md-12" align="center" id="loadingEvo" style="display:none;">
+                                            <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+                                        </div>
+                                        <div class="form-group"  id="mensaje_evo" style="display: none;">
+                                            <div id="alert_evo"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -197,7 +197,7 @@
                 <ul class="dropdown-menu" aria-labelledby="themes">
                   <li><a href="#" style="color:#1995dc">HISTORIA CLINICA</a></li>
                   <li class="divider"></li>
-                  <li class=”{{ Request::is( 'historia_inicial') ? 'active' : '' }}”><a href="{{ URL::to( 'historia_inicial') }}">Registro Historia Incial</a></li>
+                  <li class=”{{ Request::is( 'historia_inicial') ? 'active' : '' }}”><a href="{{ URL::to( 'historia_inicial') }}">Registro Consulta Medica</a></li>
                 </ul>
               </li>
 

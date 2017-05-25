@@ -57,6 +57,57 @@ $(function(e){
 				else 
 				{
 					if(xhr.Estado == 'Success'){
+
+						$.get('buscarPersona/'+$("#persona").val(),{}, function(Persona){  
+						    if(Persona.deportista){  //Cuando Hay deportista 
+						    	$("#tablaHistorias").empty();
+									var html = '';
+									html += "<div class='list-group-item'>";
+									html += "<div align='right'>";
+									html += "<button type='button' class='btn btn-primary' data-function='AgregarHistoria' id='AgregarHistoria' value='"+Persona.deportista.Id+"'>"+
+					                         "<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Agregar Nueva Consulta"+
+					                      	"</button>";
+					              	html += '</div>';
+									html += '<h4>Tabla de Consultas </h4>';
+									html += '<table id="tablaHistoriasDatos" class="display nowrap" cellspacing="0" width="90%" style="text-transform: uppercase;">';
+									html += '<thead>';
+									html += '<th>Fecha</th>';
+									html += '<th>Medico</th>';
+									html += '<th>Opciones</th>';
+									html += '</thead>';
+									html += '<tbody>';
+						    	if(Persona.deportista.deportista_historia_inicial.length > 0){	    		
+						    		$.each(Persona.deportista.deportista_historia_inicial, function(i, e){
+						    			html += '<tr>';
+						    			html += '<td>'+e.created_at+'</td>';
+						    			html += '<td>Nombre del Medico</td>';
+						    			html += "<td><button type='button' class='btn btn-success' data-function='VerHistoria' value='"+e.Id+"'>"+
+						                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver"+
+						                          	"</button></td>";
+						    			html += '</tr>';
+						    		});	    		
+						    	}
+						    	html += '</tbody>';
+					    		html += '</table></div>';
+					    		$("#tablaHistorias").append(html);
+					    		$('#tablaHistoriasDatos').DataTable({
+							        retrieve: true,
+							        buttons: [
+							        ],
+							        dom: 'Bfrtip',
+							        select: true,
+							        "responsive": true,
+							        "ordering": true,
+							        "info": true,
+							        "pageLength": 4,
+							        "language": {
+							            url: 'public/DataTables/Spanish.json',
+							            searchPlaceholder: "Buscar"
+							        }
+							    });
+						    }
+						});
+
 						$("#camposRegistro").hide('slow');
 						$('#alert_actividad').html('<div class="alert alert-dismissible alert-success" ><strong>Exito! </strong>'+xhr.Mensaje+'</div>');
 						$('#mensaje_actividad').show(60);
@@ -104,6 +155,7 @@ $(function(e){
 			$("#"+i).closest('.form-group').addClass('has-error');
       	});
 	}
+
 	
 	$("#MedicinaPrepago").on('change',function (e){
 		var id = $("#MedicinaPrepago").val();
@@ -315,9 +367,11 @@ $(function(e){
 
 	$('body').delegate('button[data-function="VerHistoria"]','click',function (e) {
 		VerHistoria($(this).val());
+		$("#Menu").show('slow');		
 	});
 
 	$('body').delegate('button[data-function="AgregarHistoria"]','click',function (e) {	
+
 		$("#loading").show('slow');
 		document.getElementById("registro").reset();
 		$.get('buscarPersona/'+$("#persona").val(),{}, function(Persona){			
@@ -332,7 +386,10 @@ $(function(e){
 			$("#Edad").val(calculateAge(Persona['Fecha_Nacimiento'])+' años');
 
 			$("#Titulo").empty();
-		$("#Titulo").append('Registro Inicial de Consulta Medica');
+			$("#Titulo").append('Registro Inicial de Consulta Medica');
+			$("#Menu").hide('slow');
+			$("#registro").show('slow');
+    		$("#registroEvolucionF").hide('slow');
 
 			$.get("getDeportistaDeporte/" + Persona.deportista['Id'] + "", function (DeportistaDeporte) {     
 				agrupacionT = DeportistaDeporte['Agrupacion_Id'];
@@ -444,6 +501,117 @@ $(function(e){
 			document.getElementById("RHCI").style.display = "block";  			
 		});
 	});
+
+	$('body').delegate('button[data-function="AgregarEvolucion"]','click',function (e) {
+		$("#RegistroEvolucionD").show('slow');    	
+	});
+
+	$("#AddEvolucion").on('click', function(){
+		var formData = new FormData($("#registroEvolucionF")[0]);
+		formData.append("Historia_Inicial_Id",$("#historia").val());
+        var token = $("#token").val();		
+         $.ajax({
+            type: 'POST',
+            url: 'AddEvolucion',
+            headers: {'X-CSRF-TOKEN': token},
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            data: formData,
+            beforeSend: function(){
+            	$("#loadingEvo").show('slow');
+            	$("#AddEvolucion").hide('slow');
+            	$("#RegistroEvolucionD").hide('slow');
+            }, 
+            success: function (xhr) {    
+            	$("#loadingEvo").hide('slow');            	
+
+            	if(xhr.status == 'error'){	         
+            		$("#AddEvolucion").show('slow');   
+            		$("#RegistroEvolucionD").show('slow'); 	
+					validador_erroresEvo(xhr.errors);
+					return false;
+				}else{
+					if(xhr.Estado == 'Success'){
+						$("#AddEvolucion").show('slow');   
+						$("#RegistroEvolucionD").hide('slow'); 
+						$('#alert_evo').html('<div class="alert alert-dismissible alert-success" ><strong>Exito! </strong>'+xhr.Mensaje+'</div>');
+						$('#mensaje_evo').show(60);
+						$('#mensaje_evo').delay(2000).hide(600);	
+
+						setTimeout(function(){ 
+				          	document.getElementById("registroEvolucionF").reset(); 
+				          	$('#registroEvolucionF .form-group').removeClass('has-error');				          	
+				          }, 2000);
+						$("#TablaEvolucionD").empty();
+				    	$.get('getEvolucion/'+$("#historia").val(),{}, function(Evolucion){  
+				    		var htmlEvo = '';
+				    		htmlEvo += "<div align='right'>";
+							htmlEvo += "<button type='button' class='btn btn-primary' data-function='AgregarEvolucion' id='AgregarEvolucion' value='"+$("#historia").val()+"'>"+
+				                     "<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Agregar Nueva Evolución"+
+				                  	"</button>";
+				          	htmlEvo += '</div>';
+				          	htmlEvo += '<h4>Tabla de Evoluciones </h4>';
+				    		htmlEvo += '<table id="tablaEvolucionDatos" class="table" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+				    		htmlEvo += '<thead>';
+				    		htmlEvo += '<th>Fecha</th>';
+				    		htmlEvo += '<th>Hora</th>';
+				    		htmlEvo += '<th>Observación</th>';
+				    		htmlEvo += '</thead>';
+				    		htmlEvo += '<tbody>';
+				    		$.each(Evolucion, function(i, e){
+				    			var Fecha = String(e['created_at']);
+								var ListaF = Fecha.split(" ");
+				    			htmlEvo += '<tr>';
+				    			htmlEvo += '<td>'+ListaF[0]+'</td>';    			
+				    			htmlEvo += '<td>'+ListaF[1]+'</td>';    			
+				    			htmlEvo += '<td>'+e.Observacion+'</td>';    			
+				    			htmlEvo += '</tr>';
+				    		});
+				    		htmlEvo += '</tbody>';
+				    		htmlEvo += '</table>';
+				    		$("#TablaEvolucionD").append(htmlEvo);
+				    		$('#tablaEvolucionDatos').DataTable({
+						        retrieve: true,
+						        buttons: [
+						        ],
+						        dom: 'Bfrtip',
+						        select: true,
+						        "responsive": true,
+						        "ordering": true,
+						        "info": true,
+						        "pageLength": 5,
+						        "language": {
+						            url: 'public/DataTables/Spanish.json',
+						            searchPlaceholder: "Buscar"
+						        }
+						    });
+				    	});
+					}else if(xhr.Estado == 'Error'){
+						$("#AddEvolucion").show('slow'); 
+						$('#alert_evo').html('<div class="alert alert-dismissible alert-danger" ><strong>Error! </strong>'+xhr.Mensaje+'</div>');
+						$('#mensaje_evo').show(60);
+						$('#mensaje_evo').delay(2000).hide(600);				
+						
+					}
+				}            	            	
+            },
+            error: function (xhr){
+				$("#loadingEvo").hide('slow');
+            	$("#AddEvolucion").show('slow');
+				validador_erroresEvo(xhr.responseJSON);
+            }
+        });
+	});
+
+	var validador_erroresEvo = function(data){
+		$('#registroEvolucionF .form-group').removeClass('has-error');
+		$.each(data, function(i, e){
+			$("#"+i).closest('.form-group').addClass('has-error');
+      	});
+	}
+
 
 	$("#Planifica").on('change', function(){
 		if($(this).val() != ''){
@@ -780,6 +948,68 @@ $(function(e){
 		}
 	});
 
+	$("#InicioConsulta").on('click', function(e){
+    	$("#registro").show('slow');
+    	$("#registroEvolucionF").hide('slow');
+    	$("#InicioConsultaLi").addClass('active');
+    	$("#EvolucionConsultaLi").removeClass('active');
+    });
+
+    $("#EvolucionConsulta").on('click', function(e){
+    	$("#registro").hide('slow');
+    	$("#registroEvolucionF").show('slow');
+    	$("#InicioConsultaLi").removeClass('active');
+    	$("#EvolucionConsultaLi").addClass('active');
+    	$("#TablaEvolucionD").show('slow');    	
+    	$("#RegistroEvolucionD").hide('slow');    	
+
+    	$("#TablaEvolucionD").empty();
+
+    	$.get('getEvolucion/'+$("#historia").val(),{}, function(Evolucion){  
+    		var htmlEvo = '';
+    		htmlEvo += "<div align='right'>";
+			htmlEvo += "<button type='button' class='btn btn-primary' data-function='AgregarEvolucion' id='AgregarEvolucion' value='"+$("#historia").val()+"'>"+
+                     "<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Agregar Nueva Evolución"+
+                  	"</button>";
+          	htmlEvo += '</div>';
+          	htmlEvo += '<h4>Tabla de Evoluciones </h4>';
+    		htmlEvo += '<table id="tablaEvolucionDatos" class="table" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+    		htmlEvo += '<thead>';
+    		htmlEvo += '<th>Fecha</th>';
+    		htmlEvo += '<th>Hora</th>';
+    		htmlEvo += '<th>Observación</th>';
+    		htmlEvo += '</thead>';
+    		htmlEvo += '<tbody>';
+    		$.each(Evolucion, function(i, e){
+    			var Fecha = String(e['created_at']);
+				var ListaF = Fecha.split(" ");
+    			htmlEvo += '<tr>';
+    			htmlEvo += '<td>'+ListaF[0]+'</td>';    			
+    			htmlEvo += '<td>'+ListaF[1]+'</td>';    			
+    			htmlEvo += '<td>'+e.Observacion+'</td>';    			
+    			htmlEvo += '</tr>';
+    		});
+    		htmlEvo += '</tbody>';
+    		htmlEvo += '</table>';
+    		$("#TablaEvolucionD").append(htmlEvo);
+    		$('#tablaEvolucionDatos').DataTable({
+		        retrieve: true,
+		        buttons: [
+		        ],
+		        dom: 'Bfrtip',
+		        select: true,
+		        "responsive": true,
+		        "ordering": true,
+		        "info": true,
+		        "pageLength": 5,
+		        "language": {
+		            url: 'public/DataTables/Spanish.json',
+		            searchPlaceholder: "Buscar"
+		        }
+		    });
+    	});
+    });
+
 });
 
 function VerPersona(id_persona){
@@ -869,7 +1099,14 @@ function VerPersona(id_persona){
 }
 
 function VerHistoria(id_historia){
+
+	$("#registro").show('slow');
+	$("#registroEvolucionF").hide('slow');
+	$("#InicioConsultaLi").addClass('active');
+	$("#EvolucionConsultaLi").removeClass('active');
+
 	$("#loading").show('slow');
+
 	$.get('buscarPersona/'+$("#persona").val(),{}, function(Persona){
 		$("#Nombres").val(Persona['Primer_Nombre']+' '+Persona['Segundo_Nombre']);        	
 		$("#Apellidos").val(Persona['Primer_Apellido']+' '+Persona['Segundo_Apellido']);

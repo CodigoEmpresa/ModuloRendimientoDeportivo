@@ -68,7 +68,6 @@ class RegistroHistoriaInicial extends Request
                         "ObservacionPeso" => "required",
                         "DatoEstatura" => "required",
                         "ObservacionEstatura" => "required",
-
                         "DatoCabeza" => "required",
                         "ObservacionCabeza" => array('required_if:DatoCabeza,2'),
                         "DatoCuello" => "required",
@@ -125,7 +124,6 @@ class RegistroHistoriaInicial extends Request
                         "ObservacionRodilla" => array('required_if:DatoRodilla,2'),
                         "DatoTobillo" => "required",
                         "ObservacionTobillo" => array('required_if:DatoTobillo,2'),
-
                         "Diagnostico" => "required",
                         "IncapacidadProvisional" => "required",
                         "Aptitud" => "required",

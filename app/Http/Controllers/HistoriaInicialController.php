@@ -392,4 +392,30 @@ class HistoriaInicialController extends Controller
 	        }
 	    }
 	}
+
+	public function GetEvolucion(Request $request, $id_historia_inicial){
+		$HistoriaInicial = HistoriaInicial::with('historiaInicialEvolucion')->find($id_historia_inicial);
+		return $HistoriaInicial->historiaInicialEvolucion;
+
+	}
+
+	public function AgregarEvolucion(Request $request){
+		if ($request->ajax()) { 
+    		$validator = Validator::make($request->all(), ['ObservacionEvolucion' => 'required',]);
+
+	        if ($validator->fails()){
+	            return response()->json(array('status' => 'error', 'errors' => $validator->errors()));
+	        }else{
+	        	$HistoriaInicialEvolucion = new HistoriaInicialEvolucion;
+	        	$HistoriaInicialEvolucion->Historia_Inicial_Id = $request->Historia_Inicial_Id;
+	        	$HistoriaInicialEvolucion->Observacion = $request->ObservacionEvolucion;
+
+	        	if($HistoriaInicialEvolucion->save()){
+	        		return response()->json(['Estado' => 'Success', "Mensaje" => "Se ha completado el registro de evolución de esta consulta con éxito."]);
+	        	}else{
+	        		return response()->json(['Estado' => 'Error', "Mensaje" => "No se logro el registro de la evolución de esta consulta, por favor intentelo más tarde."]);
+	        	}
+	        }
+	    }
+	}
 }
