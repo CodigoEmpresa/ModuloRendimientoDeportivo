@@ -119,7 +119,9 @@
                 <ul class="dropdown-menu" aria-labelledby="themes">
                   
                       <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas (RUD)</a></li>
-                  
+
+                      <li><a href="{{ URL::to( 'irrd') }}">Ingreso, retiro y reingreso de deportistas</a></li>
+
                       <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>
                   
                       <li><a href="{{ URL::to( 'domicilio') }}">Visita domiciliaria</a></li>

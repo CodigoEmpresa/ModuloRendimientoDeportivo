@@ -56,7 +56,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');			
 	
 
-	/********************SIAB***************************/
+	/************************SIAB***************************/
 	
 	Route::get('rud','DeportistaController@index');
 	Route::get('welcome', 'MainController@welcome');
@@ -85,7 +85,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getDiscapacidad', 'DeportistaController@GetDiscapacidad');
 	Route::get('getDeporteParalimpico/{id_agrupacion}/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
 
-	
+	/*******Ingreso, retiro y reingreso de deportistas*******/
 	
 
 	/***********PDF*************/
@@ -311,5 +311,6 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('EditHistoriaInicial', 'HistoriaInicialController@ModificarHistoriaInicial');
 	Route::get('getHistoriaUnica/{id_historia}','HistoriaInicialController@GetHistoriaUnica');
 	Route::get('getEvolucion/{id_historia}','HistoriaInicialController@GetEvolucion');
-	Route::post('AddEvolucion', 'HistoriaInicialController@AgregarEvolucion');	
+	Route::post('AddEvolucion', 'HistoriaInicialController@AgregarEvolucion');
+
 });
