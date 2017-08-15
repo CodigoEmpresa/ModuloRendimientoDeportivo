@@ -7,7 +7,7 @@
             var key = $('input[name="buscador"]').val();
             var url = $('#main').data('url');
 
-            $.get('buscarDeportista/'+key,{}, function(data){
+            $.get(url+'/buscarDeportista/'+key,{}, function(data){
                 if(data.length == 0){
                     $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
                     $('#buscar span').empty();
@@ -28,7 +28,7 @@
                         '<tbody>';
                         $.each(data, function(i, e){
                             html += '<tr>'+
-                                        '<td><a href="'+url+'/'+e.deportista['Id']+'">'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</a></td>' +
+                                        '<td><a href="'+url+'/irrd/'+e.deportista['Id']+'">'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</a></td>' +
                                     '</tr>';
                     });
                     html += '</tbody>'+
@@ -65,7 +65,7 @@
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>
 @stop
 @section('content')
-    <div id="main" class="row" data-url="{{ url('irrd') }}">
+    <div id="main" class="row" data-url="{{ url('/') }}">
         <div class="col-md-12">
             <h3>INGRESO, RETIRO Y REINGRESO DE DEPORTISTAS</h3>
             <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token"/>
