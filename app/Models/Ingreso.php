@@ -15,6 +15,7 @@ class Ingreso extends Model
     protected $table = 'ingresos';
     protected $primaryKey = 'Id';
     protected $fillable = ['Id_Deportista', 'Tipo', 'Fecha'];
+    public $timestamps = false;
 
     public function deportista()
     {

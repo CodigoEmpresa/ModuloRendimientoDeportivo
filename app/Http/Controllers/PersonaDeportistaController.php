@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Idrd\Usuarios\Controllers\PersonaController as MPersonaController;
-
+use Idrd\Usuarios\Repo\PersonaInterface;
 use App\Models\Persona;
 
 
 class PersonaDeportistaController extends MPersonaController
-{    
-	public function buscarPersona(Request $request, $id_persona){
+{
+    protected $repositorio_personas;
+
+    public function __construct(PersonaInterface $repositorio_personas) {
+        $this->repositorio_personas = $repositorio_personas;
+    }
+
+    public function buscarPersona(Request $request, $id_persona) {
 		$Persona = Persona::with('tipo', 
                 			 'tipoDocumento', 
                 			 'pais', 
@@ -44,4 +50,15 @@ class PersonaDeportistaController extends MPersonaController
                     		->find($id_persona);
 		return $Persona;
 	}
+
+	public function buscarDeportista(Request $request, $key) {
+        $resultados = $this->repositorio_personas->buscar($key);
+
+        $deportistas = Persona::has('deportista')
+                ->with('deportista')
+                ->whereIn('Id_Persona', $resultados->lists('Id_Persona'))
+                ->get();
+
+        return $deportistas;
+    }
 }

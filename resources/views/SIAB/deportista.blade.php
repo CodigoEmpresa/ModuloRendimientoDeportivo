@@ -9,8 +9,9 @@
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
-<center><h3>REGISTRO ÚNICO DE DEPORTISTAS (RUD)</h3></center>
- <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
+<center>
+    <h3>REGISTRO ÚNICO DE DEPORTISTAS (RUD)</h3></center>
+    <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
             <br>

@@ -12,6 +12,12 @@ class Deportista extends Model
         'Arl_Id', 'Fondo_Pension_Id','Fecha_Expedicion', 'Numero_Pasaporte', 'Fecha_Pasaporte', 'Numero_Libreta_Mil', 'Distrito_Libreta_mil', 'Nombre_Contacto', 'Fijo_Contacto', 'Celular_Contacto', 'Barrio_Localiza', 'Direccion_Localiza', 'Fijo_Localiza', 'Celular_Localiza', 'Correo_Electronico', 'Numero_Hijos', 'Numero_Cuenta', 'Fecha_Afiliacion', 'Medicina_Prepago', 'Nombre_MedicinaPrepago', 'Riesgo_Laboral',    	 'Nombre_Fondo_Pension', 'Uso_Medicamento', 'Medicamento', 'Otro_Medico_Preg', 'Otro_Medico', 'Resolucion_Vigente', 'Deber_Obligacion', 'Imagen_Url', 'Archivo1_Url', 'Libreta_Preg', 'Eps_Id'
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->table = config('database.connections.mysql.database').'.deportista';
+    }
+
     public function Persona()
     {
         return $this->belongsTo('App\Models\Persona', 'Persona_Id');
@@ -95,6 +101,11 @@ class Deportista extends Model
 
     public function ingresos()
     {
-        return $this->hasMany('App\Models\Ingresos', 'Id_Deportista');
+        return $this->hasMany('App\Models\Ingreso', 'Id_Deportista');
+    }
+
+    public function toString()
+    {
+        return $this->persona['Primer_Nombre'].' '.$this->persona['Primer_Apellido'];
     }
 }

@@ -57,12 +57,11 @@ Route::group(['middleware' => ['web']], function () {
 	
 
 	/************************SIAB***************************/
-	
 	Route::get('rud','DeportistaController@index');
 	Route::get('welcome', 'MainController@welcome');
 	Route::get('/personaDeportista/{id}','PersonaDeportistaController@obtener');
 	Route::get('/personaBuscarDeportista/{id}','PersonaDeportistaController@buscar');
-
+	Route::get('/buscarDeportista/{key}','PersonaDeportistaController@buscarDeportista');
 
 	/****RUD****/
 	Route::get('buscarTipoPersonaRUD/{cedula}', 'EntrenadorController@BuscarTipoPersonaRUD');  
@@ -86,9 +85,11 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getDeporteParalimpico/{id_agrupacion}/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
 
 	/*******Ingreso, retiro y reingreso de deportistas*******/
-	
+	Route::get('irrd/{id_deportista?}', 'IngresoController@index');
+	Route::post('irrd/guardar', 'IngresoController@guardar');
+	Route::get('irrd/{id_ingreso}/borrar', 'IngresoController@borrar');
 
-	/***********PDF*************/
+	/**********PDF**********/
 	Route::any('Descarga/{id}', 'DeportistaController@Descarga');
 	Route::get('rudPDF/{id}','DeportistaController@RudPdf');
 
@@ -120,8 +121,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('AddComplemento', 'SuministrosController@RegistrarComplemento');
 	Route::get('complemento/{id}','SuministrosController@Complemento_Datos');	
 	Route::get('ValorComplemento/{id}','SuministrosController@ValorComplemento_Datos');			
-	Route::get('ListaComplemento/{id}','SuministrosController@Lista_Complemento_Datos');	
-
+	Route::get('ListaComplemento/{id}','SuministrosController@Lista_Complemento_Datos');
 	Route::post('AddApoyo', 'SuministrosController@RegistrarApoyo');
 	Route::get('ListaApoyos/{id}','SuministrosController@Lista_Apoyos_Datos');	
 
