@@ -10,10 +10,11 @@ use App\Models\Persona;
 
 class PersonaDeportistaController extends MPersonaController
 {
-    protected $repositorio_personas;
+    private $repo_personas;
 
-    public function __construct(PersonaInterface $repositorio_personas) {
-        $this->repositorio_personas = $repositorio_personas;
+    public function __construct(PersonaInterface $repo_personas) {
+        parent::__construct($repo_personas);
+        $this->repo_personas = $repo_personas;
     }
 
     public function buscarPersona(Request $request, $id_persona) {
