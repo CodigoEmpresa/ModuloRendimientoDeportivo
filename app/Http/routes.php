@@ -71,6 +71,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::post('EditDeportista', 'DeportistaController@ModificarDeportista');	
 	Route::get('getAgrupacion/{id}', 'DeportistaController@Agrupaciones');
 	Route::get('getDeporte/{id}', 'DeportistaController@Deportes');
+	Route::get('getDeporteAll/{id_clasificacion}', 'DeportistaController@DeportesAll');
 	Route::get('getModalidad/{id}', 'DeportistaController@Modalidades');
 	Route::get('getClasificacionFuncional/{id}', 'DeportistaController@ClasificacionesFuncionales');
 

@@ -138,14 +138,14 @@
                     </li>
                     <li class="list-group-item" id="CamposConvencional" style="display: none;">
                         <div class="row">
-                            <div class="form-group col-md-1">
+                            <!--<div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Agrupacion" id="Agrupacion" class="form-control">
                                     <option value="">Seleccionar</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="DeporteL" >Deporte:</label>
                             </div>
@@ -167,14 +167,14 @@
                     </li>
                     <li class="list-group-item" id="CamposParalimpico" style="display: none;">
                         <div class="row">
-                            <div class="form-group col-md-2">
+                            <!--<div class="form-group col-md-2">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
                             </div>
                             <div class="form-group col-md-4">
                                 <select name="AgrupacionP" id="AgrupacionP" class="form-control">
                                     <option value="">Seleccionar</option>
                                 </select>
-                            </div>
+                            </div>-->
                             <div class="form-group col-md-2">
                                 <label for="inputEmail" class="control-label" id="DiscapacidadL" >Discapacidad:</label>
                             </div>

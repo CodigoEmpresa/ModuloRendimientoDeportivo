@@ -256,13 +256,15 @@ $(function(e){
 			});
 
 			if($(this).val() == 2){
-				$.get("getAgrupacion/" + id, function (agrupacion) {
-					$.each(agrupacion.agrupacion, function(i, e){
-						$("#AgrupacionP").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
+				$.get("getDeporteAll/" + id, function (deportes) {
+					$.each(deportes, function(i, e){
+						$.each(e, function(j, f){
+							$("#DeporteP").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
+						});
 					});				
 				}).done(function(){
-					$("#AgrupacionP").val(agrupacionT).change();
-					agrupacionT = '';
+					$("#DeporteP").val(deporteT).change();
+					deporteT = '';
 				});
 
 				$("#SeccionSeisD").show('slow');
@@ -270,13 +272,15 @@ $(function(e){
 				$("#CamposConvencional").hide('slow');
 
 			}else{
-				$.get("getAgrupacion/" + id, function (agrupacion) {
-					$.each(agrupacion.agrupacion, function(i, e){
-						$("#Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
+				$.get("getDeporteAll/" + id, function (deportes) {
+					$.each(deportes, function(i, e){
+						$.each(e, function(j, f){
+							$("#Deporte").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
+						});
 					});				
 				}).done(function(){
-					$("#Agrupacion").val(agrupacionT).change();
-					agrupacionT = '';
+					$("#Deporte").val(deporteT).change();
+					deporteT = '';
 				});
 
 				$("#SeccionSeisD").hide('slow');

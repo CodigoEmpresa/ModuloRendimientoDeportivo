@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RegistroDeportista;
 use Mail;
 use mikehaertl\wkhtmlto\Pdf;
+use Illuminate\Support\Collection;
 
 use App\Models\Banco;
 use App\Models\Ciudad;
@@ -824,8 +825,8 @@ class DeportistaController extends Controller
 
     public function Agrupaciones(Request $request, $id){
     	if ($request->ajax()) { 
-	    	$Agrupaciones = ClasificacionDeportista::with('agrupacion')->find($id);
-	    	return ($Agrupaciones);
+	    	$Agrupaciones = ClasificacionDeportista::with('agrupacion', 'agrupacion.deporte')->find($id);
+	    	return ($Agrupaciones->deporte);
 	    }
     }
 
@@ -835,6 +836,21 @@ class DeportistaController extends Controller
 	    	return ($Deportes);
 	    }
     }
+
+    public function DeportesAll(Request $request, $id_clasificacion){
+    	if ($request->ajax()) { 
+    		$Agrupaciones = Agrupacion::with('deporte')->where('ClasificacionDeportista_Id', $id_clasificacion)->get();
+    		$DeportesTotal = collect();
+    		$i = 0;
+    		foreach($Agrupaciones as $Agrupacion){
+    			$Deportes = Deporte::where('Agrupacion_Id', $Agrupacion->Id)->get();
+    			$DeportesTotal->push($Deportes);
+    			$i = $i +1;
+    		}
+	    	return ($DeportesTotal);
+	    }
+    }
+
 
     public function Modalidades(Request $request, $id){
     	if ($request->ajax()) { 

@@ -16,8 +16,8 @@ class ArregloParalimpico2 extends Migration
         Schema::table('modalidad_clasificacion_funcional', function(Blueprint $table){       
             
 
-            $table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
-            $table->foreign('Clasificacion_Funcional_Id')->references('Id')->on('clasificacion_funcional');
+           // $table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
+           // $table->foreign('Clasificacion_Funcional_Id')->references('Id')->on('clasificacion_funcional');
         });
         
     }

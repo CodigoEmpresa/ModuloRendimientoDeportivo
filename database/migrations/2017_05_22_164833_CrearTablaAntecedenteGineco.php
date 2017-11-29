@@ -30,7 +30,7 @@ class CrearTablaAntecedenteGineco extends Migration
             $table->string('Metodo_Planificacion');
             $table->timestamps();
             
-            $table->foreign('Historia_Inicial_Id')->references('Id')->on('historia_inicial');
+            //$table->foreign('Historia_Inicial_Id')->references('Id')->on('historia_inicial');
         });
     }
 
