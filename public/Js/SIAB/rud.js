@@ -257,7 +257,7 @@ $(function(e){
 
 			if($(this).val() == 2){
 				$.get("getDeporteAll/" + id, function (deportes) {
-					console.log(deportes);
+					//console.log(deportes);
 					$.each(deportes, function(i, e){
 						$.each(e, function(j, f){
 							$("#DeporteP").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
@@ -274,7 +274,7 @@ $(function(e){
 
 			}else{
 				$.get("getDeporteAll/" + id, function (deportes) {
-					console.log("conv"+deportes);
+					//console.log("conv"+deportes);
 					$.each(deportes, function(i, e){
 						$.each(e, function(j, f){
 							$("#Deporte").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
