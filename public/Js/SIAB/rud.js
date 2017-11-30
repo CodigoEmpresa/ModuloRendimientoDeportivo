@@ -217,20 +217,20 @@ $(function(e){
 	});
 
 	$("#ClasificacionDeportista").on('change',function (e){
-		$("#Agrupacion").empty();
+		//$("#Agrupacion").empty();
 		$("#Deporte").empty();
 		$("#Modalidad").empty();
 
-		$("#AgrupacionP").empty();
+		//$("#AgrupacionP").empty();
 		$("#DeporteP").empty();
 		$("#ModalidadP").empty();
 		$("#ClasificacionFuncional").empty();
 
-		$("#Agrupacion").append("<option value=''>Seleccionar</option>");		
+		//$("#Agrupacion").append("<option value=''>Seleccionar</option>");		
 		$("#Deporte").append("<option value=''>Seleccionar</option>");
 		$("#Modalidad").append("<option value=''>Seleccionar</option>");
 
-		$("#AgrupacionP").append("<option value=''>Seleccionar</option>");		
+		//$("#AgrupacionP").append("<option value=''>Seleccionar</option>");		
 		$("#DeporteP").append("<option value=''>Seleccionar</option>");
 		$("#ModalidadP").append("<option value=''>Seleccionar</option>");
 
@@ -257,6 +257,7 @@ $(function(e){
 
 			if($(this).val() == 2){
 				$.get("getDeporteAll/" + id, function (deportes) {
+					console.log(deportes);
 					$.each(deportes, function(i, e){
 						$.each(e, function(j, f){
 							$("#DeporteP").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
@@ -273,6 +274,7 @@ $(function(e){
 
 			}else{
 				$.get("getDeporteAll/" + id, function (deportes) {
+					console.log("conv"+deportes);
 					$.each(deportes, function(i, e){
 						$.each(e, function(j, f){
 							$("#Deporte").append("<option value='" +f.Id + "'>" + f.Nombre_Deporte + "</option>");
@@ -288,8 +290,8 @@ $(function(e){
 				$("#CamposConvencional").show('slow');
 			}
 		}else{
-			$("#Agrupacion").val('');
-			$("#AgrupacionP").val('');
+			 //$("#Agrupacion").val('');
+			//$("#AgrupacionP").val('');
 		}
 		
 	});
