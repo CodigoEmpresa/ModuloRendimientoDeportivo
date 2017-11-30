@@ -53,7 +53,10 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getMetodologoAgrupacion/{id_persona}','AdministracionController@GetMetodologoAgrupacion');
 	Route::get('getMetodologoAgrupacionNO/{id_persona}','AdministracionController@GetMetodologoAgrupacionNO');
 	Route::post('AddMetodologoAgrupacion','AdministracionController@AgregarMetodologoAgrupacion');			
-	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');			
+	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');	
+
+
+			
 	
 
 	/************************SIAB***************************/
