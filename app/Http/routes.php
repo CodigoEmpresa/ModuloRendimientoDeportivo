@@ -53,10 +53,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('getMetodologoAgrupacion/{id_persona}','AdministracionController@GetMetodologoAgrupacion');
 	Route::get('getMetodologoAgrupacionNO/{id_persona}','AdministracionController@GetMetodologoAgrupacionNO');
 	Route::post('AddMetodologoAgrupacion','AdministracionController@AgregarMetodologoAgrupacion');			
-	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');	
-
-
-			
+	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');			
 	
 
 	/************************SIAB***************************/
@@ -86,7 +83,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('TallaTenis/{id}', 'DeportistaController@TallaTenis');  
 
 	Route::get('getDiscapacidad', 'DeportistaController@GetDiscapacidad');
-	Route::get('getDeporteParalimpico/{id_agrupacion}/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
+	Route::get('getDeporteParalimpico/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
 
 	/*******Ingreso, retiro y reingreso de deportistas*******/
 	Route::get('irrd/{id_deportista?}', 'IngresoController@index');

@@ -107,7 +107,7 @@ class RegistroDeportista extends Request
 
              'Modalidad' => array('required_if:ClasificacionDeportista,1'),
 
-             'AgrupacionP' => array('required_if:ClasificacionDeportista,2'),
+            // 'AgrupacionP' => array('required_if:ClasificacionDeportista,2'),
 
              'DeporteP' => array('required_if:ClasificacionDeportista,2'),
 

@@ -226,7 +226,7 @@ $(function(){
     	var id = $("#Id_Clase").val();
 		if(id != ''){
 			$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
+				$.each(agrupacion, function(i, e){
 					$("#Id_Agrupa").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
 			}).done(function(){
@@ -250,7 +250,7 @@ $(function(){
 		if(id != ''){
 			$.get("getDeporte/" + id, function (deporte) {
 				$.each(deporte.deporte, function(i, e){
-					$("#Id_Deporte").append("<option value='" +e.Id + "'>" + e.Nombre_Deporte + "</option>");
+					$("#Id_Deporte").append("<option value='" +e.Id + "'> " + e.Id+"- "+ e.Nombre_Deporte + "</option>");
 				});				
 			}).done(function(){
 				$("#Id_Deporte").val(deporteT).change();
@@ -265,7 +265,7 @@ $(function(){
     	var id = $("#Id_Clasificacion").val();
 		if(id != ''){
 			$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
+				$.each(agrupacion, function(i, e){
 					$("#Id_Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
 			}).done(function(){

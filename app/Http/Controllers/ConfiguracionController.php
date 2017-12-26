@@ -103,7 +103,8 @@ class ConfiguracionController extends Controller
 	//----------------------DEPORTE--------------------------------------
 
 	public function deporte(){
-		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->get();
+		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista', 'deporteDiscapacidad')->get();
+	//	dd($Deporte[0]);
         $Agrupacion = new Agrupacion;
         $clasificacion_deportista = new ClasificacionDeportista;
         $Discapacidad = Discapacidad::all();

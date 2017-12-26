@@ -24,6 +24,7 @@
             <div class="panel-heading">
               <h3 class="panel-title">DEPORTE: Configuración de los deportes.</h3>
             </div>
+            
             <div class="panel-body">                
                 <div class="row">                   
                     <div class="col-xs-6 col-sm-8">
@@ -32,7 +33,9 @@
                              <select class="form-control selectpicker" name="Id_Deporte" id="Id_Deporte" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($deporte as $deportes)
-                                    <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".$deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte'] }}</option>
+                                    <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".
+                                        $deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte']." - "}}
+                                        </option>
                                 @endforeach
                             </select>
                         </div>
@@ -191,7 +194,7 @@
                 </div>
 
             </div>
-        </div>		    
+        </div>          
     </div>
     <div class="content">
         <div class="panel panel-primary">

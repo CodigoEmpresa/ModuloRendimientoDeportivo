@@ -586,6 +586,9 @@ class DeportistaController extends Controller
     	if ($request->ajax()) { 
 
     		$DeportistaDeporte = Deportista::with('deportistaDeporte')->find($request->deportista);
+
+    		var_dump($DeportistaDeporte->deportistaDeporte);
+    		
 	    	$dep = $DeportistaDeporte->deportistaDeporte[count($DeportistaDeporte->deportistaDeporte)-1];
 
 	    	if($request['ClasificacionDeportista'] == 1){
@@ -825,8 +828,12 @@ class DeportistaController extends Controller
 
     public function Agrupaciones(Request $request, $id){
     	if ($request->ajax()) { 
-	    	$Agrupaciones = ClasificacionDeportista::with('agrupacion', 'agrupacion.deporte')->find($id);
-	    	return ($Agrupaciones->deporte);
+	    //	$Agrupaciones = ClasificacionDeportista::with('agrupacion', 'agrupacion.deporte')->find($id);
+	    //	return ($Agrupaciones->deporte);
+	    
+	    $Agrupaciones = ClasificacionDeportista::with('agrupacion', 'agrupacion.deporte')->find($id);
+	    	return ($Agrupaciones->agrupacion);
+	    
 	    }
     }
 
@@ -896,10 +903,10 @@ class DeportistaController extends Controller
         }
     }  
 
-    public function GetDeporteParalimpico(Request $request, $id_agrupacion, $id_discapacidad){
+    public function GetDeporteParalimpico(Request $request, $id_discapacidad){
     	$DeporteDiscapacidad = DeporteDiscapacidad::where('Discapacidad_Id', $id_discapacidad)->lists('Deporte_Id');
-    	$Deporte = Deporte::where('Agrupacion_Id', $id_agrupacion)->whereIn('Id', $DeporteDiscapacidad)->get();
-    	return $Deporte;
+    	$Deporte = Deporte::/*where('Agrupacion_Id', $id_agrupacion)->*/whereIn('Id', $DeporteDiscapacidad)->get();
+    	return ($Deporte);
     }
 
     public function ClasificacionesFuncionales(Request $request, $id_modalidad){

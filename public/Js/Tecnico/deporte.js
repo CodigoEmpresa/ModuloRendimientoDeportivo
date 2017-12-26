@@ -217,7 +217,7 @@ $(function(){
     	var id = $("#Id_Clase").val();
 		if(id != ''){
 			$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
+				$.each(agrupacion, function(i, e){
 					$("#Id_Agrupa").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
 			}).done(function(){
@@ -232,7 +232,7 @@ $(function(){
     	$('#Id_Agrupacion').append("<option value=''>Seleccionar</option>");
     	var id = $("#Id_Clasificacion").val();
     	$.get("getAgrupacion/" + id, function (agrupacion) {
-				$.each(agrupacion.agrupacion, function(i, e){
+				$.each(agrupacion, function(i, e){
 					$("#Id_Agrupacion").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
 			}).done(function(){
