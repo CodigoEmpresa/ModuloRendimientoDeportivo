@@ -86,6 +86,7 @@ class DeportistaController extends Controller
 		$Diagnostico = Diagnostico::all();
 		$UsoSilla = UsoSilla::all();
 		$Discapacidad = Discapacidad::all();
+		$ClasificacionFuncional = ClasificacionFuncional::all();
 
 		return view('SIAB/deportista',['deportista' => $deportista])
 		->with(compact('Banco'))
@@ -427,7 +428,11 @@ class DeportistaController extends Controller
 					 	$DeportistaParalimpico->save();
 					 }
 
-					$this->sendEmail($request->Correo, 'Novice', 'SIAB.correo');
+					 if($request->Correo != ''){
+					 	$this->sendEmail($request->Correo, 'Novice', 'SIAB.correo');
+					 }
+
+					
 					
 				 	return response()->json(["Mensaje" => "Deportista registrado con éxito."]);                	
 			 	}else{
@@ -587,30 +592,40 @@ class DeportistaController extends Controller
 
     		$DeportistaDeporte = Deportista::with('deportistaDeporte')->find($request->deportista);
 
-    		var_dump($DeportistaDeporte->deportistaDeporte);
-    		
-	    	$dep = $DeportistaDeporte->deportistaDeporte[count($DeportistaDeporte->deportistaDeporte)-1];
-
-	    	if($request['ClasificacionDeportista'] == 1){
-	    		if($dep['Agrupacion_Id'] != $request->Agrupacion || $dep['Deporte_Id'] != $request->Deporte || $dep['Modalidad_Id'] != $request->Modalidad || $dep['Club_Id'] != $request->Club){	    		
-		    		$deportistaDeporte = new DeportistaDeporte;
+    		if(count($DeportistaDeporte->deportistaDeporte) == 0){
+    			$deportistaDeporte = new DeportistaDeporte;
 				 	$deportistaDeporte->Deportista_Id = $request->deportista;
 				 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
 				 	$deportistaDeporte->Deporte_Id = $request->Deporte;
 				 	$deportistaDeporte->Modalidad_Id = $request->Modalidad;
 				 	$deportistaDeporte->Club_Id = $request->Club;
 				 	$deportistaDeporte->save();
-		    	}
-	    	}elseif($request['ClasificacionDeportista'] == 2){
-	    		if($dep['Agrupacion_Id'] != $request->AgrupacionP || $dep['Deporte_Id'] != $request->DeporteP || $dep['Modalidad_Id'] != $request->ModalidadP || $dep['Club_Id'] != $request->Club){	    		
-		    		$deportistaDeporte = new DeportistaDeporte;
-				 	$deportistaDeporte->Deportista_Id = $request->deportista;
-				 	$deportistaDeporte->Agrupacion_Id = $request->AgrupacionP;
-				 	$deportistaDeporte->Deporte_Id = $request->DeporteP;
-				 	$deportistaDeporte->Modalidad_Id = $request->ModalidadP;
-				 	$deportistaDeporte->Club_Id = $request->Club;
-				 	$deportistaDeporte->save();
-		    	}
+
+    		}else{
+    			$dep = $DeportistaDeporte->deportistaDeporte[count($DeportistaDeporte->deportistaDeporte)-1];
+
+		    	if($request['ClasificacionDeportista'] == 1){
+		    		if($dep['Agrupacion_Id'] != $request->Agrupacion || $dep['Deporte_Id'] != $request->Deporte || $dep['Modalidad_Id'] != $request->Modalidad || $dep['Club_Id'] != $request->Club){	    		
+			    		$deportistaDeporte = new DeportistaDeporte;
+					 	$deportistaDeporte->Deportista_Id = $request->deportista;
+					 	$deportistaDeporte->Agrupacion_Id = $request->Agrupacion;
+					 	$deportistaDeporte->Deporte_Id = $request->Deporte;
+					 	$deportistaDeporte->Modalidad_Id = $request->Modalidad;
+					 	$deportistaDeporte->Club_Id = $request->Club;
+					 	$deportistaDeporte->save();
+			    	}
+		    	}elseif($request['ClasificacionDeportista'] == 2){
+		    		if($dep['Agrupacion_Id'] != $request->AgrupacionP || $dep['Deporte_Id'] != $request->DeporteP || $dep['Modalidad_Id'] != $request->ModalidadP || $dep['Club_Id'] != $request->Club){	    		
+			    		$deportistaDeporte = new DeportistaDeporte;
+					 	$deportistaDeporte->Deportista_Id = $request->deportista;
+					 	$deportistaDeporte->Agrupacion_Id = $request->AgrupacionP;
+					 	$deportistaDeporte->Deporte_Id = $request->DeporteP;
+					 	$deportistaDeporte->Modalidad_Id = $request->ModalidadP;
+					 	$deportistaDeporte->Club_Id = $request->Club;
+					 	$deportistaDeporte->save();
+			    	}
+
+	    		}
 	    	}
 
 	    	
@@ -903,7 +918,7 @@ class DeportistaController extends Controller
         }
     }  
 
-    public function GetDeporteParalimpico(Request $request, $id_discapacidad){
+    public function GetDeporteParalimpico($id_discapacidad){
     	$DeporteDiscapacidad = DeporteDiscapacidad::where('Discapacidad_Id', $id_discapacidad)->lists('Deporte_Id');
     	$Deporte = Deporte::/*where('Agrupacion_Id', $id_agrupacion)->*/whereIn('Id', $DeporteDiscapacidad)->get();
     	return ($Deporte);

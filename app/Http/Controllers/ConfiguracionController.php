@@ -103,8 +103,7 @@ class ConfiguracionController extends Controller
 	//----------------------DEPORTE--------------------------------------
 
 	public function deporte(){
-		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista', 'deporteDiscapacidad')->get();
-	//	dd($Deporte[0]);
+		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista', 'deporteDiscapacidad', 'modalidad', 'deporteDiscapacidad')->get();
         $Agrupacion = new Agrupacion;
         $clasificacion_deportista = new ClasificacionDeportista;
         $Discapacidad = Discapacidad::all();
@@ -210,7 +209,7 @@ class ConfiguracionController extends Controller
     public function modalidad(){
 
 		$Deporte =  Deporte::with('agrupacion','agrupacion.ClasificacionDeportista')->get();
-        $Modalidad = Modalidad::with('deporte','deporte.agrupacion','deporte.agrupacion.ClasificacionDeportista')->get();
+        $Modalidad = Modalidad::with('deporte','deporte.agrupacion', 'deporte.deporteDiscapacidad')->get();
         $clasificacion_deportista = new ClasificacionDeportista;
         $ClasificacionFuncional = ClasificacionFuncional::all();
 
@@ -455,11 +454,13 @@ class ConfiguracionController extends Controller
 
     public function division(){
 		$TipoEvaluacion = TipoEvaluacion::all();
-		$Division = Division::with('tipoEvaluacion')->get();
+		$Division = Division::with('deporte', 'deporte.deporteDiscapacidad', 'modalidad', 'tipoEvaluacion')->get();
 		$ClasificacionDeportista = ClasificacionDeportista::all();
 		$Rama = Rama::all();
 		$Categoria = Categoria::all();
-		//dd($Division);
+
+		//dd($Division[330]);
+
 		return view('TECNICO/division')
 			   ->with(compact('TipoEvaluacion'))
 			   ->with(compact('Division'))

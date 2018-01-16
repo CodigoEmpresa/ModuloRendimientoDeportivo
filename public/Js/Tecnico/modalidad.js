@@ -221,18 +221,32 @@ $(function(){
     });  
 
     $('#Id_Clase').on('change', function(){
-    	$('#Id_Agrupa').empty();
-    	$('#Id_Agrupa').append("<option value=''>Seleccionar</option>");
+    	//$('#Id_Agrupa').empty();
+    	//$('#Id_Agrupa').append("<option value=''>Seleccionar</option>");
     	var id = $("#Id_Clase").val();
 		if(id != ''){
-			$.get("getAgrupacion/" + id, function (agrupacion) {
+			/*$.get("getAgrupacion/" + id, function (agrupacion) {
 				$.each(agrupacion, function(i, e){
 					$("#Id_Agrupa").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 				});				
 			}).done(function(){
 				$("#Id_Agrupa").val(agrupacionT).change();
 				agrupacionT = '';
-			});
+			});*/
+			$("#Id_Deporte").empty();
+			$("#Id_Deporte").append("<option value=''>Seleccionar</option>");
+
+			if(id != ''){
+				$.get("getDeporteAll/" + id, function (deporte) {
+					console.log(deporte);
+					$.each(deporte[0], function(i, e){
+						$("#Id_Deporte").append("<option value='" +e.Id + "'> " + e.Id+"- "+ e.Nombre_Deporte + "</option>");
+					});				
+				}).done(function(){
+					$("#Id_Deporte").val(deporteT).change();
+					deporteT = '';
+				});
+			}		
 
 			if($(this).val() == 2){
 				$("#ClasificacionFuncionalD").show('slow');
@@ -242,7 +256,7 @@ $(function(){
 		}	
     }); 
 
-    $("#Id_Agrupa").on('change',function (e){
+    /*$("#Id_Agrupa").on('change',function (e){
 		$("#Id_Deporte").empty();
 		$("#Id_Deporte").append("<option value=''>Seleccionar</option>");
 
@@ -257,7 +271,7 @@ $(function(){
 				deporteT = '';
 			});
 		}		
-	});
+	});*/
 
 	 $('#Id_Clasificacion').on('change', function(){
     	$('#Id_Agrupacion').empty();

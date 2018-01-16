@@ -2,7 +2,7 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/SIAB/rud.js?n=1') }}"></script>   
+    <script src="{{ asset('public/Js/SIAB/rud.js?n=7') }}"></script>   
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}    
          
@@ -1013,7 +1013,10 @@
                         </div>
                         <div class="form-group col-md-10">
                             <select name="ClasificacionFuncional" id="ClasificacionFuncional" class="form-control">
-                                <option value="">Seleccionar</option>                       
+                                <option value="">Seleccionar</option> 
+                                @foreach($ClasificacionFuncional as $ClasificacionFuncional)
+                                    <option value="{{ $ClasificacionFuncional['Id'] }}">{{ $ClasificacionFuncional['Nombre_Clasificacion_Funcional'] }}</option>
+                                @endforeach                       
                             </select>
                         </div>
                         </div>

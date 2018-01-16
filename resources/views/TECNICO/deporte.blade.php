@@ -33,9 +33,24 @@
                              <select class="form-control selectpicker" name="Id_Deporte" id="Id_Deporte" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($deporte as $deportes)
-                                    <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".
-                                        $deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte']." - "}}
+                                    @if($deportes->agrupacion['ClasificacionDeportista_Id'] == 1)
+                                         <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".
+                                        $deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte']}}
                                         </option>
+                                    @endif
+                                    @if($deportes->agrupacion['ClasificacionDeportista_Id'] == 2)
+                                        @if(count($deportes->deporteDiscapacidad) == 0)
+                                            <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".
+                                            $deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte']." - No Asignada"}}
+                                            </option>
+                                        @endif
+                                         @foreach($deportes->deporteDiscapacidad as $discapacidades)
+                                             <option style="text-transform: uppercase;" value="{{ $deportes['Id'] }}">{{ $deportes['Id'].". ".
+                                            $deportes->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$deportes['Nombre_Deporte']." - ".$discapacidades['Nombre_Discapacidad']}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                    
                                 @endforeach
                             </select>
                         </div>
@@ -206,27 +221,47 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Clasificación</th>
                                 <th>Deporte</th>
-                                <th>Agrupación</th>
-                                <th>Clase</th>
+                                <th>Discapacidad</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Id</th>
+                                <th>Clasificación</th>
                                 <th>Deporte</th>
-                                <th>Agrupación</th>
-                                <th>Clase</th>
+                                <th>Discapacidad</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach($deporte as $agrupaciones)
-                                <tr style="text-transform: uppercase;">
-                                    <td>{{ $agrupaciones['Id'] }}</td>
-                                    <td>{{ $agrupaciones['Nombre_Deporte'] }}</td>
-                                    <td>{{ $agrupaciones->agrupacion['Nombre_Agrupacion'] }}</td>
-                                    <td>{{ $agrupaciones->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
-                                </tr>
+                            @foreach($deporte as $deportesTabla)
+                                @if($deportesTabla->agrupacion['ClasificacionDeportista_Id'] == 1)
+                                    <tr style="text-transform: uppercase;">
+                                            <td>{{ $deportesTabla['Id'] }}</td>
+                                            <td>{{ $deportesTabla->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                            <td>{{ $deportesTabla['Nombre_Deporte'] }}</td>
+                                            <td>No Aplica</td>
+                                        </tr>
+                                @endif
+                                @if($deportesTabla->agrupacion['ClasificacionDeportista_Id'] == 2)
+                                    @if(count($deportesTabla->deporteDiscapacidad) == 0)
+                                        <tr style="text-transform: uppercase;">
+                                            <td>{{ $deportesTabla['Id'] }}</td>
+                                            <td>{{ $deportesTabla->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                            <td>{{ $deportesTabla['Nombre_Deporte'] }}</td>
+                                            <td>No asignada</td>
+                                        </tr>
+                                     @endif
+                                     @foreach($deportesTabla->deporteDiscapacidad as $discapacidadesTabla)
+                                        <tr style="text-transform: uppercase;">
+                                            <td>{{ $deportesTabla['Id'] }}</td>
+                                            <td>{{ $deportesTabla->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                            <td>{{ $deportesTabla['Nombre_Deporte'] }}</td>
+                                            <td>{{ $discapacidadesTabla['Nombre_Discapacidad'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             @endforeach
 
                         </tbody>

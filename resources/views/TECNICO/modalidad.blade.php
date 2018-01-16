@@ -30,10 +30,25 @@
                         <div class="form-group">
                             <label class="control-label" for="Id_TipoDocumento">Búsqueda de Modalidad</label>
                             <select class="form-control selectpicker" name="Id_mdl" id="Id_mdl" data-live-search="true">
-                                <option value="">Seleccionar</option>
-                                @foreach($modalidad as $modalidades)
-                                    <option style="text-transform: uppercase;" value="{{ $modalidades['Id'] }}">{{ $modalidades['Id'].". ".$modalidades->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$modalidades->deporte['Nombre_Deporte']." - ".$modalidades['Nombre_Modalidad'] }}</option>
-                                @endforeach
+                                 @foreach($modalidad as $modalidadSelect)
+                                    @if($modalidadSelect->deporte->agrupacion['ClasificacionDeportista_Id'] == 1)
+                                         <option style="text-transform: uppercase;" value="{{ $modalidadSelect->deporte['Id'] }}">{{ $modalidadSelect->deporte['Id'].". ".$modalidadSelect->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$modalidadSelect->deporte['Nombre_Deporte']." - ".$modalidadSelect['Nombre_Modalidad']}}
+                                        </option>
+                                    @endif
+                                    @if($modalidadSelect->deporte->agrupacion['ClasificacionDeportista_Id'] == 2 && count($modalidadSelect->deporte->deporteDiscapacidad) == 0)
+                                        <option style="text-transform: uppercase;" value="{{ $modalidadSelect->deporte['Id'] }}">{{ $modalidadSelect->deporte['Id'].". ".
+                                            $modalidadSelect->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$modalidadSelect->deporte['Nombre_Deporte']." - Discapacidad no Asignada - ".$modalidadSelect['Nombre_Modalidad']}}
+                                            </option>
+                                    @endif
+                                    @if($modalidadSelect->deporte->agrupacion['ClasificacionDeportista_Id'] == 2 && count($modalidadSelect->deporte->deporteDiscapacidad) != 0)
+                                        
+                                        @foreach($modalidadSelect->deporte->deporteDiscapacidad as $discapacidades)
+                                             <option style="text-transform: uppercase;" value="{{ $modalidadSelect->deporte['Id'] }}">{{ $modalidadSelect->deporte['Id'].". ".
+                                            $modalidadSelect->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista']." - ".$modalidadSelect->deporte['Nombre_Deporte']." - ".$discapacidades['Nombre_Discapacidad']." - ".$modalidadSelect['Nombre_Modalidad']}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                 @endforeach
                             </select>
                         </div>
                     </div>                    
@@ -156,14 +171,14 @@
                                 @endforeach
                             </select>
                         </div>     
-                        <div class="form-group col-md-2">                    
+                        <!--<div class="form-group col-md-2">                    
                             <label class="control-label" for="Id_TipoDocumento">Agrupación:</label>
                         </div>
                         <div class="form-group col-md-4">
                             <select name="Id_Agrupa" id="Id_Agrupa" class="form-control">
                                 <option value="">Seleccionar</option>
                             </select>
-                        </div>                      
+                        </div>-->                      
                         <div class="form-group col-md-2">                            
                             <label class="control-label" for="Id_TipoDocumento">Deporte:</label>
                         </div>
@@ -215,7 +230,7 @@
                     </div>
                 </div>
             </div>
-        </div>		    
+        </div>          
     </div>
     <div class="content">
         <div class="panel panel-primary">
@@ -227,32 +242,54 @@
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Modalidad</th>
+                                <th>Clasificación</th>
                                 <th>Deporte</th>
-                                <th>Agrupación</th>
-                                <th>Clase</th>
+                                <th>Discapacidad</th>
+                                <th>Modalidad</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Id</th>
-                                <th>Modalidad</th>
+                                <th>Clasificación</th>
                                 <th>Deporte</th>
-                                <th>Agrupación</th>
-                                <th>Clase</th>
+                                <th>Discapacidad</th>
+                                <th>Modalidad</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach($modalidad as $modalidades)
-                                <tr style="text-transform: uppercase;">
-                                    <td>{{ $modalidades['Id'] }}</td>
-                                    <td>{{ $modalidades['Nombre_Modalidad'] }}</td>
-                                    <td>{{ $modalidades->deporte['Nombre_Deporte'] }}</td>
-                                    <td>{{ $modalidades->deporte->agrupacion['Nombre_Agrupacion'] }}</td>
-                                    <td>{{ $modalidades->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
-                                </tr>
-                            @endforeach
-
+                             @foreach($modalidad as $modalidadTabla)
+                                    @if($modalidadTabla->deporte->agrupacion['ClasificacionDeportista_Id'] == 1)
+                                        <tr style="text-transform: uppercase;">
+                                            <td>{{ $modalidadTabla['Id'] }}</td>
+                                            <td>{{ $modalidadTabla->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                            <td>{{ $modalidadTabla->deporte['Nombre_Deporte'] }}</td>
+                                            <td>No Aplica</td>
+                                            <td>{{ $modalidadTabla['Nombre_Modalidad'] }}</td>
+                                            
+                                        </tr>
+                                    @endif
+                                    @if($modalidadTabla->deporte->agrupacion['ClasificacionDeportista_Id'] == 2 && count($modalidadTabla->deporte->deporteDiscapacidad) == 0)
+                                        <tr style="text-transform: uppercase;">
+                                            <td>{{ $modalidadTabla['Id'] }}</td>
+                                            <td>{{ $modalidadTabla->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                            <td>{{ $modalidadTabla->deporte['Nombre_Deporte'] }}</td>
+                                            <td>Discapacidad no Asignada</td>
+                                            <td>{{ $modalidadTabla['Nombre_Modalidad'] }}</td>
+                                        </tr>
+                                    @endif
+                                    @if($modalidadTabla->deporte->agrupacion['ClasificacionDeportista_Id'] == 2 && count($modalidadTabla->deporte->deporteDiscapacidad) != 0)
+                                        @foreach($modalidadTabla->deporte->deporteDiscapacidad as $discapacidadesTabla)
+                                            <tr style="text-transform: uppercase;">
+                                                <td>{{ $modalidadTabla['Id'] }}</td>
+                                                <td>{{ $modalidadTabla->deporte->agrupacion->ClasificacionDeportista['Nombre_Clasificacion_Deportista'] }}</td>
+                                                <td>{{ $modalidadTabla->deporte['Nombre_Deporte'] }}</td>
+                                                <td>{{$discapacidadesTabla['Nombre_Discapacidad']}}</td>
+                                                <td>{{ $modalidadTabla['Nombre_Modalidad'] }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
+                                 @endforeach
                         </tbody>
                     </table>
             </div>

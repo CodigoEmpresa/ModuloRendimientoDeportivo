@@ -224,7 +224,7 @@ $(function(e){
 		//$("#AgrupacionP").empty();
 		$("#DeporteP").empty();
 		$("#ModalidadP").empty();
-		$("#ClasificacionFuncional").empty();
+	//	$("#ClasificacionFuncional").empty();
 
 		//$("#Agrupacion").append("<option value=''>Seleccionar</option>");		
 		$("#Deporte").append("<option value=''>Seleccionar</option>");
@@ -361,13 +361,13 @@ $(function(e){
 		var id_agrupacion = $("#AgrupacionP").val();
 		if(id_discapacidad != ''){
 			if($("#AgrupacionP").val() != ''){
-				$.get("getDeporteParalimpico/"+id_agrupacion+"/"+id_discapacidad, function (deporteParalimpico) {
+				$.get("getDeporteParalimpico/"+id_discapacidad, function (deporteParalimpico) {
 					$.each(deporteParalimpico, function(i, e){
 						$("#DeporteP").append("<option value='" +e.Id + "'>" + e.Nombre_Deporte + "</option>");
 					});
 				}).done(function(){
 					$("#DeporteP").val(deporteT).change();
-					deporteT = '';
+					//deporteT = '';
 				});
 			}
 		}		

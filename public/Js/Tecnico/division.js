@@ -199,7 +199,7 @@ $(function()
 		$("#Modalidad_Id").append("<option value=''>Seleccionar</option>");
 
     	$.get("getAgrupacion/" + $(this).val(), function (agrupacion) {
-    		$.each(agrupacion.agrupacion, function(i, e){
+    		$.each(agrupacion, function(i, e){
 				$("#Agrupacion_Id").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 			});				
     	});
@@ -215,7 +215,7 @@ $(function()
 		$("#Modalidad_IdE").append("<option value=''>Seleccionar</option>");
 
     	$.get("getAgrupacion/" + $(this).val(), function (agrupacion) {
-    		$.each(agrupacion.agrupacion, function(i, e){
+    		$.each(agrupacion, function(i, e){
 				$("#Agrupacion_IdE").append("<option value='" +e.Id + "'>" + e.Nombre_Agrupacion + "</option>");
 			});				
     	});
@@ -232,7 +232,7 @@ $(function()
 		if(id != ''){
 			$.get("getDeporte/" + id, function (deporte) {
 				$.each(deporte.deporte, function(i, e){
-					$("#Deporte_Id").append("<option value='" +e.Id + "'>" + e.Nombre_Deporte + "</option>");
+					$("#Deporte_Id").append("<option value='" +e.Id + "'>" +e.Id +" - "+ e.Nombre_Deporte + "</option>");
 				});				
 			});
 		}		
@@ -249,7 +249,7 @@ $(function()
 		if(id != ''){
 			$.get("getDeporte/" + id, function (deporte) {
 				$.each(deporte.deporte, function(i, e){
-					$("#Deporte_IdE").append("<option value='" +e.Id + "'>" + e.Nombre_Deporte + "</option>");
+					$("#Deporte_IdE").append("<option value='" +e.Id + "'>" +e.Id + " - "+ e.Nombre_Deporte + "</option>");
 				});				
 			});
 		}		

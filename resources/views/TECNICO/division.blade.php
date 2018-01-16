@@ -3,7 +3,7 @@
 @section('script')
     @parent
 
-    <script src="{{ asset('public/Js/Tecnico/division.js') }}"></script> 
+    <script src="{{ asset('public/Js/Tecnico/division.js?n=1') }}"></script> 
 @stop
 
 @section('content')
@@ -32,7 +32,7 @@
                             <select class="form-control selectpicker" name="Id_Division" id="Id_Division" data-live-search="true">
                                 <option value="">Seleccionar</option>
                                 @foreach($Division as $Divisiones)
-                                    <option value="{{ $Divisiones['Id'] }}">{{ $Divisiones->deporte['Nombre_Deporte']." - ".$Divisiones->rama['Nombre_Rama']." - ".$Divisiones->categoria['Nombre_Categoria']." - ".$Divisiones['Nombre_Division']}}</option>
+                                    <option value="{{ $Divisiones['Id'] }}">{{ $Divisiones['Id']}} - {{$Divisiones->deporte['Nombre_Deporte']." - ".$Divisiones->rama['Nombre_Rama']." - ".$Divisiones->categoria['Nombre_Categoria']." - ".$Divisiones['Nombre_Division']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -305,7 +305,7 @@
                     </div>
                 </div>
             </div>
-        </div>		    
+        </div>          
     </div>
     <div class="content">
         <div class="panel panel-primary">
