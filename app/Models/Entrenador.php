@@ -87,6 +87,60 @@ class Entrenador extends Model
         return $this->belongsTo('App\Models\ClasificacionDeportista', 'Clasificacion_Deportista_Id');
     }
 
+    public function modalidad(){
+        return $this->belongsTo('App\Models\Modalidad', 'Modalidad_Id');
+    }
+
+    public function ciudadLugar(){
+        return $this->belongsTo('App\Models\Ciudad', 'Lugar_Expedicion_Id');
+    }
+
+    public function Eps()
+    {
+        return $this->belongsTo('App\Models\Eps', 'Eps_Id');
+    }
+
+    public function parentesco()
+    {
+        return $this->belongsTo('App\Models\Parentesco', 'Parentesco_Id');
+    }
+
+    public function departamentoLoc(){
+        return $this->belongsTo('App\Models\Departamento', 'Departamento_Id_Localiza');
+    }
+
+    public function ciudadLoc(){
+        return $this->belongsTo('App\Models\Ciudad', 'Ciudad_Id_Localiza');
+    }
+
+    public function localidadLoc(){
+        return $this->belongsTo('App\Models\Localidad', 'Localidad_Id_Localiza');
+    }
+
+    public function regimen(){
+        return $this->belongsTo('App\Models\RegimenSalud', 'Regimen_Salud_Id');
+    }
+
+    public function tipoAfiliacion(){
+        return $this->belongsTo('App\Models\TipoAfiliacion', 'Tipo_Afiliacion_Id');
+    }
+
+    public function nivelRegimenSub(){
+        return $this->belongsTo('App\Models\NivelRegimenSub', 'Nivel_Regimen_Sub_Id');
+    }
+
+    public function fondoPension(){
+        return $this->belongsTo('App\Models\FondoPension', 'Fondo_Pension_Id');
+    }
+
+    public function grupoSanguineo(){
+        return $this->belongsTo('App\Models\GrupoSanguineo', 'Grupo_Sanguineo_Id');
+    }
+
+    public function arl(){
+        return $this->belongsTo('App\Models\Arl', 'Arl_Id');
+    }
+
     
 
 }

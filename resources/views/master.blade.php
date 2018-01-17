@@ -16,8 +16,6 @@
           <link rel="stylesheet" href="{{ asset('public/Css/jquery.dataTables.min.css') }}" media="screen">    
           <link rel="stylesheet" href="{{ asset('public/Css/buttons.dataTables.min.css') }}" media="screen">    
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
-         
-
 
            <style type="text/css">
               .glyphicon-refresh-animate {
@@ -84,10 +82,10 @@
   </head>
 
   <body>      
-
        <!-- Menu Módulo -->
        <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+        <div class="container">        
+        <?php /*echo '<pre>'; var_dump($_SESSION['Usuario']);echo '</pre>'; */?>
           <div class="navbar-header">
             <a href="/" class="navbar-brand">SIM</a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
@@ -98,129 +96,158 @@
           </div>
           <div class="navbar-collapse collapse" id="navbar-main">            
             <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Administración <span class="caret"></span></a>
-                <ul class="dropdown-menu" aria-labelledby="themes">
-                  <li><a href="#" style="color:#1995dc">Gestor de personas</a></li>
-                  <li class="divider"></li>
-                  
-                      <li class=”{{ Request::is( 'personas') ? 'active' : '' }}”><a href="{{ URL::to( 'personas') }}">Gestión de personas</a></li>                  
-                  
-                      <li class=”{{ Request::is( 'persona_tipo') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_tipo') }}">Asignación tipo persona</a></li>                  
-                  
-                      <li class=”{{ Request::is( 'persona_permiso') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_permiso') }}">Asignación de permisos</a></li>                  
-                  
-                      <li class=”{{ Request::is( 'metodologo_agrupacion') ? 'active' : '' }}”><a href="{{ URL::to( 'metodologo_agrupacion') }}">Administración Metodólogos</a></li>                  
-                  
-                </ul>
-              </li>
-              <li>
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">SIAB <span class="caret"></span></a>
-                <ul class="dropdown-menu" aria-labelledby="themes">
-                  
-                      <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas (RUD)</a></li>
-
-                      <!--<li><a href="{{ URL::to( 'irrd') }}">Ingreso, retiro y reingreso de deportistas</a></li>-->
-                      
-
-                      <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>
-                  
-                      <li><a href="{{ URL::to( 'domicilio') }}">Visita domiciliaria</a></li>
-                  
-                      <li><a href="{{ URL::to( 'actividad') }}">Actividades de intervención</a></li>
-                  
-                      <li><a href="{{ URL::to( 'suministros') }}">Suministros, apoyos y servicios</a></li>
-                  
-                </ul>
-              </li>
-              <li>
-                
+              @if($_SESSION['Usuario'][1] == 1 || $_SESSION['Usuario'][2] == 1 || $_SESSION['Usuario'][3] == 1 || $_SESSION['Usuario'][4] == 1)
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">TÉCNICO <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>    
-                      <li class=”{{ Request::is( 'rue') ? 'active' : '' }}”><a href="{{ URL::to( 'rue') }}">Registro único de entrenadores (RUE)</a></li>                  
-                      <li class=”{{ Request::is( 'VEntrenadorDeportista') ? 'active' : '' }}”><a href="{{ URL::to( 'VEntrenadorDeportista') }}">Vinculación de entrenadores y deportistas</a></li>                  
-                      <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">REGISTRO LÍNEA DEPORTIVA</a></li>                      
-                      
-                        <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”><a href="{{ URL::to( 'configuracion') }}">Configuración</a></li>
-                      
-                                            
-                      <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">PLANES DE ENTRENAMIENTO</a>
-                         <li class=”{{ Request::is( 'registro_plan') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_plan') }}">Gestor de planes de entrenamiento</a></li>                       
-                      </li>
-                      <li class="divider"></li>
-                      <li>
-                        <a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a>
-                        <li class=”{{ Request::is( 'gestor_entrenamientos') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_entrenamientos') }}">Gestor de entrenamientos</a></li>
-                      </li>                                            
-                      <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                      
-                      
-                        <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”><a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a></li>
-                        <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”><a href="{{ URL::to( 'certamen') }}">Gestor de certámenes deportivos</a></li>
-                        <li class=”{{ Request::is( 'asignacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'asignacion_pruebas') }}">Asignación de pruebas deportivas</a></li>
-                        <li class=”{{ Request::is( 'denegacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'denegacion_pruebas') }}">Denegación de pruebas deportivas</a></li>
-                        <li class=”{{ Request::is( 'mis_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_resultados') }}">Mis pruebas deportivas</a></li>
-                      
-                      
-                      <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">TEST PEDAGÓGICOS</a></li>                                            
-                        <li class=”{{ Request::is( 'gestor_test') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}">Gestor de Test Pedagógicos</a></li>
-                        <li class=”{{ Request::is( 'registro_test_deportista') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_test_deportista') }}"> Asignación Test a Deportista</a></li>
-
-                      <li class="divider"></li>
-                      <li><a href="#" style="color:#1995dc">VISITAS TÉCNICAS</a></li>                                            
-                      <li class="divider"></li>
-                      <!--<li class="divider"></li>
-                      <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'configuracion') }}">Agrupación</a>
-                      </li>                      
-                      <li class=”{{ Request::is( 'deporte') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'deporte') }}">Deporte</a>
-                      </li>
-                      <li class=”{{ Request::is( 'modalidad') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'modalidad') }}">Modalidad</a>
-                      </li>
-
-                      <li class=”{{ Request::is('rama') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'rama') }}">Rama</a>
-                      </li>
-
-                      <li class=”{{ Request::is('categoria') ? 'active' : '' }}”>
-                        <a href="{{ URL::to( 'categoria') }}">Categoria</a></li>
-                      <li><a href="#">Prueba/División</a></li>-->
-                    </ul>
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Administración <span class="caret"></span></a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">
+                    <li><a href="#" style="color:#1995dc">Gestor de personas</a></li>
+                    <li class="divider"></li>                  
+                      @if($_SESSION['Usuario'][1] == 1)                   
+                        <li class=”{{ Request::is( 'personas') ? 'active' : '' }}”><a href="{{ URL::to( 'personas') }}">Gestión de personas</a></li>                  
+                      @endif
+                      @if($_SESSION['Usuario'][2] == 1)                   
+                        <li class=”{{ Request::is( 'persona_tipo') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_tipo') }}">Asignación tipo persona</a></li>                  
+                      @endif
+                      @if($_SESSION['Usuario'][3] == 1)                   
+                        <li class=”{{ Request::is( 'persona_permiso') ? 'active' : '' }}”><a href="{{ URL::to( 'persona_permiso') }}">Asignación de permisos</a></li>
+                      @endif
+                      @if($_SESSION['Usuario'][4] == 1)                   
+                        <li class=”{{ Request::is( 'metodologo_agrupacion') ? 'active' : '' }}”><a href="{{ URL::to( 'metodologo_agrupacion') }}">Administración Metodólogos</a></li>                  
+                      @endif
+                  </ul>
                 </li>
-              </li>
-              <li>
+              @endif
+              @if($_SESSION['Usuario'][5] == 1 || $_SESSION['Usuario'][6] == 1 || $_SESSION['Usuario'][7] == 1 || $_SESSION['Usuario'][8] == 1 || $_SESSION['Usuario'][9] == 1)
+                <li>
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">SIAB <span class="caret"></span></a>
+                  <ul class="dropdown-menu" aria-labelledby="themes">                  
+                    @if($_SESSION['Usuario'][5] == 1)                   
+                      <li><a href="{{ URL::to( 'rud') }}">Registro único de deportistas (RUD)</a></li>                  
+                    @endif
+                    @if($_SESSION['Usuario'][6] == 1)                   
+                      <li><a href="{{ URL::to( 'psico') }}">Valoración psicosocial</a></li>                  
+                    @endif
+                    @if($_SESSION['Usuario'][7] == 1)                   
+                      <li><a href="{{ URL::to( 'domicilio') }}">Visita domiciliaria</a></li>                  
+                    @endif
+                    @if($_SESSION['Usuario'][8] == 1)                   
+                      <li><a href="{{ URL::to( 'actividad') }}">Actividades de intervención</a></li>                  
+                    @endif
+                    @if($_SESSION['Usuario'][9] == 1)                   
+                      <li><a href="{{ URL::to( 'suministros') }}">Suministros, apoyos y servicios</a></li>                  
+                    @endif
+                  </ul>
+                </li>
+              @endif
+              @if($_SESSION['Usuario'][16] == 1 || $_SESSION['Usuario'][17] == 1 ||$_SESSION['Usuario'][10] == 1 || $_SESSION['Usuario'][18] == 1 || $_SESSION['Usuario'][19] == 1 || $_SESSION['Usuario'][11] == 1 || $_SESSION['Usuario'][12] == 1 || $_SESSION['Usuario'][13] == 1 || $_SESSION['Usuario'][14] == 1 || $_SESSION['Usuario'][15] == 1 || $_SESSION['Usuario'][20] == 1 || $_SESSION['Usuario'][21] == 1)
+                <li>
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true">TÉCNICO <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        @if($_SESSION['Usuario'][16] == 1 || $_SESSION['Usuario'][17] == 1)
+                          <li><a href="#" style="color:#1995dc">ENTRENADORES</a></li>   
+                          @if($_SESSION['Usuario'][16] == 1)                   
+                            <li class=”{{ Request::is( 'rue') ? 'active' : '' }}”><a href="{{ URL::to( 'rue') }}">Registro único de entrenadores (RUE)</a></li>                  
+                          @endif
+                          @if($_SESSION['Usuario'][17] == 1)                   
+                            <li class=”{{ Request::is( 'VEntrenadorDeportista') ? 'active' : '' }}”><a href="{{ URL::to( 'VEntrenadorDeportista') }}">Vinculación de entrenadores y deportistas</a></li>
+                          @endif            
+                          <li class="divider"></li>
+                        @endif
+
+                        @if($_SESSION['Usuario'][10] == 1)
+                          <li><a href="#" style="color:#1995dc">REGISTRO LÍNEA DEPORTIVA</a></li>                                            
+                          @if($_SESSION['Usuario'][10] == 1)
+                            <li class=”{{ Request::is( 'configuracion') ? 'active' : '' }}”><a href="{{ URL::to( 'configuracion') }}">Configuración</a></li>
+                          @endif                          
+                          <li class="divider"></li>
+                        @endif
+
+                        @if($_SESSION['Usuario'][18] == 1)
+                          <li><a href="#" style="color:#1995dc">PLANES DE ENTRENAMIENTO</a></li>
+                          @if($_SESSION['Usuario'][18] == 1)
+                            <li class=”{{ Request::is( 'registro_plan') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_plan') }}">Gestor de planes de entrenamiento</a></li>
+                          @endif                          
+                          <li class="divider"></li>                          
+                        @endif
+
+                        @if($_SESSION['Usuario'][19] == 1)
+                          <li><a href="#" style="color:#1995dc">ASISTENCIA DE ENTRENAMIENTO</a></li>
+                          @if($_SESSION['Usuario'][19] == 1)
+                            <li class=”{{ Request::is( 'gestor_entrenamientos') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_entrenamientos') }}">Gestor de entrenamientos</a></li>
+                          @endif                          
+                          <li class="divider"></li>
+                        @endif
+
+                        @if($_SESSION['Usuario'][11] == 1 || $_SESSION['Usuario'][12] == 1 || $_SESSION['Usuario'][13] == 1 || $_SESSION['Usuario'][14] == 1 || $_SESSION['Usuario'][15] == 1)
+                          <li><a href="#" style="color:#1995dc">CALENDARIO DE COMPETENCIAS</a></li>                                            
+                          @if($_SESSION['Usuario'][11] == 1)
+                            <li class=”{{ Request::is( 'eventos') ? 'active' : '' }}”><a href="{{ URL::to( 'eventos') }}">Gestor de eventos</a></li>
+                          @endif
+                          @if($_SESSION['Usuario'][12] == 1)
+                            <li class=”{{ Request::is( 'certamen') ? 'active' : '' }}”><a href="{{ URL::to( 'certamen') }}">Gestor de certámenes deportivos</a></li>
+                          @endif
+                          @if($_SESSION['Usuario'][13] == 1)
+                            <li class=”{{ Request::is( 'asignacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'asignacion_pruebas') }}">Asignación de pruebas deportivas</a></li>
+                          @endif
+                          @if($_SESSION['Usuario'][14] == 1)
+                            <li class=”{{ Request::is( 'denegacion_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'denegacion_pruebas') }}">Denegación de pruebas deportivas</a></li>
+                          @endif
+                          @if($_SESSION['Usuario'][15] == 1)
+                            <li class=”{{ Request::is( 'mis_pruebas') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_resultados') }}">Mis pruebas deportivas</a></li>
+                          @endif
+                          <li class="divider"></li>                          
+                        @endif
+
+                        @if($_SESSION['Usuario'][20] == 1 || $_SESSION['Usuario'][21] == 1)
+                          <li><a href="#" style="color:#1995dc">TEST PEDAGÓGICOS</a></li>                                            
+                          @if($_SESSION['Usuario'][20] == 1)
+                            <li class=”{{ Request::is( 'gestor_test') ? 'active' : '' }}”><a href="{{ URL::to( 'gestor_test') }}">Gestor de Test Pedagógicos</a></li>
+                          @endif
+                          @if($_SESSION['Usuario'][21] == 1)
+                            <li class=”{{ Request::is( 'registro_test_deportista') ? 'active' : '' }}”><a href="{{ URL::to( 'registro_test_deportista') }}"> Asignación Test a Deportista</a></li>
+                          @endif
+                          <li class="divider"></li>                          
+                        @endif
+
+                        @if($_SESSION['Usuario'])
+                          <li><a href="#" style="color:#1995dc">VISITAS TÉCNICAS</a></li>                                            
+                          <li class="divider"></li>
+                        @endif
+                    </ul>
+                  </li>
+                </li>
+              @endif
+
+              @if($_SESSION['Usuario'])
+                <li>
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">UCAD <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="themes">
-                  <li><a href="#" style="color:#1995dc">HISTORIA CLINICA</a></li>
+                  <li><a href="#">Default</a></li>
                   <li class="divider"></li>
-                  <li class=”{{ Request::is( 'historia_inicial') ? 'active' : '' }}”><a href="{{ URL::to( 'historia_inicial') }}">Registro Consulta Medica</a></li>
+                  <li><a href="#">Sub-Item 1</a></li>
                 </ul>
               </li>
+              @endif
 
-              <li>
+              @if($_SESSION['Usuario'][22] == 1)
+                <li>
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">REPORTES <span class="caret"></span></a>
-                <ul class="dropdown-menu" aria-labelledby="themes">
-                  <li><a href="#" style="color:#1995dc">DEPORTISTAS</a></li>
-                        <li class=”{{ Request::is( 'total_deportistas') ? 'active' : '' }}”><a href="{{ URL::to( 'total_deportistas') }}">Total Deportistas</a></li>
-
-                      <li class="divider"></li>
+                <ul class="dropdown-menu" aria-labelledby="themes">                  
+                  @if($_SESSION['Usuario'][22] == 1)
+                    <li><a href="#" style="color:#1995dc">DEPORTISTAS</a></li>
+                    @if($_SESSION['Usuario'][22] == 1)
+                      <li class=”{{ Request::is( 'total_deportistas') ? 'active' : '' }}”><a href="{{ URL::to( 'total_deportistas') }}">Total Deportistas</a></li>
+                    @endif
+                    @if($_SESSION['Usuario'][22] == 1)
+                      <li class=”{{ Request::is( 'total_entrenadores') ? 'active' : '' }}”><a href="{{ URL::to( 'total_entrenadores') }}">Total Entrenadores</a></li>
+                    @endif
+                  @endif
+                  <li class="divider"></li>
                 </ul>
               </li>
+              @endif
             </ul>
-
-            <!--<form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Buscar">
-                </div>                
-                <button type="submit" class="btn btn-default">Ir</button>
-            </form>-->
 
             <ul class="nav navbar-nav navbar-right">
               <li><a href="http://www.idrd.gov.co/sitio/idrd/" target="_blank">I.D.R.D</a></li>
@@ -257,10 +284,4 @@
       </div>        
       <!-- FIN Contenedor panel principal -->
   </body>
-
 </html>
-
-
-
-
-

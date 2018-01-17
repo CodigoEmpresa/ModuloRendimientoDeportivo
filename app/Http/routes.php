@@ -305,6 +305,9 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('total_deportistas','ReportesController@indexTotalDeportistas');
 	Route::get('getTotalDeportistas','ReportesController@GetTotalDeportistas');
 
+	Route::get('total_entrenadores','ReportesController@indexTotalEntrenadores');
+	Route::get('getTotalEntrenadores','ReportesController@GetTotalEntrenadores');
+
 	/**********************UCAD *******************************************/
 	/**********************Historia clinica inicial **************************************/
 	Route::get('historia_inicial','HistoriaInicialController@index');
