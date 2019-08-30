@@ -31,63 +31,290 @@ session_start();
 //rutas con filtro de autenticación
 Route::group(['middleware' => ['web']], function () {
 
-	/********************SIAB***************************/
+
+	/********************ADMINISTRACION***************************/
+
+	/********************Asignación de personas***************************/
+	Route::get('persona_tipo','AdministracionController@index');
+	Route::get('persona_tipoEspe/{id}','AdministracionController@PersonaTipo');
+	Route::get('persona_tipoEspe2/{id}','AdministracionController@PersonaTipo2');
+	Route::post('AddPersonaTipo', 'AdministracionController@AgregarPersonaTipo');
+	Route::post('DeletePersonaTipo/{id_persona}/{id_tipo}', 'AdministracionController@EliminarPersonaTipo');
+
+
+	/********************Asignación de permisos***************************/
+	Route::get('persona_permiso','AdministracionController@indexPermisos');
+	Route::get('/actividadesModulo', 'AdministracionController@moduloActividades');
+	Route::get('getPersonaActividades/{id}','AdministracionController@personaActividades');
+	Route::post('PersonasActividadesProceso', 'AdministracionController@PersonasActividadesProceso');
+
+	/********************Administración de metodologos***************************/
+	Route::get('metodologo_agrupacion','AdministracionController@indexMetodologoAgrupacion');
+	Route::get('getMetodologoAgrupacion/{id_persona}','AdministracionController@GetMetodologoAgrupacion');
+	Route::get('getMetodologoAgrupacionNO/{id_persona}','AdministracionController@GetMetodologoAgrupacionNO');
+	Route::post('AddMetodologoAgrupacion','AdministracionController@AgregarMetodologoAgrupacion');			
+	Route::post('DeleteMetodologoAgrupacion','AdministracionController@EliminarMetodologoAgrupacion');			
 	
+
+	/************************SIAB***************************/
 	Route::get('rud','DeportistaController@index');
 	Route::get('welcome', 'MainController@welcome');
 	Route::get('/personaDeportista/{id}','PersonaDeportistaController@obtener');
 	Route::get('/personaBuscarDeportista/{id}','PersonaDeportistaController@buscar');
+	Route::get('/buscarDeportista/{key}','PersonaDeportistaController@buscarDeportista');
+
 	/****RUD****/
+	Route::get('buscarTipoPersonaRUD/{cedula}', 'EntrenadorController@BuscarTipoPersonaRUD');  
 	Route::get('getTallas/{id_genero}/{id_tipo}', 'DeportistaController@Tallas');  
 	Route::get('deportista/{id}','DeportistaController@datos');
 	Route::post('AddDeportista', 'DeportistaController@RegistrarDeportista');
-	Route::post('EditDeportista', 'DeportistaController@ModificarDeportista');
+	Route::post('EditDeportista', 'DeportistaController@ModificarDeportista');	
 	Route::get('getAgrupacion/{id}', 'DeportistaController@Agrupaciones');
 	Route::get('getDeporte/{id}', 'DeportistaController@Deportes');
+	Route::get('getDeporteAll/{id_clasificacion}', 'DeportistaController@DeportesAll');
 	Route::get('getModalidad/{id}', 'DeportistaController@Modalidades');
+	Route::get('getClasificacionFuncional/{id}', 'DeportistaController@ClasificacionesFuncionales');
+
+	Route::get('buscarPersona/{id_persona}','PersonaDeportistaController@buscarPersona');
+	
 	Route::get('getDeportistaDeporte/{id}', 'DeportistaController@DeportistaDeporte');
+	Route::get('getEtapas/{id}', 'DeportistaController@Etapas');
+	Route::get('getEtapasD/{id}', 'DeportistaController@getDeportistaEtapas');	
+	Route::get('TallaTenis/{id}', 'DeportistaController@TallaTenis');  
+
+	Route::get('getDiscapacidad', 'DeportistaController@GetDiscapacidad');
+	Route::get('getDeporteParalimpico/{id_discapacidad}', 'DeportistaController@GetDeporteParalimpico');
+
+	/*******Ingreso, retiro y reingreso de deportistas*******/
+	Route::get('irrd/{id_deportista?}', 'IngresoController@index');
+	Route::post('irrd/guardar', 'IngresoController@guardar');
+	Route::get('irrd/{id_ingreso}/borrar', 'IngresoController@borrar');
+
+	/**********PDF**********/
+	Route::any('Descarga/{id}', 'DeportistaController@Descarga');
+	Route::get('rudPDF/{id}','DeportistaController@RudPdf');
 
 	/****Valoracion Psico****/
 	Route::get('psico','ValoracionPsicoController@index');
 	Route::post('AddValoracion', 'ValoracionPsicoController@RegistrarValoracion');
+	Route::post('EditValoracion', 'ValoracionPsicoController@ModificarValoracion');
 	Route::get('valoracion/{id_deportista}','ValoracionPsicoController@Valoracion_Datos');
 	/*************************************************/
 
-	/********************Tecnico****************************/
-	Route::get('configuracion','configuracion@inicio');
-	Route::post('/configuracion/crear','configuracion@guardar');
-	Route::post('/configuracion/modificar','configuracion@modificar');
-	Route::get('/configuracion/IdAgrupacion/{id}','configuracion@agrupacion');
-	Route::get('/configuracion/eliminarAgrupacion/{id}','configuracion@agrupacionEliminar');
+
+	/****Visitia domiciliaria****/
+	Route::get('domicilio','VisitaController@index');
+	Route::post('AddVisita', 'VisitaController@RegistrarVisita');
+	Route::get('TraerVisita/{id}', 'VisitaController@GetVisita');
+	/*************************************************/
+
+	/****Actividades de intervención****/
+	Route::get('actividad','ActividadController@index');	
+	Route::post('AddActividad', 'ActividadController@RegistrarActividad');
+	Route::post('EditActividad', 'ActividadController@ModificarActividad');	
+	Route::get('TraeActividad/{id}','ActividadController@ActividadTraer');		
+	/*************************************************/
 
 
-	Route::get('deporte','configuracion@deporte');
-	Route::post('/configuracion/crear_dpt','configuracion@crear_dpt');
-	Route::post('/configuracion/modificar_dpt','configuracion@modificar_dpt');
-	Route::get('/configuracion/ver_deporte/{id}','configuracion@ver_deporte');
-	Route::get('/configuracion/eliminarDeporte/{id}','configuracion@deporteEliminar');
+	/****Suministros, apoyos y servicios****/
+	Route::get('suministros','SuministrosController@index');	
+
+	Route::post('AddComplemento', 'SuministrosController@RegistrarComplemento');
+	Route::get('complemento/{id}','SuministrosController@Complemento_Datos');	
+	Route::get('ValorComplemento/{id}','SuministrosController@ValorComplemento_Datos');			
+	Route::get('ListaComplemento/{id}','SuministrosController@Lista_Complemento_Datos');
+	Route::post('AddApoyo', 'SuministrosController@RegistrarApoyo');
+	Route::get('ListaApoyos/{id}','SuministrosController@Lista_Apoyos_Datos');	
+
+	Route::post('AddAlimentacion', 'SuministrosController@RegistrarAlimentacion');
+	Route::get('alimentacion/{id}','SuministrosController@Alimentacion_Datos');
+	Route::get('ValorAlimentacion/{id}','SuministrosController@ValorAlimentacion_Datos');		
+	Route::get('ListaAlimentacion/{id}','SuministrosController@Lista_Alimentacion_Datos');	
+	/*************************************************/
+	
+
+	/********************TECNICO****************************/
+	Route::get('configuracion','ConfiguracionController@inicio');
+	Route::post('configuracion/crear','ConfiguracionController@guardar');
+	Route::post('configuracion/modificar','ConfiguracionController@modificar');
+	Route::get('configuracion/IdAgrupacion/{id}','ConfiguracionController@agrupacion');
+	Route::get('configuracion/eliminarAgrupacion/{id}','ConfiguracionController@agrupacionEliminar');
 
 
-	Route::get('modalidad','configuracion@modalidad');
-	Route::post('/configuracion/crear_mdl','configuracion@crear_mdl');
-	Route::post('/configuracion/modificar_mdl','configuracion@modificar_mdl');
-	Route::get('/configuracion/ver_modalidad/{id}','configuracion@ver_modalidad');
-	Route::get('/configuracion/eliminarModalidad/{id}','configuracion@eliminarModalidad');
+	Route::get('deporte','ConfiguracionController@deporte');
+	Route::post('configuracion/crear_dpt','ConfiguracionController@crear_dpt');
+	Route::post('configuracion/modificar_dpt','ConfiguracionController@modificar_dpt');
+	Route::get('configuracion/ver_deporte/{id}','ConfiguracionController@ver_deporte');
+	Route::get('configuracion/eliminarDeporte/{id}','ConfiguracionController@deporteEliminar');
 
 
-	Route::get('rama','configuracion@rama');
-	Route::post('/configuracion/crear_rm','configuracion@crear_rm');
-    Route::post('/configuracion/modificar_rm','configuracion@modificar_rm');
-	Route::get('/configuracion/ver_rama/{id}','configuracion@ver_rama');
-	Route::get('/configuracion/eliminarRama/{id}','configuracion@eliminarRama');
+	Route::get('modalidad','ConfiguracionController@modalidad');
+	Route::post('configuracion/crear_mdl','ConfiguracionController@crear_mdl');
+	Route::post('configuracion/modificar_mdl','ConfiguracionController@modificar_mdl');
+	Route::get('configuracion/ver_modalidad/{id}','ConfiguracionController@ver_modalidad');
+	Route::get('configuracion/eliminarModalidad/{id}','ConfiguracionController@eliminarModalidad');
 
 
-	Route::get('categoria','configuracion@categoria');
-	Route::post('/configuracion/crear_ct','configuracion@crear_ct');
-	Route::post('/configuracion/modificar_ct','configuracion@modificar_ct');
-	Route::get('/configuracion/ver_categoria/{id}','configuracion@ver_categoria');
-	Route::get('/configuracion/eliminarCategoria/{id}','configuracion@eliminarCategoria');
+	Route::get('rama','ConfiguracionController@rama');
+	Route::post('configuracion/crear_rm','ConfiguracionController@crear_rm');
+    Route::post('configuracion/modificar_rm','ConfiguracionController@modificar_rm');
+	Route::get('configuracion/ver_rama/{id}','ConfiguracionController@ver_rama');
+	Route::get('configuracion/eliminarRama/{id}','ConfiguracionController@eliminarRama');
 
+
+	Route::get('categoria','ConfiguracionController@categoria');
+	Route::post('configuracion/crear_ct','ConfiguracionController@crear_ct');
+	Route::post('configuracion/modificar_ct','ConfiguracionController@modificar_ct');
+	Route::get('configuracion/ver_categoria/{id}','ConfiguracionController@ver_categoria');
+	Route::get('configuracion/eliminarCategoria/{id}','ConfiguracionController@eliminarCategoria');
+
+	Route::get('division','ConfiguracionController@division');
+	Route::get('configuracion/ver_division/{id}','ConfiguracionController@ver_division');
+	Route::post('configuracion/modificar_div','ConfiguracionController@modificar_division');
+	Route::get('configuracion/eliminarDivision/{id}','ConfiguracionController@eliminarDivision');
+	Route::post('configuracion/crear_division','ConfiguracionController@crear_division');
+
+
+	Route::get('clasificacion_funcional','ConfiguracionController@clasificacion_funcional');
+	Route::post('configuracion/crear_clasificacion_funcional','ConfiguracionController@AddClasificacionFuncional');
+	Route::get('configuracion/ver_clasificacion_funcional/{id}','ConfiguracionController@verClasificacionFuncional');
+	Route::post('configuracion/modificar_clasificacion_funcional','ConfiguracionController@EditClasificacionFuncional');
+	
+
+	Route::get('eventos','EventoController@index');
+	Route::get('getEvento/{id}','EventoController@GetEvento');	
+	Route::post('AddEvento','EventoController@AgregarEvento');	
+	Route::post('EditEvento','EventoController@ModificarEvento');	
+	Route::post('DeleteEvento','EventoController@EliminarEvento');	
+	Route::post('AddDeporteEvento','EventoController@AgregarDeporteEvento');	
+	Route::post('DeleteDeporteEvento/{id_dep}/{id_eve}','EventoController@EliminarDeporteEvento');		
+	Route::get('getDeportesEvento/{id}','EventoController@GetDeportesEvento');	
+	Route::get('getDeportesNoEvento/{id}','EventoController@GetDeportesNoEvento');			
+
+	Route::get('certamen','CertamenController@index');
+	Route::get('getPaises','CertamenController@GetPaises');	
+	Route::get('getCiudades','CertamenController@GetCiudades');	
+	Route::post('AddCertamen','CertamenController@AgregarCertamen');	
+	Route::post('EditCertamen','CertamenController@ModificarCertamen');		
+	Route::get('getCertamen/{id}','CertamenController@GetCertamen');	
+	Route::get('getDivision/{id}/{id_division}','CertamenController@GetDivision');	
+	Route::post('AddPruebaCertamen','CertamenController@AgregarPruebaCertamen');	
+	Route::get('getDivisionCertamen/{id}','CertamenController@GetDivisionCertamen');	
+	Route::post('DeletePruebaCertamen/{id_prueba}/{id_certamen}','CertamenController@EliminarPruebaCertamen');		
+	Route::get('getDivisionCertamen/{id}','CertamenController@GetDivisionCertamen');		
+	Route::get('getDivisionDeportista/{id}','CertamenController@GetDivisionDeportista');		
+	Route::get('getDeportistaDivision/{id}','CertamenController@GetDeportistaDivision');	
+	Route::post('AddPruebaCertamenDeportista','CertamenController@AgregarPruebaCertamenDeportista');			
+	Route::get('getDeportistaCertamenDivision/{id}','CertamenController@GetDeportistaCertamenDivision');	
+	Route::get('getDivisionUnica/{id}','CertamenController@GetDivisionUnica');	
+	Route::post('DeletePruebaCertamenDeportista/{id_deportista}/{id_division}/{id_certamen}','CertamenController@EliminarPruebaCertamenDeportista');			
+	Route::get('getDepartamento','CertamenController@GetDepartamento');	
+
+	Route::get('asignacion_pruebas','RegistroResultadosController@AsignacionPruebasDeportivas');
+	Route::get('getEventosClasfificacion/{id}','RegistroResultadosController@GetEventosClasfificacion');
+	Route::get('getCertamenEventos/{id}','RegistroResultadosController@GetCertamenEventos');
+	Route::get('getDivisionCertamenMetod/{id_certamen}/{id_persona}','RegistroResultadosController@GetDivisionCertamenMetod');		
+	Route::post('addCertamenDivisionMetodologo/{id_certamenDivision}/{id_persona}','RegistroResultadosController@AgregarCertamenDivisionMetodologo');			
+
+
+	Route::get('denegacion_pruebas','RegistroResultadosController@DenegacionPruebasDeportivas');
+	Route::get('getDivisionCertamenMetodS/{id_certamen}/{id_persona}','RegistroResultadosController@GetDivisionCertamenMetodS');		
+	Route::post('deleteCertamenDivisionMetodologo/{id_certamenDivision}/{id_persona}','RegistroResultadosController@EliminarCertamenDivisionMetodologo');			
+
+
+	Route::get('registro_resultados','RegistroResultadosController@RegistroResultadosDeportivos');
+	Route::post('AddRegistroDeportista','RegistroResultadosController@AgregarRegistroDeportista');			
+	Route::post('AddRegistroDeportistaN','RegistroResultadosController@AgregarRegistroDeportistaN');			
+	Route::get('getCertamenDivisionResultados/{id_certamenDivision}','RegistroResultadosController@GetCertamenDivisionResultados');
+	Route::post('deleteCertamenDivisionRegistro/{id}','RegistroResultadosController@EliminarCertamenDivisionRegistro');
 	
 	/*************************************************/
+
+	/********************ENTRENADORES***************************/
+	Route::get('rue','EntrenadorController@index');
+	Route::get('buscarTipoPersona/{cedula}','EntrenadorController@BuscarTipoPersona');
+	Route::get('entrenador/{id}','EntrenadorController@datosEntrenador');
+	Route::post('AddEntrenador', 'EntrenadorController@RegistrarEntrenador');
+	Route::post('EditEntrenador', 'EntrenadorController@ModificarEntrenador');
+
+	Route::get('VEntrenadorDeportista','EntrenadorController@VincEntrenadorDeportista');
+	Route::get('entrenadorDeportistaDatos','EntrenadorController@entrenadorDeportistaDatos');
+	Route::get('getEntrenadorDeportistasNO/{id_persona}','EntrenadorController@GetEntrenadorDeportistasNO');
+	Route::post('addVinculoDeportitaEntrenador', 'EntrenadorController@AddVinculoDeportitaEntrenador');
+	Route::post('deleteVinculoDeportitaEntrenador', 'EntrenadorController@DeleteVinculoDeportitaEntrenador');
+
+
+	/**********************PLANES DE ENTRENAMIENTO*************************************/
+	Route::get('registro_plan','PlanesEntrenamientoController@index');
+	Route::post('addPlanEntrenamiento', 'PlanesEntrenamientoController@AgregarPlanEntrenamiento');
+	Route::get('getPlanActual/{id_deportista}','PlanesEntrenamientoController@GetPlanActual');
+	Route::post('addObservaciones', 'PlanesEntrenamientoController@AgregarObservaciones');
+	Route::get('getHistorialPlan/{id_deportista}','PlanesEntrenamientoController@GetHistorialPlan');
+	Route::get('getPlanUnico/{id_plan}','PlanesEntrenamientoController@GetPlanUnico');
+	Route::post('addPlanEntrenamientoActualizacion', 'PlanesEntrenamientoController@AgregarPlanEntrenamientoActualizacion');
+	Route::get('getHistorialPlanActual/{id_plan}','PlanesEntrenamientoController@GetHistorialPlanActual');
+	Route::get('getVersionUnica/{id_version}','PlanesEntrenamientoController@GetVersionUnica');
+	Route::get('getVersionActual/{id_plan}','PlanesEntrenamientoController@GetVersionActual');	
+	Route::post('addObservacionesVersion', 'PlanesEntrenamientoController@AgregarObservacionesVersion');
+
+
+	/**********************PLANILLAS DE ASISTENCIA*************************************/
+	Route::get('gestor_entrenamientos','GestorEntrenamientosController@index');
+	Route::post('AddEntrenamiento', 'GestorEntrenamientosController@AgregarEntrenamiento');
+	Route::get('getEntrenamientos/{id_entrenador}','GestorEntrenamientosController@GetEntrenamientos');
+	Route::get('getEntrenamientoOnly/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoOnly');
+	Route::post('EditEntrenamiento', 'GestorEntrenamientosController@ModificarEntrenamiento');
+	Route::get('getEntrenadorDeportistasSINO/{id_entrenador}/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenadorDeportistasSINO');
+	Route::post('AddDeportistaEntrenamiento', 'GestorEntrenamientosController@AgregarDeportistaEntrenamiento');
+
+	Route::get('getEntrenamientoDeportistas/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoDeportistas');
+	Route::post('AddAsistencias', 'GestorEntrenamientosController@AgregarAsistencias');
+	Route::get('getAsistenciaDeportistas/{id_deportista}/{id_entrenamiento}/{numero_dia}','GestorEntrenamientosController@GetAsistenciaDeportistas');
+
+	Route::post('AddVerificacionRequisitos', 'GestorEntrenamientosController@AgregarVerificacionRequisitos');
+	Route::get('getEntrenamientoVerificaciones/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoVerificaciones');
+
+	Route::post('AddNoConformidad', 'GestorEntrenamientosController@AgregarNoConformidad');
+	Route::get('getEntrenamientoNC/{id_entrenamiento}','GestorEntrenamientosController@GetEntrenamientoNC');
+	Route::post('DeleteNoConformidad', 'GestorEntrenamientosController@EliminarNoConformidad');	
+	/***********************************************************/
+
+	/**********************TEST PEDAGOGICOS *******************************************/
+	Route::get('gestor_test','GestorTestController@index');
+
+	Route::get('getTest','GestorTestController@GetTest');
+	Route::post('AddTest', 'GestorTestController@AgregarTest');
+	Route::post('DeleteTest', 'GestorTestController@EliminarTest');
+
+	Route::post('AddVariable', 'GestorTestController@AgregarVariable');
+	Route::get('getVariables','GestorTestController@GetVariables');
+	Route::post('DeleteVariable', 'GestorTestController@EliminarVariable');
+	/**********************************************************************************/
+
+	/**********************TEST PEDAGOGICOS *******************************************/
+	Route::get('registro_test_deportista','GestorTestController@indexAsignacion');
+	Route::get('getDeportista/{id_deportista}','GestorTestController@GetDeportista');
+	Route::post('AddAsignacionTestDeportista', 'GestorTestController@AgregarAsignacionTestDeportista');
+	Route::get('getTestTipos/{id_tipo_test}','GestorTestController@GetTestTipos');
+	Route::get('getTestDeportista/{id_deportista}','GestorTestController@GetTestDeportista');	
+	Route::post('DeleteAsignacionTestDeportista', 'GestorTestController@EliminarAsignacionTestDeportista');
+	/**********************************************************************************/
+
+
+	/**********************REPORTES *******************************************/
+	Route::get('total_deportistas','ReportesController@indexTotalDeportistas');
+	Route::get('getTotalDeportistas','ReportesController@GetTotalDeportistas');
+
+	Route::get('total_entrenadores','ReportesController@indexTotalEntrenadores');
+	Route::get('getTotalEntrenadores','ReportesController@GetTotalEntrenadores');
+
+	/**********************UCAD *******************************************/
+	/**********************Historia clinica inicial **************************************/
+	Route::get('historia_inicial','HistoriaInicialController@index');
+	Route::post('AddHistoriaInicial', 'HistoriaInicialController@AgregarHistoriaInicial');
+	Route::post('EditHistoriaInicial', 'HistoriaInicialController@ModificarHistoriaInicial');
+	Route::get('getHistoriaUnica/{id_historia}','HistoriaInicialController@GetHistoriaUnica');
+	Route::get('getEvolucion/{id_historia}','HistoriaInicialController@GetEvolucion');
+	Route::post('AddEvolucion', 'HistoriaInicialController@AgregarEvolucion');
+
 });

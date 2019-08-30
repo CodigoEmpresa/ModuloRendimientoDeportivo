@@ -25,7 +25,7 @@ class CreaTablaDeportistaDeporte extends Migration
             $table->foreign('Agrupacion_Id')->references('Id')->on('agrupacion');
             $table->foreign('Deporte_Id')->references('Id')->on('deporte');
             $table->foreign('Modalidad_Id')->references('Id')->on('modalidad');
-            $table->foreign('Club_Id')->references('Id')->on('club');
+            //$table->foreign('Club_Id')->references('Id')->on('club');
 
         });
     }

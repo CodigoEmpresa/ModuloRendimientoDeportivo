@@ -14,7 +14,7 @@ $(function()
 			}else{
 
 				$.get(
-		            '/ModuloRendimientoDeportivo/configuracion/ver_categoria/'+Id_ct,
+		            'configuracion/ver_categoria/'+Id_ct,
 		            {},
 		            function(data)
 		            {
@@ -47,14 +47,15 @@ $(function()
 			}else{
 
 				$.get(
-		            '/ModuloRendimientoDeportivo/configuracion/ver_categoria/'+Id_ct,
+		            'configuracion/ver_categoria/'+Id_ct,
 		            {},
 		            function(data)
 		            {
 		                if(data)
 		                {
 		                   $('#id_cate').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una categoria se eliminara por defecto todos los datos relacionados ha esta categoria. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins> de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una categoria se eliminara por defecto todos los datos relacionados ha esta categoria. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar la categoria <ins>"+data.Nombre_Categoria+"</ins>, por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'
@@ -85,7 +86,7 @@ $(function()
 		
 			$.ajax({
 	            type: 'POST',
-	            url: '/ModuloRendimientoDeportivo/configuracion/crear_ct',
+	            url: 'configuracion/crear_ct',
 	            data: $('#form_nuevo').serialize(),
 	            success: function(data){
 
@@ -122,7 +123,7 @@ $(function()
 	{
 			var id=$('#id_cate').val();
 			    $.get(
-		            '/ModuloRendimientoDeportivo/configuracion/eliminarCategoria/'+id,
+		            'configuracion/eliminarCategoria/'+id,
 		            {},
 		            function(data)
 		            {
@@ -157,7 +158,7 @@ $(function()
 	{
 			$.ajax({
 	            type: 'POST',
-	            url: '/ModuloRendimientoDeportivo/configuracion/modificar_ct',
+	            url: 'configuracion/modificar_ct',
 	            data: $('#form_edit').serialize(),
 	            success: function(data)
 	            {
@@ -195,6 +196,22 @@ $(function()
         vector_datos_actividades.length=0;
 		vector_acompañantes.length=0;
     }); 
+
+    $('#example').DataTable({
+        retrieve: true,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        dom: 'Bfrtip',
+        select: true,
+        "responsive": true,
+        "ordering": true,
+        "info": true,
+        "language": {
+            url: 'public/DataTables/Spanish.json',
+            searchPlaceholder: "Buscar"
+        }
+    });
 
 
 });

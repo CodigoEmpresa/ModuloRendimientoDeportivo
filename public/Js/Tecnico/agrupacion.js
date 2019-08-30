@@ -14,7 +14,7 @@ $(function()
 			}else{
 
 				$.get(
-		            '/ModuloRendimientoDeportivo/configuracion/IdAgrupacion/'+Id_Agrupacion,
+		            'configuracion/IdAgrupacion/'+Id_Agrupacion,
 		            {},
 		            function(data)
 		            {
@@ -48,14 +48,15 @@ $(function()
 			}else{
 
 				$.get(
-		            '/ModuloRendimientoDeportivo/configuracion/IdAgrupacion/'+Id_Agrupacion,
+		            'configuracion/IdAgrupacion/'+Id_Agrupacion,
 		            {},
 		            function(data)
 		            {
 		                if(data)
 		                {
 		                   $('#id_agrup').val(data.Id);
-		                   $('#label_eliminar').html("¿Desea eliminar la agrupación de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una agrupación se eliminara por defecto todos los datos relacionados ha esta agrupación. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   //$('#label_eliminar').html("¿Desea eliminar la agrupación de forma permanente del sistema?. <br>Tenga en cuenta que si elimina una agrupación se eliminara por defecto todos los datos relacionados ha esta agrupación. Si no esta seguro de este cambio por favor diríjase al administrador del sistema.");
+		                   $('#label_eliminar').html("Para eliminar esta agrupación por favor diríjase con el administrador del sistema.");
 		                }
 		            },
 		            'json'
@@ -86,7 +87,7 @@ $(function()
 		
 			$.ajax({
 	            type: 'POST',
-	            url: '/ModuloRendimientoDeportivo/configuracion/crear',
+	            url: 'configuracion/crear',
 	            data: $('#form_nuevo').serialize(),
 	            success: function(data){
 
@@ -120,7 +121,7 @@ $(function()
 	{
 			var id=$('#id_agrup').val();
 			    $.get(
-		            '/ModuloRendimientoDeportivo/configuracion/eliminarAgrupacion/'+id,
+		            'configuracion/eliminarAgrupacion/'+id,
 		            {},
 		            function(data)
 		            {
@@ -156,7 +157,7 @@ $(function()
 		
 			$.ajax({
 	            type: 'POST',
-	            url: '/ModuloRendimientoDeportivo/configuracion/modificar',
+	            url: 'configuracion/modificar',
 	            data: $('#form_edit').serialize(),
 	            success: function(data){
 
@@ -192,6 +193,24 @@ $(function()
         vector_datos_actividades.length=0;
 		vector_acompañantes.length=0;
     }); 
+
+
+    $('#example').DataTable({
+        retrieve: true,
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        dom: 'Bfrtip',
+        select: true,
+        "responsive": true,
+        "ordering": true,
+        "info": true,
+        "language": {
+            url: 'public/DataTables/Spanish.json',
+            searchPlaceholder: "Buscar"
+        }
+    });   
+
 
 
 });

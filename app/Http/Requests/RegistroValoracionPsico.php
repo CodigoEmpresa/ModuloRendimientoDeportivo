@@ -26,6 +26,7 @@ class RegistroValoracionPsico extends Request
         $validaciones = [
         'deportista' => 'required',
         'Discapacidad' => 'required|min:3|regex:/^[(a-zA-Z\s)]+$/u',
+       // 'Fecha_AnioP' => 'required',
         'EdadPreg' => 'required|numeric|digits_between:1,4',
         'PracticaPreg' => 'required|numeric|digits_between:1,4',        
         'op1' => 'required',
@@ -64,8 +65,8 @@ class RegistroValoracionPsico extends Request
         'op23' => 'required',
         'op24' => 'required',
         'op25' => array('required_if:op19,No'),
-        'op26' => 'required',
-        'otro26' => array('required_if:op26,Otros'),
+        /*'op26' => 'required',
+        'otro26' => array('required_if:op26,Otros'),*/
         'op27' => 'required',        
         'op281' => 'required',
         'op282' => 'required',
@@ -105,7 +106,7 @@ class RegistroValoracionPsico extends Request
         'otro32' => array('required_if:op32,Si'),
         'op33' => 'required',
         'otro33' => array('required_if:op33,Si'),
-        'op34' => 'required',
+        //'op34' => 'required',
         'op35' => 'required',
         'op36' => 'required',
         'otro36' => 'required',
@@ -131,17 +132,28 @@ class RegistroValoracionPsico extends Request
         'op51' => 'required',
         'op52' => 'required',
         'ConceptoProfesional' => 'required',
-        'LibretaPorque' => array('required_if:lp,2'),
+        //'LibretaPorque' => array('required_if:LibretaPreg,2|required_if:Genero,1'),
         'DesplazamientoPreg' => 'required',
         'DesplazamientoDesc' => array('required_if:DesplazamientoPreg,1'),
         'op4' => 'array|required',
+        'op26' => 'array|required',
         'op7' => 'array|required',
         'op41' => 'array|required',
         'op53' => 'array|required',
         'op54' => 'array|required',
+        //'vector_idiomas' => 'required|min:4',
+        'vector_quien' => 'required|min:4',
+        //'vector_riesgo'=> 'required|min:4',
             ];
         $contador4 = count($this->op4)-1;
         if ($this->op4[$contador4] == 'Otros'){ $validaciones['otro4'] = 'required'; }
+
+        $contador26 = count($this->op26)-1;
+        if ($this->op26[$contador26] == 'Otros'){ $validaciones['otro26'] = 'required'; }
+
+        $contador34 = count($this->op34)-1;
+        if ($this->op34[$contador34] == 'Otros'){ $validaciones['otro34'] = 'required'; }
+
         $contador41 = count($this->op41)-1;
         if ($this->op41[$contador41] == 'Otros'){ $validaciones['otro41'] = 'required'; }
 
@@ -153,6 +165,7 @@ class RegistroValoracionPsico extends Request
         $contador522 = count($this->op522)-1;
         if ($this->op522[$contador522] == 'Otras'){ $validaciones['otro522'] = 'required'; }
         
+        //$validaciones = [];
        
         return $validaciones;
     }

@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'mails@idrd.gov.co', 'name' => 'idrd'],
 
     /*
     |--------------------------------------------------------------------------

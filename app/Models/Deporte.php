@@ -17,4 +17,23 @@ class Deporte extends Model
     public function modalidad(){
         return $this->hasMany('App\Models\Modalidad', 'Deporte_Id');
     }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Deporte_Id');  
+    }
+
+    public function evento()
+    {
+        return $this->belongsToMany('App\Models\Evento','evento_deporte','Deporte_Id','Evento_Id');
+    }
+
+    public function deportista()
+    {
+        return $this->belongsToMany('App\Models\Deportista','deportista_deporte','Deporte_Id','Deportista_Id');
+    }
+
+    public function deporteDiscapacidad() {
+        return $this->belongsToMany('App\Models\Discapacidad', 'deporte_discapacidad', 'Deporte_Id', 'Discapacidad_Id')
+                ->withTimestamps()/*->withPivot('Cantidad')->withPivot('Fecha')->withPivot('Valor')*/;
+    }
 }

@@ -24,10 +24,21 @@ class DatabaseSeeder extends Seeder
          $this->call(Talla::class);
          $this->call(Arl::class);
          $this->call(FondoPension::class);
-
-         //$this->call(Agrupacion::class);
-         //$this->call(Deporte::class);
-         //$this->call(Modalidad::class);
-         $this->call(Club::class);
+         $this->call(TipoEtapa::class);
+         $this->call(Etapa::class);
+         $this->call(TipoActividad::class);
+         $this->call(TipoComplemento::class);
+         $this->call(Complemento::class);
+         $this->call(Apoyo::class);
+         $this->call(TipoAlimentacion::class);
+         $this->call(Alimentacion::class);
+         $this->call(TipoEvaluacion::class);
+         $this->call(TipoNivel::class);
+         $this->call(TratamientoConformidad::class);
+         $this->call(ConvencionAsistencia::class);
+         $this->call(TipoTest::class);         
+         $this->call(Ocupacion::class);         
+         $this->call(NivelEstudio::class);
+         $this->call(Aptitud::class);                  
     }
 }

@@ -17,4 +17,8 @@ class Agrupacion extends Model
     public function deporte(){
         return $this->hasMany('App\Models\Deporte', 'Agrupacion_Id');
     }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Agrupacion_Id');  
+    }
 }

@@ -10,10 +10,8 @@ $(function(e){
         if($(this).data('buscador', 'buscar-rud')){
           Reset_campos(e);
         }
-
-      //Campos a limpiar
         
-        $('#buscar span').removeClass('glyphicon-refresh').addClass('glyphicon-search');
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-search');
         $('#buscar span').empty();
         
         
@@ -43,8 +41,7 @@ $(function(e){
         
         switch(role){
             case 'buscar':                
-                $('#buscar span').removeClass('glyphicon-search').addClass('glyphicon-refresh');
-                $('#buscar span').append(' Cargando...');
+                $('#buscar span').removeClass('glyphicon-search').addClass('glyphicon-refresh glyphicon-refresh-animate');
                 document.getElementById("buscar").disabled = true;
                 document.getElementById("buscador").disabled = true;
                 $(this).data('role', 'reset');
@@ -54,8 +51,7 @@ $(function(e){
               }
             break;
             case 'reset':                 
-                $('#buscar span').removeClass('glyphicon-remove').addClass('glyphicon-refresh');
-                $('#buscar span').append(' Cargando...');
+                $('#buscar span').removeClass('glyphicon-remove').addClass('glyphicon-refresh glyphicon-refresh-animate');
                 document.getElementById("buscar").disabled = true;
                 document.getElementById("buscador").disabled = true;
                 $(this).data('role', 'buscar');

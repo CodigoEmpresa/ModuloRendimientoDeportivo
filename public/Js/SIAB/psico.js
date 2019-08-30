@@ -1,18 +1,46 @@
-$(function(e){ 	
-  var idiomas = new Array();
+var idiomas = new Array();
   var quien = new Array();
+  var riesgo = new Array();
+$(function(e){ 	
+  $('#Fecha_InicioDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
+  $('#Fecha_FinDate').datepicker({format: 'yyyy-mm-dd', autoclose: true,});
+  $('#Fecha_AnioPDate').datepicker({ minViewMode: 2, format: 'yyyy', autoclose: true, });
+
+  $('#Fecha_AnioPDate').on('change', function(){
+    var fecha = ($("#fechaNac").val()).split("-");
+    var InicioPractica = $('#Fecha_AnioP').val() - fecha[0]
+    //año que inicio la practicaconsole.log($('#Fecha_AnioP').val() - fecha[0]);
+
+    var f = new Date();
+    var anioActual = f.getFullYear();
+    var EdadActual = parseInt(fecha[0] - anioActual);//- $('#Fecha_AnioP').val();
+    var AniosPracticando = ((-1)*EdadActual) - InicioPractica;
+    $("#EdadPreg").val(InicioPractica);
+    $("#PracticaPreg").val(AniosPracticando);
+
+/*    console.log('InicioPractica->' +InicioPractica);
+    console.log('EdadActual->'+EdadActual);
+    console.log('AniosPracticando->'+AniosPracticando);*/
+  });
+
 
 	$("#Registrar").on('click', function(){		
 		registro('AddValoracion');
 	});   
 
+  $("#Modificar").on('click', function(){   
+    registro('EditValoracion');
+  });   
+
 	function registro (url){	
         var token = $("#token").val();
         var formData = new FormData($("#psico")[0]);
-        var json_idiomas = JSON.stringify(idiomas);
+        var json_idiomas = JSON.stringify(idiomas);        
         formData.append("vector_idiomas",json_idiomas);
         var json_quien = JSON.stringify(quien);
         formData.append("vector_quien",json_quien);
+        var json_riesgo = JSON.stringify(riesgo);
+        formData.append("vector_riesgo",json_riesgo);
         $.ajax({
             url: url,  
             type: 'POST',
@@ -41,6 +69,8 @@ $(function(e){
         $("input[name="+i+"]").closest('.form-group').addClass('has-error');        
 
         if(i == 'op4'){ $("#p4o1").closest('.form-group').addClass('has-error'); }
+        if(i == 'op26'){ $("#p26o1").closest('.form-group').addClass('has-error'); }
+        if(i == 'op34'){ $("#p34o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op7'){ $("#p7o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op41'){ $("#p41o1").closest('.form-group').addClass('has-error'); }
         if(i == 'op472'){ $("#p472o1").closest('.form-group').addClass('has-error'); }
@@ -50,16 +80,26 @@ $(function(e){
 
       });
 
-       if(idiomas.length == 0 || quien.length == 0){
-        if(idiomas.length == 0){
+       if(/*idiomas.length == 0 || */quien.length == 0 || riesgo.length == 0){
+      /*  if(idiomas.length == 0){
             $("input[name=Idioma]").closest('.form-group').addClass('has-error');
             $("input[name=Habla]").closest('.form-group').addClass('has-error');
             $("input[name=Lee]").closest('.form-group').addClass('has-error');
             $("input[name=Escribe]").closest('.form-group').addClass('has-error');
-          }
+          }*/
         if(quien.length == 0){
           $("input[name=Quien29]").closest('.form-group').addClass('has-error');
           $("input[name=Razon29]").closest('.form-group').addClass('has-error');          
+        }
+        if(riesgo.length == 0){
+          $("input[name=Factor]").closest('.form-group').addClass('has-error');
+          $("input[name=Objetivo]").closest('.form-group').addClass('has-error');
+          $("input[name=Intervencion]").closest('.form-group').addClass('has-error');
+          $("input[name=Fecha_Inicio]").closest('.form-group').addClass('has-error');
+          $("input[name=Fecha_Fin]").closest('.form-group').addClass('has-error');
+          $("input[name=Responsable]").closest('.form-group').addClass('has-error');
+          $("input[name=Autorizada]").closest('.form-group').addClass('has-error');
+          $("input[name=Seguimiento]").closest('.form-group').addClass('has-error');
         }
         return false;
       }
@@ -81,7 +121,9 @@ $(function(e){
 	}
 
 	$( "#p4o10" ).on( "click",function(){Checkeds('p4o10', 'porqueOP4');});
-	$('input[name="op26"]').change(function(){  Checkeds('p26o8','porqueOP26' ); });
+  $( "#p26o8" ).on( "click",function(){Checkeds('p26o8', 'porqueOP26');});
+  $( "#p34o7" ).on( "click",function(){Checkeds('p34o7', 'porqueOP34');});
+	//$('input[name="op26"]').change(function(){  Checkeds('p26o8','porqueOP26' ); });
 	$( "#p41o11" ).on( "click",function(){Checkeds('p41o11', 'porqueOP41');});
 	$( "#p472o5" ).on( "click",function(){Checkeds('p472o5', 'porqueOP472');});
 	$( "#p522o4" ).on( "click",function(){Checkeds('p522o4', 'porqueOP522');});
@@ -131,7 +173,7 @@ $(function(e){
     $("#Escribe").val('');   
 
     $("#IdiomasT").empty();
-    tabla = '<table class="table table-bordered" style="background-color:#CEECF5; border-color:#FFF;">'+
+    tabla = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
                 '<th>Idioma</th>'+
                 '<th>Habla</th>'+
                 '<th>Lee</th>'+
@@ -174,7 +216,7 @@ $(function(e){
     $("#Razon29").val('');   
 
     $("#QuienT").empty();
-    tabla = '<table class="table table-bordered" style="background-color:#CEECF5; border-color:#FFF;">'+
+    tabla = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
                 '<th>DE QUIENES?</th>'+
                 '<th>EXPLICACIÓN</th>';
 
@@ -189,71 +231,236 @@ $(function(e){
     $("#QuienT").append(tabla);
   });
 
+/******************************************/
+ $("#Add_Riesgo").on('click', function(){
+    $("input[name=Factor]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Objetivo]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Intervencion]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Fecha_Inicio]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Fecha_Fin]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Responsable]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Autorizada]").css({ 'border-color': '#CCCCCC' });
+    $("input[name=Seguimiento]").css({ 'border-color': '#CCCCCC' });
+    $("textarea[name=Observacion]").css({ 'border-color': '#CCCCCC' });
+
+    Factor = $("input[name=Factor]").val();
+    Objetivo = $("input[name=Objetivo]").val();
+    Intervencion = $("input[name=Intervencion]").val();
+    Fecha_Inicio = $("input[name=Fecha_Inicio]").val();
+    Fecha_Fin = $("input[name=Fecha_Fin]").val();
+    Responsable = $("input[name=Responsable]").val();
+    Autorizada = $("input[name=Autorizada]").val();
+    Seguimiento = $("input[name=Seguimiento]").val();
+    Observacion = $("textarea[name=Observacion]").val();
+
+    if(Factor == '' || Objetivo == '' || Intervencion == '' || Fecha_Inicio == '' || Fecha_Fin == '' || Responsable == '' || Autorizada == '' || Seguimiento == '' || Observacion == ''){
+      if(Factor == ''){ $("#Factor").css({ 'border-color': '#B94A48' });}
+      if(Objetivo == ''){ $("#Objetivo").css({ 'border-color': '#B94A48' });}
+      if(Intervencion == ''){ $("#Intervencion").css({ 'border-color': '#B94A48' });}
+      if(Fecha_Inicio == ''){ $("#Fecha_Inicio").css({ 'border-color': '#B94A48' });}
+      if(Fecha_Fin == ''){ $("#Fecha_Fin").css({ 'border-color': '#B94A48' });}
+      if(Responsable == ''){ $("#Responsable").css({ 'border-color': '#B94A48' });}
+      if(Autorizada == ''){ $("#Autorizada").css({ 'border-color': '#B94A48' });}
+      if(Seguimiento == ''){ $("#Seguimiento").css({ 'border-color': '#B94A48' });}
+      if(Observacion == ''){ $("textarea[name=Observacion]").css({ 'border-color': '#B94A48' });}
+      return false;
+    }
+    riesgo.push({ "Factor": Factor, "Objetivo": Objetivo, "Intervencion": Intervencion, "Fecha_Inicio": Fecha_Inicio, 
+                 "Fecha_Fin": Fecha_Fin, "Responsable": Responsable,  "Autorizada": Autorizada,  "Seguimiento": Seguimiento, "Observacion": Observacion});
+
+    $('#alert_riesgo').html('<div class="alert alert-dismissible alert-success" ><strong>Exito!</strong>Riesgo agregado con éxito!</div>');
+    $('#mensaje_riesgo').show(60);
+    $('#mensaje_riesgo').delay(1000).hide(400);     
+    $("input[name=Factor]").val('');
+    $("input[name=Objetivo]").val('');
+    $("input[name=Intervencion]").val('');
+    $("input[name=Fecha_Inicio]").val('');
+    $("input[name=Fecha_Fin]").val('');
+    $("input[name=Responsable]").val('');
+    $("input[name=Autorizada]").val('');
+    $("input[name=Seguimiento]").val('');
+    $("textarea[name=Observacion]").val('');
+
+    $("#RiesgoT").empty();
+    tabla = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
+                '<th>Factor de riesgo <br>psicosocial</th>'+
+                '<th>Objetivo</th>'+
+                '<th>Intervención</th>'+
+                '<th>Fecha <br>inicio</th>'+
+                '<th>Fecha<br>terminación</th>'+
+                '<th>Responsable <br>intervención</th>'+
+                '<th>Autorizada por</th>'+
+                '<th>Seguimiento</th>'+
+                '<th>Observaciones</th>';
+
+    $.each(riesgo, function(i, e){      
+      tabla += '<tr>'+
+                  '<td>'+e.Factor+'</td>'+
+                  '<td>'+e.Objetivo+'</td>'+                  
+                  '<td>'+e.Intervencion+'</td>'+
+                  '<td>'+e.Fecha_Inicio+'</td>'+
+                  '<td>'+e.Fecha_Fin+'</td>'+
+                  '<td>'+e.Responsable+'</td>'+                  
+                  '<td>'+e.Autorizada+'</td>'+
+                  '<td>'+e.Seguimiento+'</td>'+
+                  '<td>'+e.Observacion+'</td>'+
+                '</tr>';                
+
+    });
+    tabla += '</table>';
+    $("#RiesgoT").append(tabla);
+  });
+
+/*****************************************/
+
  $("#LibretaPreg").on('change', function(){
     if($("#LibretaPreg").val() == 2){
-      $("#LibretaPorqueD").show();
+      if($("#Genero").val() == 2){
+        $("#LibretaPorqueD").hide();
+      }else{
+        $("#LibretaPorqueD").show();  
+      }
+      
     }else{
       $("#LibretaPorqueD").hide();
     }
  });
 
-	
+ $('body').delegate('button[data-function="VerPersona"]','click',function (e) {
+    VerPersona($(this).val());
+  });
+
 });
 
-function Buscar(e){	
-	var key = $('input[name="buscador"]').val(); 
-  $.get('personaBuscarDeportista/'+key,{}, function(data){  
-      if(data.length > 0){ //Existe la persona       	        
-      	$.each(data, function(i, e){
-        	$.get("deportista/" + e['Id_Persona'] + "", function (responseDep) { 
+function VerPersona(id_persona){
+  $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+  $('#buscar span').empty();
+  document.getElementById("buscar").disabled = false;
+  $("#loading").show('slow');
+  $("#tablaPersonas").hide('slow');   
+  $("#camposRegistro").hide("slow");
+  $("#loading").show('slow');
 
-            if(responseDep.deportista){//Existe Deportista
-              Deportista(responseDep.deportista, data[0])
-
-              if(((responseDep.deportista.deportista_valoracion).length) != 0 ){//Existe valoración
-
-                Valoracion(responseDep.deportista.deportista_valoracion[0]);
-                $("#camposRegistro").show('slow');
-                $("#Registrar").hide('slow');
-                VerCampos();
-                
-              }else{        
-                $("#camposRegistro").show('slow');
-                $("#Registrar").show('slow');     
-                OcultarCampos();                  
-              }
-            }else{
-              $('#buscar span').removeClass('glyphicon-refresh').addClass('glyphicon-remove');
-              $('#buscar span').empty();
-              document.getElementById("buscar").disabled = false;
-              $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como deportista, registrela en el RUD, para continuar con el procedimiento.</h4></dvi><br>');
-              $('#paginador').fadeOut();
-            }
-          });
-        });
-      }else{
-        $('#buscar span').removeClass('glyphicon-refresh').addClass('glyphicon-remove');
+  $.get('buscarPersona/'+id_persona,{}, function(Persona){  
+    $.each(Persona.tipo, function(i, e){
+      if(e.Id_Tipo == 59){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
         $('#buscar span').empty();
         document.getElementById("buscar").disabled = false;
-        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos</h4></dvi><br>');
+        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona ya se encuentra registrada como un entrenador, por favor verifique la información!</h4></dvi><br>');
         $('#paginador').fadeOut();
+        $("#camposRegistro").hide("slow");
+        $("#loading").hide('slow');           
+        return false;
       }
-    }).done(function(){
-      setTimeout(function(){ 
-        $('#buscar span').removeClass('glyphicon-refresh').addClass('glyphicon-remove');
+    });
+    if(Persona.deportista){  //Cuando Hay deportista    
+        Deportista(Persona.deportista, Persona);
+        if(((Persona.deportista.deportista_valoracion).length) != 0 ){//Existe valoración
+          Valoracion(Persona.deportista.deportista_valoracion[0]);
+          $("#camposRegistro").show('slow');
+          $("#Registrar").hide('slow');
+          $("#Modificar").show('slow');
+          VerCampos();
+        }else{
+          $("#camposRegistro").show('slow');
+          $("#Registrar").show('slow'); 
+          $("#Modificar").hide('slow');    
+          OcultarCampos(); 
+        }
+      }else{          
         $('#buscar span').empty();
-        document.getElementById("buscar").disabled = false;   
-      }, 1500);      
-    });           	
+        document.getElementById("buscar").disabled = false;
+        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">Esta persona aún no se encuentra registrada como un deportista, por favor verifique la información!</h4></dvi><br>');
+        $('#paginador').fadeOut();
+        $("#camposRegistro").hide("slow");
+        $("#loading").hide('slow');           
+        return false;
+      }   
+  }).done(function (){
+    $("#loading").hide('slow');
+  });
+}
+
+function Buscar(e){	
+  $("#loading").show('slow');
+  var key = $('input[name="buscador"]').val(); 
+    $.get('personaBuscarDeportista/'+key,{}, function(data){
+      if(data.length == 0){
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;
+        $('#personas').html( '<li class="list-group-item" style="border:0"><div class="row"><h4 class="list-group-item-heading">No se encuentra ninguna persona registrada con estos datos.</h4></dvi><br>');
+        $('#paginador').fadeOut();
+        $("#loading").hide('slow');
+
+      }else if(data.length == 1){
+        VerPersona(data[0].Id_Persona);
+      }else if(data.length > 1){
+        $("#tablaPersonas").empty();
+        var html = '';
+        html += '<table id="tablaPersonasDatos" class="display nowrap" cellspacing="0" width="100%" style="text-transform: uppercase;">';
+        html += '<thead>';
+        html += '<th>Nombres</th>';
+        html += '<th>Opciones</th>';
+        html += '</thead>';
+        html += '<tbody>';
+        $.each(data, function(i, e){
+          html += '<tr>';
+          html += '<td>'+e.Primer_Nombre+' '+e.Segundo_Nombre+' '+e.Primer_Apellido+' '+e.Segundo_Apellido+'</td>';
+          html += "<td><button type='button' class='btn btn-info' data-function='VerPersona' value='"+e.Id_Persona+"'>"+
+                             "<span class='glyphicon glyphicon-zoom-in' aria-hidden='true'></span> Ver"+
+                            "</button></td>";
+          html += '</tr>';
+        });
+        html += '</tbody>';
+        html += '</table>';
+        $("#tablaPersonas").append(html);
+        $('#tablaPersonasDatos').DataTable({
+            retrieve: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            dom: 'Bfrtip',
+            select: true,
+            "responsive": true,
+            "ordering": true,
+            "info": true,
+            "pageLength": 8,
+            "language": {
+                url: 'public/DataTables/Spanish.json',
+                searchPlaceholder: "Buscar"
+            }
+        });    
+        $('#buscar span').removeClass('glyphicon-refresh glyphicon-refresh-animate').addClass('glyphicon-remove');
+        $('#buscar span').empty();
+        document.getElementById("buscar").disabled = false;    
+        $("#tablaPersonas").show('slow'); 
+        $("#loading").hide('slow');  
+    }
+  });	
 }
 
 function Reset_campos(e){
+  //$("#tablaPersonas").empty();
+  var t = $('#TablaVisitas').DataTable();   
+  t.row.add( ['1','1','1'] ).clear().draw( false );
+  $("#tablaPersonas").empty();
+
+  $("#RiesgoT").empty();
+  $("#IdiomasT").empty();
+  $("#QuienT").empty();
+  idiomas = new Array();
+  quien = new Array();
+  riesgo = new Array();
 	$('#personas').html( '');
 	$("#camposRegistro").hide('slow');
 	$('#registro .form-group').removeClass('has-error');
 
 	/************************/
 	$("#persona").val('');        	
+  $("#deportista").val('');          
+  $("#valoracion").val('');          
 	$("#Nombres").val('');        	
 	$("#Apellidos").val('');
 	$("#TipoDocumento").val('');
@@ -275,84 +482,138 @@ function Reset_campos(e){
 	$("#FechaVigenciaPasaporte").val('');
 	$("#LibretaPreg").val('');
   $("#lp").val('');
+  $("#Club").val('');
+  $('#Club').selectpicker('refresh');
+  $("#Deporte").val('');
+  $("#Modalidad").val('');
 
-	////////////////////
 
-	$("#deportista").val(''); 
+	   $("#deportista").val(''); 
     $('#Discapacidad').val('');
     $("#EdadPreg").val()
     $("#PracticaPreg").val('');
-    $('input[name="op1"]').val('');
-    $('input[name="op2"]').val('');
-    $('input[name="op3"]').val('');
-    $('input[name="op5"]').val('');
-    $('input[name="op6"]').val('');
-    $('input[name="op8"]').val('');
+    $("#DesplazamientoPreg").val('');
+    $("#EdadPreg").val('');
+    $('input[name="op1"]').prop('checked', false);
+    $('input[name="op2"]').prop('checked', false);
+    $('input[name="op3"]').prop('checked', false);
+    $('#psico').find(':checkbox[name^="op4"]').prop("checked", false).change();
+    $('input[name="op5"]').prop('checked', false);
+    $('input[name="op6"]').prop('checked', false);
+    $('#psico').find(':checkbox[name^="op7"]').prop("checked", false).change();
+    $('input[name="op8"]').prop('checked', false);
     $('input[name="op81"]').val('');
     $('input[name="op82"]').val('');
-    $('input[name="op9"]').val('');
-    $('input[name="op10"]').val('');
-    $('input[name="op11"]').val('');
+    $('input[name="op9"]').prop('checked', false);
+    $('input[name="op10"]').prop('checked', false);
+    $('input[name="op11"]').prop('checked', false);
     $('input[name="op111"]').val('');
     $('input[name="op112"]').val('');
     $('input[name="op113"]').val('');
     $('input[name="op114"]').val('');
-    $('input[name="op12"]').val('');
+    $('input[name="op12"]').prop('checked', false);
     $('input[name="otro12"]').val('');
-    $('input[name="op14"]').val('');
+    $('input[name="op14"]').prop('checked', false);
     $('input[name="otro14"]').val('');
-    $('input[name="op13"]').val('');
+    $('input[name="op13"]').prop('checked', false);
     $('textarea[name="op15"]').val('');
     $('textarea[name="op16"]').val('');
     $('textarea[name="op17"]').val('');
-    $('input[name="op19"]').val('');
-    $('input[name="op191"]').val('');
-    $('input[name="op192"]').val('');
-    $('input[name="op193"]').val('');
-    $('input[name="op194"]').val('');
-    $('input[name="op195"]').val('');
-    $('input[name="op196"]').val('');
-    $('input[name="op20"]').val('');
-    $('input[name="op21"]').val('');
+    $('input[name="op19"]').prop('checked', false);
+    $('input[name="op191"]').prop('checked', false);
+    $('input[name="op192"]').prop('checked', false);
+    $('input[name="op193"]').prop('checked', false);
+    $('input[name="op194"]').prop('checked', false);
+    $('input[name="op195"]').prop('checked', false);
+    $('input[name="op196"]').prop('checked', false);
+    $('input[name="op20"]').prop('checked', false);
+    $('input[name="op21"]').prop('checked', false);
     $('textarea[name="op22"]').val('');
     $('textarea[name="op23"]').val('');
-    $('input[name="op24"]').val('');
-    $('input[name="op25"]').val('');
-    $('input[name="op26"]').val('');
-    $('input[name="otro26"]').val('');
-    $('input[name="op27"]').val('');
-    $('input[name="op29"]').val('');
-    $('input[name="op30"]').val('');
-    $('input[name="otro30"]').val('');
-    $('input[name="op32"]').val('');
+    $('input[name="op24"]').prop('checked', false);
+    $('input[name="op25"]').prop('checked', false);
+    /*$('input[name="op26"]').prop('checked', false);
+    $('input[name="otro26"]').val('');*/
+    $('#psico').find(':checkbox[name^="op26"]').prop("checked", false).change();
+    $('#psico').find(':checkbox[name^="op34"]').prop("checked", false).change();
+    $('input[name="op27"]').prop('checked', false);
+
+    $('input[name="op281"]').prop('checked', false);
+    $('input[name="op282"]').prop('checked', false);
+    $('input[name="op283"]').prop('checked', false);
+    $('input[name="op284"]').prop('checked', false);
+    $('input[name="op285"]').prop('checked', false);
+    $('input[name="op286"]').prop('checked', false);
+    $('input[name="op287"]').prop('checked', false);
+    $('input[name="op288"]').prop('checked', false);
+
+    $('textarea[name="otro281"]').val('');
+    $('textarea[name="otro282"]').val('');
+    $('textarea[name="otro283"]').val('');
+    $('textarea[name="otro284"]').val('');
+    $('textarea[name="otro285"]').val('');
+    $('textarea[name="otro286"]').val('');
+    $('textarea[name="otro287"]').val('');
+    $('textarea[name="otro288"]').val('');
+
+
+    $('input[name="op29"]').prop('checked', false);
+    $('input[name="op30"]').prop('checked', false);
+    $('textarea[name="otro30"]').val('');
+
+    $('input[name="op311a"]').val('');
+    $('input[name="op312a"]').val('');
+    $('input[name="op313a"]').val('');
+    $('input[name="op314a"]').val('');
+    $('input[name="op315a"]').val('');
+    $('input[name="op316a"]').val('');
+    $('input[name="op317a"]').val('');
+    $('input[name="op311b"]').val('');
+    $('input[name="op312b"]').val('');
+    $('input[name="op313b"]').val('');
+    $('input[name="op314b"]').val('');
+    $('input[name="op315b"]').val('');
+    $('input[name="op316b"]').val('');
+    $('input[name="op317b"]').val('');
+
+
+    $('input[name="op32"]').prop('checked', false);
     $('input[name="otro32"]').val('');
-    $('input[name="op33"]').val('');
+    $('input[name="op33"]').prop('checked', false);
     $('input[name="otro33"]').val('');
-    $('input[name="op34"]').val('');
-    $('input[name="op35"]').val('');
-    $('input[name="op36"]').val('');
-    $('input[name="otro36"]').val('');
-    $('input[name="op37"]').val('');
-    $('input[name="otro37"]').val('');
-    $('input[name="op38"]').val('');
-    $('input[name="otro38"]').val('');
-    $('input[name="op39"]').val('');
-    $('input[name="otro39"]').val('');
-    $('input[name="op40"]').val('');
+    $('input[name="op34"]').prop('checked', false);
+    $('input[name="op35"]').prop('checked', false);
+    $('input[name="op36"]').prop('checked', false);
+    $('textarea[name="otro36"]').val('');
+    $('input[name="op37"]').prop('checked', false);
+    $('textarea[name="otro37"]').val('');
+    $('input[name="op38"]').prop('checked', false);
+    $('textarea[name="otro38"]').val('');
+    $('input[name="op39"]').prop('checked', false);
+    $('textarea[name="otro39"]').val('');
+    $('input[name="op40"]').prop('checked', false);
+    $('#psico').find(':checkbox[name^="op41"]').prop("checked", false).change();
     $('textarea[name="op42"]').val('');
     $('textarea[name="op43"]').val('');
-    $('input[name="op44"]').val('');
-    $('input[name="op45"]').val('');
-    $('input[name="otro45"]').val('');
-    $('input[name="op46"]').val('');
-    $('input[name="op48"]').val('');
-    $('input[name="otro48"]').val('');
-    $('input[name="op49"]').val('');
-    $('input[name="op50"]').val('');
-    $('input[name="otro50"]').val('');
+    $('textarea[name="op44"]').val('');
+    $('input[name="op45"]').prop('checked', false);
+    $('textarea[name="otro45"]').val('');
+    $('input[name="op46"]').prop('checked', false);
+    $('input[name="op47"]').prop('checked', false);
+    $('#psico').find(':checkbox[name^="op472"]').prop("checked", false).change();
+    $('input[name="op48"]').prop('checked', false);
+    $('textarea[name="otro48"]').val('');
+    $('input[name="op49"]').prop('checked', false);
+    $('input[name="op50"]').prop('checked', false);
+    $('textarea[name="otro50"]').val('');
+    $('textarea[name="op51"]').val('');
+    $('input[name="op52"]').prop('checked', false);
+    $('textarea[name="ConceptoProfesional"]').val('');    
+    $('#psico').find(':checkbox[name^="op522"]').prop("checked", false).change();
 
     $("#porqueOP4").hide(); 
     $("#porqueOP26").hide(); 
+    $("#porqueOP34").hide(); 
     $("#porqueOP41").hide(); 
     $("#porqueOP472").hide(); 
     $("#porqueOP522").hide(); 
@@ -364,6 +625,16 @@ function Reset_campos(e){
     $("#porqueOP19").hide(); 
     $("#porqueOP14N").hide(); 
     $("#porqueOP10").hide(); 
+
+    $("input[name=Factor]").val('');
+    $("input[name=Objetivo]").val('');
+    $("input[name=Intervencion]").val('');
+    $("input[name=Fecha_Inicio]").val('');
+    $("input[name=Fecha_Fin]").val('');
+    $("input[name=Responsable]").val('');
+    $("input[name=Autorizada]").val('');
+    $("input[name=Seguimiento]").val('');
+    $("textarea[name=Observacion]").val('');
     
 	/************************/
 }
@@ -387,7 +658,7 @@ function Deportista (Deportista, Persona){
   $("#fechaNac").attr("disabled", "disabled");
   $("#Etnia").attr("disabled", "disabled");
   $("#MunicipioNac").attr("disabled", "disabled");
-  $("#Genero").attr("disabled", "disabled");
+  //$("#Genero").attr("disabled", "disabled");
   $("#GrupoSanguineo").val(Deportista['Grupo_Sanguineo_Id']);
 
   if(Deportista['Medicina_Prepago'] == 1){
@@ -422,20 +693,23 @@ function Deportista (Deportista, Persona){
   $("#Correo").attr("disabled", "disabled");
   $("#Pasaporte").attr("disabled", "disabled");
   $("#FechaVigenciaPasaporte").attr("disabled", "disabled");
-  $("#LibretaPreg").attr("disabled", "disabled");
+ // $("#LibretaPreg").attr("disabled", "disabled");
   $("#Deporte").attr("disabled", "disabled");
   $("#Modalidad").attr("disabled", "disabled");
-  $("#Club").attr("disabled", "disabled");
+  //$("#Club").attr("disabled", "disabled");
 
   $.get("getDeportistaDeporte/" + Deportista['Id'] + "", function (DeportistaDeporte) {  
     $("#Deporte").val(DeportistaDeporte['Deporte_Id']);
     $("#Modalidad").val(DeportistaDeporte['Modalidad_Id']);
     $("#Club").val(DeportistaDeporte['Club_Id']);
+    $('#Club').selectpicker('refresh');
   });
 }
 
-function Valoracion(Valoracion){
+function Valoracion(Valoracion){  
   var initOP4 = new Array;
+  var initOP26 = new Array;
+  var initOP34 = new Array;
   var initOP7 = new Array;
   var initOP26 = new Array;
   var initOP41 = new Array;
@@ -444,6 +718,7 @@ function Valoracion(Valoracion){
   var initOP472 = new Array;
   var initOP522 = new Array;
   var valoInfo = Valoracion;
+  $("#valoracion").val(valoInfo['Id']);          
   $('#Discapacidad').val(valoInfo['Discapacidad']); 
   $('#DesplazamientoPreg').val(valoInfo['DesplazamientoPreg']).change(); 
   $('#DesplazamientoDesc').val(valoInfo['Desplazamiento']); 
@@ -506,9 +781,6 @@ function Valoracion(Valoracion){
         $("#porqueOP4").show('slow'); 
       }
     }
-    if(e['PreguntaA_Id'] == 'P7'){
-      initOP7.push(e['Respuesta']);                          
-    }
     if(e['PreguntaA_Id'] == 'P26'){
       initOP26.push(e['Respuesta']);
       if(e['Respuesta'] == 'Otros'){
@@ -516,6 +788,25 @@ function Valoracion(Valoracion){
         $("#porqueOP26").show('slow'); 
       }
     }
+
+    if(e['PreguntaA_Id'] == 'P34'){
+      initOP34.push(e['Respuesta']);
+      if(e['Respuesta'] == 'Otros'){
+        $('textarea[name="otro34"]').val(e['Descripcion']); 
+        $("#porqueOP34").show('slow'); 
+      }
+    }
+
+    if(e['PreguntaA_Id'] == 'P7'){
+      initOP7.push(e['Respuesta']);                          
+    }
+   /* if(e['PreguntaA_Id'] == 'P26'){
+      initOP26.push(e['Respuesta']);
+      if(e['Respuesta'] == 'Otros'){
+        $('textarea[name="otro26"]').val(e['Descripcion']); 
+        $("#porqueOP26").show('slow'); 
+      }
+    }*/
     if(e['PreguntaA_Id'] == 'P41'){
       initOP41.push(e['Respuesta']);
       if(e['Respuesta'] == 'Otros'){
@@ -586,8 +877,13 @@ function Valoracion(Valoracion){
     $('#psico').find(':checkbox[name^="op7"][value="' + val + '"]').prop("checked", true).change();
   });
   $.each(initOP26, function (i, val) {
-    $('#psico').find(':radio[name^="op26"][value="' + val + '"]').prop("checked", true).change();
+    $('#psico').find(':checkbox[name^="op26"][value="' + val + '"]').prop("checked", true).change();
   });
+
+  $.each(initOP34, function (i, val) {
+    $('#psico').find(':checkbox[name^="op34"][value="' + val + '"]').prop("checked", true).change();
+  });
+
   $.each(initOP41, function (i, val) {
     $('#psico').find(':checkbox[name^="op41"][value="' + val + '"]').prop("checked", true).change();
   });
@@ -605,7 +901,7 @@ function Valoracion(Valoracion){
   });                    
   /**********************************************************/
   $("#IdiomasT").empty();
-    var tabla = '<table class="table table-bordered" style="background-color:#CEECF5; border-color:#FFF;">'+
+    var tabla = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
                 '<th>Idioma</th>'+
                 '<th>Habla</th>'+
                 '<th>Lee</th>'+
@@ -619,13 +915,14 @@ function Valoracion(Valoracion){
                   '<td>'+habla+'</td>'+
                   '<td>'+lee+'</td>'+
                   '<td>'+escribe+'</td>'+
-                '</tr>'                      
+                '</tr>';
+    idiomas.push({ "Idioma": e.Idioma, "Habla": e.Habla, "Lee": e.Lee, "Escribe": e.Escribe, });
   });
   tabla += '</table>';
   $("#IdiomasT").append(tabla);
 
   $("#QuienT").empty();
-  tablaQ = '<table class="table table-bordered" style="background-color:#CEECF5; border-color:#FFF;">'+
+  tablaQ = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
               '<th>DE QUIENES?</th>'+
               '<th>EXPLICACIÓN</th>';
 
@@ -634,10 +931,43 @@ function Valoracion(Valoracion){
                 '<td>'+e.Quien+'</td>'+
                 '<td>'+e.Razon+'</td>'+
               '</tr>';                
+    quien.push({ "Quien29": e.Quien, "Razon29": e.Razon, });
 
   });
   tablaQ += '</table>';
   $("#QuienT").append(tablaQ);
+
+   $("#RiesgoT").empty();
+      tablaR = '<table class="table table-bordered" style="background-color:#E8F8FC; border-color:#CEECF5;">'+
+              '<th>Factor de riesgo <br>psicosocial</th>'+
+              '<th>Objetivo</th>'+
+              '<th>Intervención</th>'+
+              '<th>Fecha <br>inicio</th>'+
+              '<th>Fecha<br>terminación</th>'+
+              '<th>Responsable <br>intervención</th>'+
+              '<th>Autorizada por</th>'+
+              '<th>Seguimiento</th>'+
+              '<th>Observaciones</th>';     
+
+  $.each(valoInfo.valoracion_riesgo, function(i, e){      
+    tablaR += '<tr>'+
+                '<td>'+e.Factor+'</td>'+
+                '<td>'+e.Objetivo+'</td>'+                  
+                '<td>'+e.Intervencion+'</td>'+
+                '<td>'+e.Fecha_Inicio+'</td>'+
+                '<td>'+e.Fecha_Fin+'</td>'+
+                '<td>'+e.Responsable+'</td>'+                  
+                '<td>'+e.Autorizado+'</td>'+
+                '<td>'+e.Seguimiento+'</td>'+
+                '<td>'+e.Observacion+'</td>'+
+              '</tr>';                
+    riesgo.push({ "Factor": e.Factor, "Objetivo": e.Objetivo, "Intervencion": e.Intervencion, "Fecha_Inicio": e.Fecha_Inicio, 
+       "Fecha_Fin": e.Fecha_Fin, "Responsable": e.Responsable,  "Autorizada": e.Autorizado,  "Seguimiento": e.Seguimiento, "Observacion": e.Observacion});
+
+  });
+  tablaR += '</table>';
+  $("#RiesgoT").append(tablaR);
+
 }
 
 function VerCampos(){
@@ -669,6 +999,5 @@ function OcultarCampos(){
   $("#seccion_diez").hide("slow");
   $("#seccion_once").hide("slow");
   $("#seccion_doce").hide("slow");
+  $("#seccion_trece").hide("slow");
 }
-
-//     $('#psico').find(':checkbox[name^="op4"]').prop('checked', false);

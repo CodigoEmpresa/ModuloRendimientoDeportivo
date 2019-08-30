@@ -35,6 +35,9 @@ class CrearTablaPreguntaIdioma extends Migration
      */
     public function down()
     {
+        Schema::table('pregunta_idioma', function(Blueprint $table){
+            $table->dropForeign('ValoracionI_Id');
+        });    
         Schema::drop('pregunta_idioma');
     }
 }

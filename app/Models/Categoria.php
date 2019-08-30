@@ -10,4 +10,8 @@ class Categoria extends Model
     protected $table = 'categoria';
     protected $primaryKey = 'Id';
     protected $fillable = ['Nombre_Categoria'];
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Categoria_Id');  
+    }
 }

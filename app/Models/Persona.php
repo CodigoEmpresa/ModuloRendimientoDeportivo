@@ -10,4 +10,23 @@ class Persona extends MPersona
     {
         return $this->hasOne('App\Models\Deportista', 'Persona_Id');
     }
+
+    public function Actividades()
+	{
+		return $this->belongsToMany('App\Models\ActividadesSim', 'actividad_acceso', 'Id_Persona', 'Id_Actividad');
+	}
+
+	public function acceso()
+    {
+        return $this->belongsTo('App\Models\Acceso', 'Id_Persona');
+    }    
+
+    public function metodologoAgrupacion() {
+        return $this->belongsToMany('App\Models\Agrupacion', 'metodologo_agrupacion', 'Persona_Id', 'Agrupacion_Id');
+    }
+
+    public function entrenador()
+    {
+        return $this->hasOne('App\Models\Entrenador', 'Persona_Id');
+    }
 }

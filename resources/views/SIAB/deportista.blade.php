@@ -2,21 +2,25 @@
 @section('script')
   @parent
     <script src="{{ asset('public/Js/buscar_personas.js') }}"></script>     
-    <script src="{{ asset('public/Js/SIAB/rud.js') }}"></script>   
+    <script src="{{ asset('public/Js/SIAB/rud.js?n=7') }}"></script>   
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
-    {{Html::style('public/Css/bootstrap-datepicker3.css')}}   
+    {{Html::style('public/Css/bootstrap-datepicker3.css')}}    
+         
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
-<center><h3>REGISTRO ÚNICO DE DEPORTISTAS (RUD)</h3></center>
- <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
- <input type="hidden" name="persona" id="persona" value=""/>
- <input type="hidden" name="deportista" id="deportista" value=""/>
+<center>
+    <h3>REGISTRO ÚNICO DE DEPORTISTAS (RUD)</h3></center>
+    <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/>
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
+            <br>
+            <center>
+                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a registrar</h4>
+            </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Buscar persona</h3>
+                  <h3 class="panel-title">Buscar persona/deportista</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -29,7 +33,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1032455961" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar-rud" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -40,11 +44,13 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
+                            <br><br><br>
+                            <div class="col-xs-12" id="tablaPersonas"></div>
+                            <br>
+                            <div class="col-xs-12">
+                                <ul id="personas"></ul>
+                            </div>
+                            <div id="paginador" class="col-xs-12"></div>                            
                         </div>
                     </div>
                 </div>
@@ -52,8 +58,17 @@
         </div>
 <!-- ------------------------------------------------------------------------------------ -->
 <form id="registro" name="registro">
-  <div id="camposRegistro" style="display:none;">
-    <div class="content" id="RUD" style="display: none;">
+        <!--<a id="DescargaH" href="" target="blank">
+            DESCARGA
+        </a>-->
+    
+    <input type="hidden" name="persona" id="persona" value=""/>
+    <input type="hidden" name="deportista" id="deportista" value=""/>
+    <div class="container" id="loading" style="display:none;">
+        <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+    </div>
+    <div id="camposRegistro" style="display:none;">
+     <div class="content" id="RUD" style="display: none;">
         <div class="content">
             <div style="text-align:center;">
                 <h3>Registro Único de Deportistas (RUD)</h3>
@@ -69,9 +84,42 @@
                     </div>
                 </div>                 
                 <ul class="list-group" id="seccion_uno" name="seccion_uno" style="display: none">
-                    <div class="panel-body">
-                        <p>DATOS DEPORTIVOS</p>
-                    </div>
+                    <li class="list-group-item">
+                        <div class="row" id="FotografiaRegistro">
+                             <div class="form-group col-md-12">
+                                <div class="form-group col-md-4"></div>
+                                <div class="col-md-4 text-center">
+                                    <label for="inputEmail" class="control-label">Fotografía del deportista</label>
+                                    <br>
+                                    <span id="SImagen">
+                                        <img id="Fotografia" src="" alt="" class="img-thumbnail img-responsive"><br>         
+                                    </span>
+                                    <br>                                    
+                                    <input type="file" id ="FotografiaDep" name="FotografiaDep">
+                                    <p class="help-block">Imagen en formato jpeg,jpg,png,bmp.</p> 
+                                </div>
+                                <div class="form-group col-md-4 "></div>
+                            </div>
+                        </div>
+                    </li>                    
+                    <li class="list-group-item">
+                        <div class="panel-body">
+                            <p>DATOS DEPORTIVOS</p>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="PerteneceL" >El deportista pertence al programa de rendimiento deportivo?</label>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <select name="Pertenece" id="Pertenece" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    <option value="1">SI</option>
+                                    <option value="2">NO</option>           
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                    </li>
                     <li class="list-group-item">
                         <div class="row">
                             <div class="form-group col-md-2">
@@ -88,16 +136,16 @@
                         </div>
                         <br>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item" id="CamposConvencional" style="display: none;">
                         <div class="row">
-                            <div class="form-group col-md-1">
+                            <!--<div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
                             </div>
                             <div class="form-group col-md-3">
                                 <select name="Agrupacion" id="Agrupacion" class="form-control">
                                     <option value="">Seleccionar</option>
                                 </select>
-                            </div>
+                            </div> -->
                             <div class="form-group col-md-1">
                                 <label for="inputEmail" class="control-label"  id="DeporteL" >Deporte:</label>
                             </div>
@@ -117,18 +165,87 @@
                         </div>
                         <br>
                     </li>
+                    <li class="list-group-item" id="CamposParalimpico" style="display: none;">
+                        <div class="row">
+                            <!--<div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="AgrupacionL" >Agrupación:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="AgrupacionP" id="AgrupacionP" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </div>-->
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label" id="DiscapacidadL" >Discapacidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Discapacidad" id="Discapacidad" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($Discapacidad as $Discapacidad)
+                                        <option value="{{ $Discapacidad['Id'] }}">{{ $Discapacidad['Nombre_Discapacidad'] }}</option>
+                                    @endforeach                           
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="DeporteL" >Deporte:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="DeporteP" id="DeporteP" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="ModalidadL" >Modalidad:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="ModalidadP" id="ModalidadP" class="form-control">
+                                    <option value="">Seleccionar</option>                                
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                    </li>
                     <li class="list-group-item">
                         <div class="row">
                             <div class="form-group col-md-2">
                                 <label for="inputEmail" class="control-label"  id="ClubL" >Club deportivo:</label>
                             </div>
                             <div class="form-group col-md-10">
-                                <select name="Club" id="Club" class="form-control">
+                                <select name="Club" id="Club" class="selectpicker form-control" data-live-search="true">
                                     <option value="">Seleccionar</option>
                                     @foreach($Club as $Club)
-                                            <option value="{{ $Club['Id'] }}">{{ $Club['Nombre_Club'] }}</option>
+                                            <option value="{{ $Club['PK_I_ID_CLUB'] }}">{{ $Club['V_NOMBRE_CLUB'] }}</option>
                                     @endforeach                           
                                 </select>
+                            </div>                           
+                        </div>
+                        <br>
+                    </li>
+                    <li class="list-group-item" id="DeportistaEtapas" style="display:none;">
+                        <div class="row">
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="EtapaNacionalL" >Etapa nacional:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input name="EtapaNacionalT" id="EtapaNacionalT"type="hidden">
+                                <select name="EtapaNacional" id="EtapaNacional" class="form-control">
+                                    <option value="">Seleccionar</option>                                                           
+                                </select>
+                            </div> 
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="EtapaInternacionalL" >Etapa internacional:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input name="EtapaInternacionalT" id="EtapaInternacionalT"type="hidden">
+                                <select name="EtapaInternacional" id="EtapaInternacional" class="form-control">
+                                    <option value="">Seleccionar</option>                                                           
+                                </select>
+                            </div>                           
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label"  id="SmmlvL" >Salario mínimo actual:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input class="form-control" placeholder="Salario mínimo mensual legal vigente" type="text" name="Smmlv" id="Smmlv">
                             </div>                           
                         </div>
                         <br>
@@ -188,7 +305,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <div class="input-group date form-control" id="FechaExpedicionDate" style="border: none;">
-                                    <input id="FechaExpedicion" class="form-control " type="text" value="" name="FechaExpedicionL" default="" data-date="" data-behavior="FechaExpedicion">
+                                    <input id="FechaExpedicion" class="form-control " type="text" value="" name="FechaExpedicion" default="" data-date="" data-behavior="FechaExpedicion">
                                 <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
                                 </div>    
                             </div>    
@@ -208,7 +325,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <div class="input-group date form-control" id="FechaVigenciaPasaporteDate" style="border: none;">
-                                    <input id="FechaVigenciaPasaporte" class="form-control " type="text" value="" name="FechaVigenciaPasaporteL" default="" data-date="" data-behavior="FechaVigenciaPasaporte">
+                                    <input id="FechaVigenciaPasaporte" class="form-control " type="text" value="" name="FechaVigenciaPasaporte" default="" data-date="" data-behavior="FechaVigenciaPasaporte">
                                 <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
                                 </div>    
                             </div>
@@ -260,7 +377,7 @@
                                 <label for="inputEmail" class="control-label" id="DepartamentoNacL">Departamento nacimiento:</label>
                             </div>
                             <div class="form-group col-md-3">
-                                <select name="DepartamentoNacL" id="DepartamentoNac" class="form-control">
+                                <select name="DepartamentoNac" id="DepartamentoNac" class="form-control">
                                     <option value="">Seleccionar</option>
                                     @foreach($Departamento as $DepartamentoNac)
                                             <option value="{{ $DepartamentoNac['Id_Departamento'] }}">{{ $DepartamentoNac['Nombre_Departamento'] }}</option>
@@ -568,7 +685,7 @@
                         </div>
                         <div class="form-group col-md-4">
                             <div class="input-group date form-control" id="FechaAfiliacionDate" style="border: none;">
-                                <input id="FechaAfiliacion" class="form-control " type="text" value="" name="FechaAfiliacionL" default="" data-date="" data-behavior="FechaAfiliacion">
+                                <input id="FechaAfiliacion" class="form-control " type="text" value="" name="FechaAfiliacion" default="" data-date="" data-behavior="FechaAfiliacion">
                             <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
                             </div>    
                         </div>
@@ -622,7 +739,7 @@
                     </div>
                     <br>
                 </li>
-                <li class="list-group-item">
+                <li class="list-group-item" id="NivelRegimenD" style="display:none;">
                     <div class="row">
                         <div class="form-group col-md-2">
                             <label for="inputEmail" class="control-label" id="NivelRegimenL" >Nivel de regimen subsidiado:</label>
@@ -649,16 +766,18 @@
                                 <option value="2">No</option>
                             </select>
                         </div>
-                        <div class="form-group col-md-1">
-                            <label for="inputEmail" class="control-label" id="ArlL" >Nombre Arl (LEY 1562/12):</label>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <select name="Arl" id="Arl" class="form-control">
-                                <option value="">Seleccionar</option>
-                                @foreach($Arl as $Arl)
-                                        <option value="{{ $Arl['Id'] }}">{{ $Arl['Nombre_Arl'] }}</option>
-                                @endforeach                                                           
-                            </select>
+                        <div id="ArlD" style="display:none;">
+                            <div class="form-group col-md-1">
+                                <label for="inputEmail" class="control-label" id="ArlL" >Nombre Arl (LEY 1562/12):</label>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <select name="Arl" id="Arl" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($Arl as $Arl)
+                                            <option value="{{ $Arl['Id'] }}">{{ $Arl['Nombre_Arl'] }}</option>
+                                    @endforeach                                                           
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group col-md-1">
                             <label for="inputEmail" class="control-label" id="FondoPensionPregL">Fondo pensiones:</label>
@@ -738,6 +857,13 @@
                             <select name="Tenis" id="Tenis" class="form-control">
                                 <option value="">Seleccionar</option>
                             </select>
+                        </div>
+                        <div class="form-group col-md-12" id="TallaTenis" style="display:none;">
+                            <div class="form-group col-md-9"></div>                                
+                            <div class="form-group col-md-3" style="border-radius:5px; border-style:solid;border-width:thin;">                                  
+                                <h5>Talla Reino Unido: <span class="label label-default" id="TUK"></span></h5>
+                                <h5>Talla Estados Unidos:  <span class="label label-default" id="TUSA"></span></h5>
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -827,8 +953,176 @@
                 </li>
             </ul>
         </div>
+         <!-- ------------------------------------------SECCION SEIS---------------------------------------- -->
+        <div id="SeccionSeisD"  class="panel"  style="display: none">
+            <!-- Default panel contents -->
+            <div class="panel-heading" >
+                <div class="bs-callout bs-callout-info">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    <label><h4>SECCIÓN SEIS:</h4></label>
+                    <label><p>Información deportista paralimpico</p></label> 
+                    <span data-role="ver" id="seccion_seis_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
+                </div>
+            </div>                 
+            <ul class="list-group" id="seccion_seis" name="seccion_seis">
+
+                <li class="list-group-item">
+                    <!--<div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="DiscapacidadL" >Discapacidad:</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="Discapacidad" id="Discapacidad" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($Discapacidad as $Discapacidad)
+                                    <option value="{{ $Discapacidad['Id'] }}">{{ $Discapacidad['Nombre_Discapacidad'] }}</option>
+                                @endforeach                           
+                            </select>
+                        </div>                        
+                    </div>-->
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="DiagnosticoL" >Diagnóstico:</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="Diagnostico" id="Diagnostico" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($Diagnostico as $Diagnostico)
+                                    <option value="{{ $Diagnostico['Id'] }}">{{ $Diagnostico['Nombre_Diagnostico'] }}</option>
+                                @endforeach                           
+                            </select>
+                        </div> 
+                        <div id="OtroDiagnostico" style="display:none;">
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label" id="DiagnosticoEdadL" >Edad en la que se adquirio:</label>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <input class="form-control" placeholder="Edad en la que se adquirio" type="text" name="DiagnosticoEdad" id="DiagnosticoEdad">
+                            </div>                          
+                        </div>
+                    </div>
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="CladificacionFuncionalL">Clasificación funcional deportiva:</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="ClasificacionFuncional" id="ClasificacionFuncional" class="form-control">
+                                <option value="">Seleccionar</option> 
+                                @foreach($ClasificacionFuncional as $ClasificacionFuncional)
+                                    <option value="{{ $ClasificacionFuncional['Id'] }}">{{ $ClasificacionFuncional['Nombre_Clasificacion_Funcional'] }}</option>
+                                @endforeach                       
+                            </select>
+                        </div>
+                        </div>
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="SillaL">Usa silla de ruedas?:</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="Silla" id="Silla" class="form-control">
+                                <option value="">Seleccionar</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                        <div id="OtroSilla" style="display:none;">
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label" id="CuidadorL">Para que utiliza la silla de ruedas?:</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select name="Cuidador" id="Cuidador" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    @foreach($UsoSilla as $UsoSilla)
+                                        <option value="{{ $UsoSilla['Id'] }}">{{ $UsoSilla['Nombre_Uso_Silla'] }}</option>
+                                    @endforeach  
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputEmail" class="control-label" id="AuxiliarL">Requiere de cuidador o auxiliar permanente?:</label>
+                            </div>                        
+                            <div class="form-group col-md-4">
+                                <select name="Auxiliar" id="Auxiliar" class="form-control">
+                                    <option value="">Seleccionar</option>
+                                    <option value="1">Si</option>
+                                    <option value="2">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="ClasificadoNivelInternacionalL" >Se encuentra clasificado funcionalmente a nivel internacional?:</label>
+                        </div>
+                        <div class="form-group col-md-10">
+                            <select name="ClasificadoNivelInternacional" id="ClasificadoNivelInternacional" class="form-control">
+                                <option value="">Seleccionar</option>
+                                <option value="1">Si</option>
+                                <option value="2">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" id="OtroClasificadoNivelInternacional" style="display:none;">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="FechaCIL" >Fecha:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="input-group date form-control" id="FechaCIDate" style="border: none;">
+                                <input id="FechaCI" class="form-control " type="text" value="" name="FechaCI" default="" data-date="" data-behavior="FechaCI">
+                            <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
+                            </div>    
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="EventoCIL" >Evento:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input class="form-control" placeholder="Evento" type="text" name="EventoCI" id="EventoCI">
+                        </div>
+                     </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="EdadDeportivaL">Edad deportiva:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                           <input class="form-control" placeholder="Edad Deportiva" type="text" name="EdadDeportiva" id="EdadDeportiva">
+                        </div>
+                    </div>
+                    <br>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="resultadoNacionalL">Mayor resultado Nacional:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input class="form-control" placeholder= "Resultado Nacional" type="text" name="resultadoNacional" id="resultadoNacional">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputEmail" class="control-label" id="resultadoInternacionalL">Mayor resultado Internacional:</label>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <input class="form-control" placeholder= "Resultado Internacional" type="text" name="resultadoInternacional" id="resultadoInternacional">
+                        </div>
+                    </div>
+                    <br>
+                </li>
+            </ul>
+        </div>
         <!-- ------------------------------------------SECCION ACUERDOS---------------------------------------- -->
-        <div class="panel">
+        <div class="panel" id="seccion_seis_global">
             <div class="panel-heading">
                 <div class="bs-callout bs-callout-info">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

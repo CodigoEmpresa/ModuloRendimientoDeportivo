@@ -5,6 +5,7 @@
     <script src="{{ asset('public/Js/SIAB/psico.js') }}"></script>   
     <script src="{{ asset('public/Js/bootstrap-datepicker.js') }}"></script>   
     {{Html::style('public/Css/bootstrap-datepicker3.css')}}   
+   
 @stop  
 @section('content')
 <!-- ------------------------------------------------------------------------------------ -->
@@ -12,6 +13,10 @@
  <input type="hidden" name="_token" value="{{csrf_token()}}" id="token"/> 
     <div id="main_persona" class="row" data-url="{{ url(config('usuarios.prefijo_ruta')) }}">  
         <div class="content">
+            <br>
+            <center>
+                <h4>Ingrese el número de cédula o nombres de la persona o deportista que va a buscar</h4>
+            </center>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">Buscar persona</h3>
@@ -27,7 +32,7 @@
                             </div>
                             <div class="col-xs-12">
                                 <div class="input-group">                                        
-                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="1032455961" onkeypress="return ValidaCampo(event);">
+                                    <input id="buscador" name="buscador" type="text" class="form-control" placeholder="Buscar" value="" onkeypress="return ValidaCampo(event);">
                                     <span class="input-group-btn">
                                         <button id="buscar" data-role="buscar" data-buscador="buscar" class="btn btn-default" type="button">
                                             <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -38,21 +43,27 @@
                                     <strong>Error </strong> <span id="mensajeIncorrectoB"></span>
                                 </div>
                             </div>
-                            <div class="col-xs-12"><br></div>
-                                <div class="col-xs-12">
-                                    <ul id="personas"></ul>
-                                </div>
-                                <div id="paginador" class="col-xs-12"></div>                            
+                            <br><br><br>
+                            <div class="col-xs-12" id="tablaPersonas"></div>
+                            <br>
+                            <div class="col-xs-12">
+                                <ul id="personas"></ul>
+                            </div>
+                            <div id="paginador" class="col-xs-12"></div>                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-<!-- ------------------------------------------------------------------------------------ -->
+        <!-- ------------------------------------------------------------------------------------ -->
         <form id="psico" name="psico" >
+            <div class="container" id="loading" style="display:none;">
+                <center><button class="btn btn-lg btn-default"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Espere...</button></center>
+            </div>
             <div id="camposRegistro" style="display:none;">
                 <input type="hidden" name="persona" id="persona" value=""/>
                 <input type="hidden" name="deportista" id="deportista" value=""/>
+                <input type="hidden" name="valoracion" id="valoracion" value=""/>
                 <div class="content">
                     <div class="content">
                         <div style="text-align:center;">
@@ -83,7 +94,6 @@
                                             <input class="form-control" placeholder="Apellidos" type="text" name="Apellidos" id="Apellidos">
                                         </div>
                                     </div>
-                                    <br>
                                     <div class="row">
                                         <div class="form-group col-md-2">
                                             <label for="inputEmail" class="control-label" id="fechaNacL" >Fecha nacimiento:</label>
@@ -123,7 +133,7 @@
                                             <label for="inputEmail" class="control-label"  id="GeneroL" >Género:</label>
                                         </div>
                                         <div class="form-group col-md-3">
-                                            <select name="Genero" id="Genero" class="form-control">
+                                            <select name="Genero" id="Genero" class="form-control" readonly>
                                                 <option value="">Seleccionar</option>                                                
                                                 @foreach($Genero as $Genero)
                                                     <option value="{{ $Genero['Id_Genero'] }}">{{ $Genero['Nombre_Genero'] }}</option>
@@ -235,7 +245,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <input type="hidden" value="" name="lp" id="lp" >
-                                            <select name="LibretaPreg" id="LibretaPreg" class="form-control">
+                                            <select name="LibretaPreg" id="LibretaPreg" class="form-control" readonly>
                                                 <option value="">Seleccionar</option>                  
                                                 <option value="1">Si</option>                  
                                                 <option value="2">No</option>                  
@@ -307,7 +317,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <br>
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
@@ -315,31 +324,47 @@
                                         <label for="inputEmail" class="control-label"  id="ClubL" >Club deportivo:</label>
                                     </div>
                                     <div class="form-group col-md-10">
-                                        <select name="Club" id="Club" class="form-control">
+                                        <select name="Club" id="Club" class="selectpicker form-control" data-live-search="true">
                                             <option value="">Seleccionar</option> 
                                              @foreach($Club as $Club)
-                                                    <option value="{{ $Club['Id'] }}">{{ $Club['Nombre_Club'] }}</option>
+                                                <option value="{{ $Club['PK_I_ID_CLUB'] }}">{{ $Club['V_NOMBRE_CLUB'] }}</option>
                                             @endforeach                     
                                         </select>
                                     </div>                           
                                 </div>
-                                <br>
                             </li>
                             <li class="list-group-item">
                                 <div class="row">
                                     <div class="form-group col-md-4">
-                                        <label for="inputEmail" class="control-label"  id="EdadPregL" >A que edad comenzo a practicar este deporte:</label>
+                                        <label for="inputEmail" class="control-label"  id="Fecha_AnioPL" >Año en el que empezo a practicar este deporte:</label>
                                     </div>
                                     <div class="form-group col-md-8">
-                                        <input class="form-control" placeholder="Edad en la que inicio en el deporte" type="text" name="EdadPreg" id="EdadPreg">
+                                        <div class="input-group date form-control" id="Fecha_AnioPDate" style="border: none;">
+                                            <input id="Fecha_AnioP" class="form-control " type="text" value="" name="Fecha_AnioP" default="" data-date="" data-behavior="Fecha_AnioP">
+                                            <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label for="inputEmail" class="control-label"  id="EdadPregL" >A que edad comenzo a practicar este deporte:</label>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input class="form-control" placeholder="Edad en la que inicio en el deporte" type="text" name="EdadPreg" id="EdadPreg" readonly>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputEmail" class="control-label"  id="EdadPregL" >Año(s):</label>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label for="inputEmail" class="control-label"  id="PracticaPregL" >Cuantos años lleva practicándolo:</label>
                                     </div>
-                                    <div class="form-group col-md-8">
-                                        <input class="form-control" placeholder="Edad en la que inicio en el deporte" type="text" name="PracticaPreg" id="PracticaPreg">
+                                    <div class="form-group col-md-2">
+                                        <input class="form-control" placeholder="Edad en la que inicio en el deporte" type="text" name="PracticaPreg" id="PracticaPreg" readonly>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="inputEmail" class="control-label"  id="EdadPregL" >Año(s):</label>
                                     </div>
                                 </div>
                             </li>
@@ -360,7 +385,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o1" value="Soltero(a)">Soltero(a)</label></div>
-                                        <div class="radio"><label><input type="radio" name="op1" id="p1o2" value="En unión libre">En unión libre</label></div>
+                                        <div class="radio"><label><input type="radio" name="op1" id="p1o2" value="Casado(a)">Casado(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o3" value="Divorciado(a)">Divorciado(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o4" value="Viudo(a)">Viudo(a)</label></div>
                                         <div class="radio"><label><input type="radio" name="op1" id="p1o5" value="Unión libre">Unión libre</label></div>
@@ -813,14 +838,23 @@
                                         <label for="inputEmail" class="control-label">26. las necesidades económicas del atleta para su práctica deportiva son asumidas por:</label>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <div class="radio"><label><input type="radio" name="op26" id="p26o1" value="Atleta">Atleta</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o1" value="Atleta">Atleta</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o2" value="Madre">Madre</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o3" value="Padre">Padre</label></div>                                        
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o4" value="Pareja">Pareja</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o5" value="Otros miembros de la familia">Otros miembros de la familia</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o6" value="Patrocinios deportivos">Patrocinios deportivos</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o7" value="Apoyos ecónomicos dPrograma de rendimiento IDRD">Apoyos ecónomicos Programa de rendimiento IDRD</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op26[]" id="p26o8" value="Otros">Otros</label></div>
+
+<!--                                        <div class="radio"><label><input type="radio" name="op26" id="p26o1" value="Atleta">Atleta</label></div>
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o2" value="Madre">Madre</label></div>
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o3" value="Padre">Padre</label></div>                                        
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o4" value="Pareja">Pareja</label></div>
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o5" value="Otros miembros de la familia">Otros miembros de la familia</label></div>
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o6" value="Patrocinios deportivos">Patrocinios deportivos</label></div>
                                         <div class="radio"><label><input type="radio" name="op26" id="p26o7" value="Apoyos ecónomicos dPrograma de rendimiento IDRD">Apoyos ecónomicos dPrograma de rendimiento IDRD</label></div>
-                                        <div class="radio"><label><input type="radio" name="op26" id="p26o8" value="Otros">Otros</label></div>
+                                        <div class="radio"><label><input type="radio" name="op26" id="p26o8" value="Otros">Otros</label></div>-->
                                         <div id="porqueOP26" style="display:none;">
                                             <label for="inputEmail" class="control-label">Otros:</label>
                                             <textarea class="form-control" placeholder="Otros" type="text" name="otro26" id="otro26"></textarea>
@@ -1222,7 +1256,7 @@
                              <li class="list-group-item">
                                 <div class="row">                                    
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">32. ¿Sus responsabilidades actuales impiden conentrarse un 100% en su proceso de preparación deportiva?</label>
+                                        <label for="inputEmail" class="control-label">32. ¿Sus responsabilidades actuales impiden concentrarse un 100% en su proceso de preparación deportiva?</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio">
@@ -1235,7 +1269,7 @@
                                         </div>                                    
                                     </div>
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">33. ¿Recibe alguna ayuda o beca económica por parte de la otra institución para llevar a cabo su práctica deportiva?</label>
+                                        <label for="inputEmail" class="control-label">33. ¿Recibe alguna ayuda o beca económica por parte de otra institución para llevar a cabo su práctica deportiva?</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio">
@@ -1265,17 +1299,17 @@
                                         <label for="inputEmail" class="control-label">34. Su medio habitual de transporte para desplazarse es:</label>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o1" value="Caminando">Caminando</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o2" value="Bicicleta">Bicicleta</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o3" value="Bus urbano">Bus urbano</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o4" value="SITP/Transmilenio">SITP/Transmilenio</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o5" value="Carro particular">Carro particular</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o6" value="Moto">Moto</label></div>
-                                        <div class="radio"><label><input type="radio" name="op34" id="p34o7" value="Taxi">Taxi</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o1" value="Caminando">Caminando</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o2" value="Bicicleta">Bicicleta</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o3" value="Bus urbano">Bus urbano</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o4" value="SITP/Transmilenio">SITP/Transmilenio</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o5" value="Carro particular">Carro particular</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o6" value="Moto">Moto</label></div>
+                                        <div class="radio"><label><input type="checkbox" name="op34[]" id="p34o7" value="Taxi">Taxi</label></div>
                                     </div>
 
                                     <div class="form-group col-md-2">
-                                        <label for="inputEmail" class="control-label">35. El tiempo que utiliza para desplzarse entre su lugar de trabajo/estudio/hogar al sitio de entrenamiento es en promedio:</label>
+                                        <label for="inputEmail" class="control-label">35. El tiempo que utiliza para desplazarse entre su lugar de trabajo/estudio/hogar al sitio de entrenamiento es en promedio:</label>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div class="radio"><label><input type="radio" name="op35" id="p35o1" value="Menos de 15'">Menos de 15'</label></div>
@@ -1510,7 +1544,7 @@
                         <div class="panel-heading">                
                             <div class="bs-callout bs-callout-info">                    
                                 <span class="glyphicon glyphicon-alert" aria-hidden="true"></span>
-                                <label><p>8. SITACIÓN JURÍDICA</p></label>                        
+                                <label><p>8. SITUACIÓN JURÍDICA</p></label>                        
                                 <span data-role="ver" id="seccion_once_ver" class="glyphicon glyphicon-resize-full btn-lg" aria-hidden="true"></span>
                             </div>
                         </div>                 
@@ -1596,23 +1630,113 @@
                         <ul class="list-group" id="seccion_trece" name="seccion_trece">
                             <li class="list-group-item">
                                 <div class="row">
-                                    <li class="list-group-item">
-                                <div class="row">
-                                    
+                                     <div class="form-group col-md-12">
+                                        <label for="inputEmail" class="control-label">FACTORES DE RIESGO PSICOSOCIAL</label>
+                                    </div>       
                                 </div>
-                            </li>
-                        </ul>
+                                <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Factores de riesgo psicosocial</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Factor de riesgo" type="text" name="Factor" id="Factor">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Objetivo</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Objetivo" type="text" name="Objetivo" id="Objetivo">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Intervención</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Intervención" type="text" name="Intervencion" id="Intervencion">
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Fecha de inicio</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div class="input-group date form-control" id="Fecha_InicioDate" style="border: none;">
+                                                <input id="Fecha_Inicio" class="form-control " type="text" value="" name="Fecha_Inicio" default="" data-date="" data-behavior="Fecha_Inicio">
+                                                <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Fecha de terminación</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div class="input-group date form-control" id="Fecha_FinDate" style="border: none;">
+                                                <input id="Fecha_Fin" class="form-control " type="text" value="" name="Fecha_Fin" default="" data-date="" data-behavior="Fecha_Fin">
+                                                <span class="input-group-addon btn"><i class="glyphicon glyphicon-calendar"></i> </span>
+                                            </div>  
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Responsable de la intervención</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Responsable" type="text" name="Responsable" id="Responsable">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Intervención autorizada por:</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Nombre de quién autoriza" type="text" name="Autorizada" id="Autorizada">
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Seguimiento</label>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <input class="form-control" placeholder="Seguimiento" type="text" name="Seguimiento" id="Seguimiento">
+                                        </div>
+                                    </div>
+                                     <div class="row">
+                                        <div class="form-group col-md-2">
+                                            <label for="inputEmail" class="control-label">Observaciones:</label>
+                                        </div>
+                                        <div class="form-group col-md-10">
+                                            <textarea class="form-control" placeholder="Observaciones" type="text" name="Observacion" id="Observacion"></textarea>
+                                        </div>
+                                    </div>                                   
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <center><button type="button" class="btn btn-info" name="Add_Riesgo" id="Add_Riesgo">Agregar Riesgo</button></center>
+                                        </div>                                    
+                                        <div id="RiesgoT" class="form-group col-md-12">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <div class="form-group"  id="mensaje_riesgo" style="display: none;">
+                                                <div id="alert_riesgo"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+        
+                <!-- ----------------------BOTONERA------------------- -->
                 <div id="Botonera" >
                     <center>
                         <button type="button" class="btn btn-primary" name="Enviar" id="Registrar">Registrar valoración</button>
+                        <button type="button" class="btn btn-primary" name="Enviar" id="Modificar">Modificar valoración</button>
                     </center>
                 </div>
                 <!-- ----------------------FIN DE BOTONERA------------------- -->
                 <br><br><br><br><br> 
                 </div>
-                <!-- ----------------------BOTONERA------------------- -->
+                
                 <div class="form-group"  id="mensaje_actividad" style="display: none;">
                     <div id="alert_actividad"></div>
                 </div>

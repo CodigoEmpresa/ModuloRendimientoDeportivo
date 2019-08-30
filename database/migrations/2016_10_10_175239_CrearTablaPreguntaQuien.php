@@ -33,6 +33,9 @@ class CrearTablaPreguntaQuien extends Migration
      */
     public function down()
     {
+        Schema::table('pregunta_quien', function(Blueprint $table){
+            $table->dropForeign('ValoracionQ_Id');
+        });    
         Schema::drop('pregunta_quien');
     }
 }

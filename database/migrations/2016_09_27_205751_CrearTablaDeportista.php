@@ -16,6 +16,7 @@ class CrearTablaDeportista extends Migration
 
             $table->increments('Id');
             $table->integer('Persona_Id')->unsigned();
+            $table->integer('Pertenece');
             $table->integer('Lugar_Expedicion_Id')->unsigned();
             $table->integer('Clasificacion_Deportista_Id')->unsigned();
             $table->integer('Parentesco_Id')->unsigned();
@@ -26,7 +27,7 @@ class CrearTablaDeportista extends Migration
             $table->integer('Estrato_Id')->unsigned();            
             $table->integer('Regimen_Salud_Id')->unsigned();
             $table->integer('Tipo_Afiliacion_Id')->unsigned();
-            $table->integer('Nivel_Regimen_Sub_Id')->unsigned();
+            $table->integer('Nivel_Regimen_Sub_Id')->unsigned()->nullable();
             $table->integer('Eps_Id')->unsigned()->nullable();
             $table->integer('Sudadera_Talla_Id')->unsigned();
             $table->integer('Camiseta_Talla_Id')->unsigned();
@@ -42,8 +43,8 @@ class CrearTablaDeportista extends Migration
             $table->integer('Departamento_Id_Nac')->unsigned();
             
             $table->date('Fecha_Expedicion');
-            $table->string('Numero_Pasaporte');
-            $table->date('Fecha_Pasaporte');
+            $table->string('Numero_Pasaporte')->nullable();
+            $table->date('Fecha_Pasaporte')->nullable();
             $table->integer('Libreta_Preg');
             $table->string('Numero_Libreta_Mil')->nullable();
             $table->string('Distrito_Libreta_Mil')->nullable();
@@ -57,7 +58,7 @@ class CrearTablaDeportista extends Migration
             $table->string('Correo_Electronico');
             $table->integer('Numero_Hijos');
             $table->string('Numero_Cuenta');       
-            $table->date('Fecha_Afiliacion');            
+            $table->date('Fecha_Afiliacion')->nullable();            
             $table->integer('Medicina_Prepago');            
             $table->string('Nombre_MedicinaPrepago');            
             $table->integer('Riesgo_Laboral');                       

@@ -8,9 +8,17 @@ class Modalidad extends Model
 {
     protected $table = 'modalidad';
     protected $primaryKey = 'Id';
-    protected $fillable = ['Deporte_Id', 'Nombre_Banco'];
+    protected $fillable = ['Deporte_Id', 'Nombre_Modalidad'];
 
     public function deporte(){
         return $this->belongsTo('App\Models\Deporte', 'Deporte_Id');
+    }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Modalidad_Id');  
+    }
+
+    public function ModalidadClasificacionFuncional() {
+        return $this->belongsToMany('App\Models\ClasificacionFuncional', 'modalidad_clasificacion_funcional', 'Modalidad_Id', 'Clasificacion_Funcional_Id')->withTimestamps();
     }
 }

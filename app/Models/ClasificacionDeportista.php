@@ -17,4 +17,16 @@ class ClasificacionDeportista extends Model
     public function agrupacion(){
         return $this->hasMany('App\Models\Agrupacion', 'ClasificacionDeportista_Id');
     }
+
+    public function tipoEtapa(){
+        return $this->hasMany('App\Models\TipoEtapa', 'Clasificacion_Deportista_Id');
+    }
+
+    public function division(){   
+        return $this->hasMany('App\Models\Division', 'Clasificacion_Deportista_Id');  
+    }
+
+    public function evento(){   
+        return $this->hasMany('App\Models\Evento', 'Clasificacion_Deportista_Id');  
+    }
 }

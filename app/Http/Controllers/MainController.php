@@ -28,31 +28,34 @@ class MainController extends Controller {
 
     public function index(Request $request)
 	{
-		$fake_permissions = 'a:6:{i:0;s:5:"71766";i:1;s:1:"1";i:2;s:1:"1";i:3;s:1:"1";i:4;s:1:"1";i:5;s:1:"1";}';
+		$fake_permissions = ['1307', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'];
+		//$fake_permissions = null;
 
 		if ($request->has('vector_modulo') || $fake_permissions)
 		{	
 			$vector = $request->has('vector_modulo') ? urldecode($request->input('vector_modulo')) : $fake_permissions;
-			$user_array = unserialize($vector);
+			$user_array = is_array($vector) ? $vector : unserialize($vector);
 			$permissions_array = $user_array;
 
 			$permisos = [
-				//ir agregando los permisos
+				'administrar_usuarios' => array_key_exists(1, $permissions_array) ? intval($permissions_array[1]) : 0
 			];
 
 			$_SESSION['Usuario'] = $user_array;
-			$persona = $this->repositorio_personas->obtener($_SESSION['Usuario'][0]);
+            $persona = $this->repositorio_personas->obtener($_SESSION['Usuario'][0]);
 
+			$_SESSION['Usuario']['Recreopersona'] = [];
+			$_SESSION['Usuario']['Roles'] = [];
 			$_SESSION['Usuario']['Persona'] = $persona;
 			$_SESSION['Usuario']['Permisos'] = $permisos;
-			$this->Usuario = $_SESSION['Usuario']; // [0]=> string(5) "71766" [1]=> string(1) "1"
+			$this->Usuario = $_SESSION['Usuario'];
 		} else {
-			if(!isset($_SESSION['Usuario']))
+			if (!isset($_SESSION['Usuario']))
 				$_SESSION['Usuario'] = '';
 		}
 
 		if ($_SESSION['Usuario'] == '')
-			return redirect()->away('http://www.idrd.gov.co/SIM_prueba/Presentacion/');
+			return redirect()->away('http://www.idrd.gov.co/SIM/Presentacion/');
 
 		return redirect('/welcome');
 	}

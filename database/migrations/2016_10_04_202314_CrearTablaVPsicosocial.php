@@ -72,7 +72,7 @@ class CrearTablaVPsicosocial extends Migration
             $table->string('P46');
             $table->string('P49');
             $table->string('P51');            
-            $table->string('ConceptoProfesional');
+            $table->string('ConceptoProfesional');//Cambiado a TEXT
 
             $table->foreign('Deportista_Id')->references('Id')->on('deportista');
 

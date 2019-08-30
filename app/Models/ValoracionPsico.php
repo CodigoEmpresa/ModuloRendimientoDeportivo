@@ -28,4 +28,8 @@ class ValoracionPsico extends Model
     public function preguntaA(){
         return $this->hasMany('App\Models\PreguntaA', 'ValoracionA_Id');
     }
+
+    public function valoracionRiesgo(){
+        return $this->hasMany('App\Models\ValoracionRiesgo', 'Valoracion_Id');
+    }
 }
